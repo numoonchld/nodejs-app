@@ -1,0 +1,10 @@
+extends layout
+
+//- this is the admin login page:
+
+block content
+  .card.p-5.container.bg-light
+    ul
+        each gym in gymList
+            form.my-5(action='/admin/gym' + gym[4], method='get')
+                button.btn.btn-primary.btn-block(type='submit')= gym

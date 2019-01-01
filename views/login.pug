@@ -1,0 +1,23 @@
+extends layout
+
+//- this is the admin login page:
+
+block content
+  .card.p-5.container.bg-light
+    
+    h3.text-center= title
+    //- p Welcome to #{title}
+    p.text-center (submit your admin credentials)
+
+    form.my-5(action='/admin', method='post')
+      .form-group
+        //- label Adminname:
+        input.form-control(type='text' name='adminname' placeholder="login name" required)
+      .form-group
+        //- label Password:
+        input.form-control(type='password' name='password' placeholder="login password" required)
+      button.btn.btn-primary.btn-block(type='submit') Submit
+      
+
+  
+
