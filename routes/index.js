@@ -15,28 +15,28 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/admin', function(req, res, next) {
-  console.log(req.body, req.body.adminname, req.body.password);
+  // console.log(req.body, req.body.adminname, req.body.password);
 
   // TODO: Input validation
 
   // if input valid, connect to db and check credentials
-  MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true }, function(err,db){
+  // MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true }, function(err,db){
 
-    if (err) {
-      console.error(err);
-      // TODO: load production page:
-      // res.send('error connecting to db')
+  //   if (err) {
+  //     console.error(err);
+  //     // TODO: load production page:
+  //     // res.send('error connecting to db')
       
-      // set locals, only providing error in development
-      res.locals.message = err.message;
-      res.locals.error = req.app.get('env') === 'development' ? err : {};
+  //     // set locals, only providing error in development
+  //     res.locals.message = err.message;
+  //     res.locals.error = req.app.get('env') === 'development' ? err : {};
     
-      // render the error page
-      res.status(err.status || 500);
-      res.render('error');
-      db.close();
-    } else {
-      console.log('connected to db');
+  //     // render the error page
+  //     res.status(err.status || 500);
+  //     res.render('error');
+  //     db.close();
+  //   } else {
+  //     console.log('connected to db');
 
       // TODO: Authetication
       // if in-correct credentials, dont render gym admin page
@@ -52,12 +52,12 @@ router.post('/admin', function(req, res, next) {
       res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
 
       // res.send('the gym selector page will load, (authentication implementation pending)');
-      db.close();
-    }
+    //   db.close();
+    // }
   
     
 
-  })
+  // })
   
 
 });
