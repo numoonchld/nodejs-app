@@ -102,7 +102,7 @@ module.exports = function(first_compile, cz_db) {
       Gym.insertMany([{gym_name: 'GYM A', model_name: 'gymaroute', route_count: 20},{gym_name: 'GYM B'},{gym_name: 'GYM C'}])
 
       // TODO: initilize twenty routes in first gym: 
-      // GymARoute.insertMany()
+      GymARoute.insertMany([{route_name: 'Route 1',gym_name: 'Gym A',climber_opinions:[]}])
 
       // mongoose.disconnect()
 

@@ -4,6 +4,8 @@ const router = express.Router()
 require('dotenv').config()
 
 const mongoose = require('mongoose')
+
+
 const initMLab = require('../admin/init-mlab-db')
 
 
@@ -21,21 +23,20 @@ router.post('/admin', function(req, res, next) {
   console.log(req.body, req.body.adminname, req.body.password);
 
   // TODO: Input validation
+  // TODO: Authetication
 
   // if input valid, connect to db and check credentials
+  // if correct credentials, login and get array of gyms, send to pug page to render 
   if (req.body.adminname === 'admin' && req.body.password === 'password') { 
 
     res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
+    
+    // render list of gyms
+    // res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
 
-      // TODO: Authetication
-      // if in-correct credentials, dont render gym admin page
-
-      // if correct credentials, login and get array of gyms, send to pug page to render 
-
-      // render list of gyms
-      // res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
-
-  } else {
+  } 
+  // if in-correct credentials, dont render gym admin page
+  else {
     res.json({under_construction: "invalid login credentials"})
   }
   
