@@ -1,12 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const app = require('../app')
 
 require('dotenv').config()
 
 const mongoose = require('mongoose')
-const adminModels = require('../admin/mon-models')
-adminModels();
+const initMLab = require('../admin/init-mlab-db')
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -48,7 +47,18 @@ router.get('/admin/:gym', function(req,res){
 })
 
 router.post('/admin/reset-db', function(req,res){
+
+  mongoose.connect(process.env.MONGODB_URI)
+  const cz_db = mongoose.connection
+  cz_db.on('error',console.error.bind(console, 'connection error:'))
+
+  let first_compile = true;
+  initMLab(first_compile,cz_db);
+
   res.json({under_construction: 'reset database to default values'})
+
+  // mongoose.disconnect()
+
 })
 
 
