@@ -28,19 +28,11 @@ router.post('/admin', function(req, res, next) {
 
     res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
 
-  
-
-
       // TODO: Authetication
       // if in-correct credentials, dont render gym admin page
 
-
-
-
       // if correct credentials, login and get array of gyms, send to pug page to render 
 
-
-      
       // render list of gyms
       // res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
 
