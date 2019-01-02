@@ -9,12 +9,12 @@ block content
         form.my-3(action='/admin/gym' + gym[4], method='get')
             button.btn.btn-primary.btn-block(type='submit')= gym
     
+    //- hr
+
+    //- form.my-3(action='/admin-create/gym', method='post')
+    //-     button.btn.btn-success.btn-block(type='submit') Add Gym
+
     hr
 
-    form.my-3(action='/admin-create/gym', method='post')
-        button.btn.btn-success.btn-block(type='submit') Add Gym
-
-    hr
-
-    form.my-3(action='/admin/reset-db', method='post')
-        button.btn.btn-danger.btn-block(type='submit') Reset Database
+    form.my-3(action='/admin/dev-access', method='post')
+        button.btn.btn-danger.btn-block(type='submit') Dev Access

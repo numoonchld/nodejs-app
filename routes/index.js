@@ -1,12 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-require('dotenv').config()
 
 const mongoose = require('mongoose')
 
-
-const initMLab = require('../admin/init-mlab-db')
 
 
 /* GET home page. */
@@ -30,7 +27,7 @@ router.post('/admin', function(req, res, next) {
   if (req.body.adminname === 'admin' && req.body.password === 'password') { 
 
     res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
-    
+
     // render list of gyms
     // res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
 
@@ -47,18 +44,18 @@ router.get('/admin/:gym', function(req,res){
   res.render('admin-gym-routes', { gym: ['Route 1', 'Route 2', 'Route 3'] });
 })
 
-router.post('/admin/reset-db', function(req,res){
+router.post('/admin/dev-access', function(req,res){
 
-  mongoose.connect(process.env.MONGODB_URI)
-  const cz_db = mongoose.connection
-  cz_db.on('error',console.error.bind(console, 'connection error:'))
+  // // TODO: create default admin login and password:
+  // Admin.create({adminname: 'admin', password: 'password'})
 
-  let first_compile = true;
-  initMLab(first_compile,cz_db);
+  // // TODO: initialize three gyms:
+  // Gym.insertMany([{gym_name: 'GYM A', model_name: 'gymaroute', route_count: 20},{gym_name: 'GYM B'},{gym_name: 'GYM C'}])
 
+  // // TODO: initilize twenty routes in first gym: 
+  // GymARoute.insertMany([{route_name: 'Route 1',gym_name: 'Gym A',climber_opinions:[]}])
+  
   res.json({under_construction: 'reset database to default values'})
-
-  // mongoose.disconnect()
 
 })
 
