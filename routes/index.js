@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var MongoClient = require('mongodb').MongoClient;
+// var MongoClient = require('mongodb').MongoClient;
+var mongoose = 
 
 
 CONNECTION_STRING = 'mongodb://127.0.0.1:27017/climbzombie';
@@ -10,15 +11,21 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'ADMIN ACCESS' });
 });
 
+/* GET admin login page */
 router.get('/login', function(req, res, next) {
   res.render('login', { title: 'LOGIN' });
 });
 
+
 router.post('/admin', function(req, res, next) {
-  // console.log(req.body, req.body.adminname, req.body.password);
+  console.log(req.body, req.body.adminname, req.body.password);
 
   // TODO: Input validation
+  if (req.body.adminname && req.body.password) {
 
+    // connect to db: 
+
+  }
   // if input valid, connect to db and check credentials
   // MongoClient.connect(CONNECTION_STRING, { useNewUrlParser: true }, function(err,db){
 
@@ -46,18 +53,12 @@ router.post('/admin', function(req, res, next) {
 
       // if correct credentials, login and get array of gyms, send to pug page to render 
 
-      // console.log(db.listCollections());
+
       
       // render list of gyms
       res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
 
-      // res.send('the gym selector page will load, (authentication implementation pending)');
-    //   db.close();
-    // }
-  
-    
 
-  // })
   
 
 });
