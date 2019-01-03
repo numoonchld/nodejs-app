@@ -13,7 +13,33 @@ $("#new-gym-form").submit(function(event){
         success: function(data) {
             console.log('POST returned - ' + JSON.stringify(data))
             
-            if (data.message === 11000) {
+            // if (data.message === 11000) {
+            //     swal({
+            //         title: 'DUPLICATE',
+            //         text: 'Gym with the same name found, new one not created!',
+
+            //         type: 'error',
+            //         confirmButtonText: 'Done'
+            //     })
+            // } else {
+                swal({
+                    title: 'POST-ed',
+                    text: data.message,
+                    type: 'success',
+                    confirmButtonText: 'Done'
+                })
+            // }
+            
+        },
+        timeout: 6500,
+        error: function(err,errMsg,thirdThing) {
+            // console.error(err)
+            // console.log(err.responseJSON)
+            // console.log(errMsg),
+            // console.log(thirdThing),   
+            
+            if (err.responseJSON.message === 'Duplicate') {
+             
                 swal({
                     title: 'DUPLICATE',
                     text: 'Gym with the same name found, new one not created!',
@@ -21,27 +47,18 @@ $("#new-gym-form").submit(function(event){
                     type: 'error',
                     confirmButtonText: 'Done'
                 })
+
             } else {
+                
                 swal({
-                    title: 'POST-ed',
-                    text: data.message,
-                    type: 'success',
+                    title: "POST-n't",
+                    text: errMsg,
+                    type: 'error',
                     confirmButtonText: 'Done'
                 })
+
             }
             
-        },
-        timeout: 6500,
-        error: function(err,errMsg,thirdThing) {
-            // console.error(err)
-            // console.log(errMsg),
-            // console.log(thirdThing),            
-            swal({
-                title: "POST-n't",
-                text: errMsg,
-                type: 'error',
-                confirmButtonText: 'Done'
-            })
         }
     })
 
