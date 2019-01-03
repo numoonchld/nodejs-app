@@ -18,6 +18,7 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/admin', function(req, res, next) {
+
   console.log(req.body, req.body.adminname, req.body.password);
 
   // TODO: Input validation
@@ -29,7 +30,7 @@ router.post('/admin', function(req, res, next) {
   res.render('admin-gyms', { gymList: [] });
 
   // render list of gyms
-  
+
 });
 
 router.get('/admin/:gym', function(req,res){
@@ -65,7 +66,7 @@ router.get('/admin-create/gym', function(req,res){
 router.post('/admin-create/gym/new-gym', function(req,res){
   
   console.log("NEW GYM - POST: ",req.body);
-  res.json({})
+  res.json({message: 'POST loaded'})
 
   // console.log("NEW GYM NAME: ", req.body.new_gym_name)
   // console.log("NEW GYM NAME (filtered): ", req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join(''))

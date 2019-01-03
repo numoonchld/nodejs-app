@@ -10,7 +10,7 @@ block content
 
     form#new-gym-form.my-3       
         .form-group
-            label Name
+            label Name 
             //- .input-group
             //-     .input-group-prepend
             //-         span.input-group-text NAME
@@ -18,7 +18,7 @@ block content
         
             small.form-text.text-muted (provide name of the new gym to be created)
         .form-group
-            label Climing Routes
+            label Climing Routes 
             //- .input-group
             //-     .input-group-prepend
             //-         span.input-group-text ROUTES
@@ -29,6 +29,9 @@ block content
         
             small.form-text.text-muted (set initial number of climbing routes in new gym)
         button.btn.btn-success.btn-block(type='submit') Submit
+
+    form(action="/admin", method="post")
+        button.btn.btn-primary.btn-block(type='submit') Back
 
     script
         include ../public/javascripts/new-gym-jQuery.js
