@@ -13,17 +13,32 @@ $("#new-gym-form").submit(function(event){
         success: function(data) {
             console.log('POST returned - ' + JSON.stringify(data))
             
-            swal({
-                title: 'POST-ed',
-                text: 'ajax returned success',
-                type: 'success',
-                confirmButtonText: 'Done'
-            })
+            if (data.message === 11000) {
+                swal({
+                    title: 'DUPLICATE',
+                    text: 'Gym with the same name found, new one not created!',
+
+                    type: 'error',
+                    confirmButtonText: 'Done'
+                })
+            } else {
+                swal({
+                    title: 'POST-ed',
+                    text: data.message,
+                    type: 'success',
+                    confirmButtonText: 'Done'
+                })
+            }
+            
         },
-        error: function() {
+        timeout: 6500,
+        error: function(err,errMsg,thirdThing) {
+            // console.error(err)
+            // console.log(errMsg),
+            // console.log(thirdThing),            
             swal({
                 title: "POST-n't",
-                text: 'ajax returned error',
+                text: errMsg,
                 type: 'error',
                 confirmButtonText: 'Done'
             })

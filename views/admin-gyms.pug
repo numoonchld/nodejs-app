@@ -4,7 +4,10 @@ extends layout
 
 block content
   .card.p-5.container.bg-light
-    
+
+    h3.my-3.text-center ADMIN - GYMS
+    hr
+    h6.text-center Active Gyms
     each gym in gymList
         form.my-3(action='/admin/gym' + gym[4], method='get')
             button.btn.btn-primary.btn-block(type='submit')= gym

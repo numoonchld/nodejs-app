@@ -66,23 +66,33 @@ router.get('/admin-create/gym', function(req,res){
 router.post('/admin-create/gym/new-gym', function(req,res){
   
   console.log("NEW GYM - POST: ",req.body);
-  res.json({message: 'POST loaded'})
+  // res.json({message: 'POST loaded'})
 
   // console.log("NEW GYM NAME: ", req.body.new_gym_name)
   // console.log("NEW GYM NAME (filtered): ", req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join(''))
 
-  // let cleanedUpGymName = req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join('') + 'route';
+  // Create MLAB friendly name for newly created gym's routes' mongoose model (i.e. mlab mongdb collection)
+  let cleanedUpGymName = req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join('') + 'route';
   
+  // TODO: create a new gym document 
+  Gym.create({gym_name: req.body.new_gym_name, model_name: cleanedUpGymName, route_count: req.body.new_gym_num_routes }, function(err,retDoc){
+    
+    if (err) {
+      // console.error('NEW GYM ERROR - ', typeof(err.code), err.code)
+      res.json({message: err.code})
+    } else {
 
-  // // TODO: create a new gym document 
-  // Gym.create({gym_name: req.body.new_gym_name, model_name: cleanedUpGymName, route_count: req.body.new_gym_num_routes }, function(err,retDoc){
+      // console.log('RET DOC - ',retDoc)
 
-  //   // TODO: create a new model/collection for newly added gym:
-  //   let NewGymRoutes = GymRoutes(cleanedUpGymName);
+      // TODO: create a new model/collection for newly added gym:
+      let NewGymRoutes = GymRoutes(cleanedUpGymName);
 
-  //   // res.json(req.body);
+      // res.json(req.body);
+      res.json({message: 'Created '+ req.body.new_gym_name +' with '+ req.body.new_gym_num_routes +' climbing routes'})
 
-  // })
+    }
+    
+  })
 
   
 })
