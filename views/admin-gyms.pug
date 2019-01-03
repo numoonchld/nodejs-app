@@ -9,7 +9,7 @@ block content
     hr
     h6.text-center Active Gyms
     each gym in gymList
-        form.my-3(action='/admin/gym' + gym[4], method='get')
+        form.my-3(action='/admin/'+gym, method='get')
             button.btn.btn-primary.btn-block(type='submit')= gym
     
     hr

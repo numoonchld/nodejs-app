@@ -17,6 +17,7 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'LOGIN' });
 });
 
+/* POST username and password, authenticate, then load dashboard */
 router.post('/admin', function(req, res, next) {
 
   console.log(req.body, req.body.adminname, req.body.password);
@@ -38,14 +39,11 @@ router.post('/admin', function(req, res, next) {
 
   })
 
-  
-
-  
-
 });
 
 router.get('/admin/:gym', function(req,res){
-  res.render('admin-gym-routes', { gym: ['Route 1', 'Route 2', 'Route 3'] });
+  console.log('GET - routes for: ',req.params)
+  res.render('admin-gym-routes', { gym: ['Route 1', 'Route 2', 'Route 3'], gym_name: req.params.gym});
 })
 
 router.post('/admin/dev-access', function(req,res){
@@ -66,7 +64,9 @@ router.post('/admin/dev-access', function(req,res){
 })
 
 
-// Create new collections and documents:
+// Create new collections and documents: ==============================================
+
+// 
 router.get('/admin-create/gym', function(req,res){
   // TODO: Add new model for each new gym created 
 

@@ -4,6 +4,18 @@ extends layout
 
 block content
   .card.p-5.container.bg-light
+
+    h3.text-center= gym_name
+    hr
     ul
         each route in gym
             li= route
+
+    form.my-3(action="/admin", method="post")
+        button.btn.btn-primary.btn-block(type='submit') Add Route
+
+    form.my-3(action="/admin", method="post")
+        button.btn.btn-primary.btn-block(type='submit') Back
+
+    form.my-3(action="/admin", method="post")
+        button.btn.btn-danger.btn-block(type='submit') Delete Gym
