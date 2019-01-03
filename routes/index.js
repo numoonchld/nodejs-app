@@ -22,26 +22,14 @@ router.post('/admin', function(req, res, next) {
 
   // TODO: Input validation
   // TODO: Authetication
-
-  // if input valid, connect to db and check credentials
-  // if correct credentials, login and get array of gyms, send to pug page to render 
-  if (req.body.adminname === 'admin' && req.body.password === 'password') { 
-
-    console.log('model names create in this instance of mongoose: ',mongoose.modelNames());
-
-    res.render('admin-gyms', { gymList: [] });
-
-    // render list of gyms
-    // res.render('admin-gyms', { gymList: ['Gym A', 'Gym B', 'Gym C'] });
-    
-
-  } 
-  // if in-correct credentials, dont render gym admin page
-  else {
-    res.json({under_construction: "invalid login credentials"})
-  }
   
 
+  console.log('model names create in this instance of mongoose: ',mongoose.modelNames());
+
+  res.render('admin-gyms', { gymList: [] });
+
+  // render list of gyms
+  
 });
 
 router.get('/admin/:gym', function(req,res){
@@ -70,28 +58,30 @@ router.post('/admin/dev-access', function(req,res){
 router.get('/admin-create/gym', function(req,res){
   // TODO: Add new model for each new gym created 
 
-  res.render('admin-create-gym', { gym: ['Route 1', 'Route 2', 'Route 3'] });
+  res.render('admin-create-gym', { });
   // res.json({under_construction: 'page to create new gym '})
 })
 
 router.post('/admin-create/gym/new-gym', function(req,res){
   
+  console.log("NEW GYM - POST: ",req.body);
+  res.json({})
+
   // console.log("NEW GYM NAME: ", req.body.new_gym_name)
   // console.log("NEW GYM NAME (filtered): ", req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join(''))
 
-  let cleanedUpGymName = req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join('') + 'route';
-  console.log("NEW GYM - POST: ",req.body);
+  // let cleanedUpGymName = req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join('') + 'route';
+  
 
-  // TODO: create a new gym document 
-  Gym.create({gym_name: req.body.new_gym_name, model_name: cleanedUpGymName, route_count: req.body.new_gym_num_routes }, function(err,retDoc){
+  // // TODO: create a new gym document 
+  // Gym.create({gym_name: req.body.new_gym_name, model_name: cleanedUpGymName, route_count: req.body.new_gym_num_routes }, function(err,retDoc){
 
+  //   // TODO: create a new model/collection for newly added gym:
+  //   let NewGymRoutes = GymRoutes(cleanedUpGymName);
 
-    // TODO: create a new model/collection for newly added gym:
-    let NewGymRoutes = GymRoutes(cleanedUpGymName);
+  //   // res.json(req.body);
 
-    res.json(req.body)
-
-  })
+  // })
 
   
 })
