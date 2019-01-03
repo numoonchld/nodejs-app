@@ -7,15 +7,24 @@ block content
 
     h3.text-center= gym_name
     hr
+    h6.text-center Active Climbing Routes 
+
     ul
         each route in gym
             li= route
 
-    form.my-3(action="/admin", method="post")
-        button.btn.btn-primary.btn-block(type='submit') Add Route
+    hr 
+
+    //- form#new-route-form.my-3(action="/admin-create/gym-route", method="post")
+    form#new-route-form.my-3
+        input(type="hidden" name="model_name" value= model_name)
+        button.btn.btn-success.btn-block(type='submit') Add Route
 
     form.my-3(action="/admin", method="post")
         button.btn.btn-primary.btn-block(type='submit') Back
 
-    form.my-3(action="/admin", method="post")
+    form.my-3(action="", method="post")
         button.btn.btn-danger.btn-block(type='submit') Delete Gym
+
+  script
+        include ../public/javascripts/new-route-jQuery.js

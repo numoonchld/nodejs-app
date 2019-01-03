@@ -31,19 +31,34 @@ router.post('/admin', function(req, res, next) {
 
     if (err) console.error(err)
     else {
-      console.info(retDocs, retDocs.map(doc => doc.gym_name));
+      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => doc.gym_name), retDocs.map(doc => doc.model_name) );
+      console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
       
       // render list of gyms
-      res.render('admin-gyms', { gymList: retDocs.map(doc => doc.gym_name) });
+      res.render('admin-gyms', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
     }
 
   })
 
 });
 
-router.get('/admin/:gym', function(req,res){
-  console.log('GET - routes for: ',req.params)
-  res.render('admin-gym-routes', { gym: ['Route 1', 'Route 2', 'Route 3'], gym_name: req.params.gym});
+router.post('/admin/gym', function(req,res){
+  console.log('POST - routes for: ',req.body)
+
+  let ThisGymModel = GymRoutes(req.body.model_name);
+  ThisGymModel.find({}, function(err,retDocs){
+
+    if (err) {
+      console.error(err);
+      res.json({message: 'see console for error detailsrs'})
+    } else {
+
+      console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
+      res.render('admin-gym-routes', { gym: [], gym_name: req.body.gym_name, model_name: req.body.model_name});
+    }
+
+  })
+  
 })
 
 router.post('/admin/dev-access', function(req,res){
@@ -64,9 +79,9 @@ router.post('/admin/dev-access', function(req,res){
 })
 
 
-// Create new collections and documents: ==============================================
+/* Create new collections and documents */
 
-// 
+// NEW GYM: view render
 router.get('/admin-create/gym', function(req,res){
   // TODO: Add new model for each new gym created 
 
@@ -74,6 +89,7 @@ router.get('/admin-create/gym', function(req,res){
   // res.json({under_construction: 'page to create new gym '})
 })
 
+// NEW GYM: update database
 router.post('/admin-create/gym/new-gym', function(req,res){
   
   console.log("NEW GYM - POST: ",req.body);
@@ -92,14 +108,19 @@ router.post('/admin-create/gym/new-gym', function(req,res){
 
       // console.error('NEW GYM ERROR - ', typeof(err.code), err.code)
       // res.json({message: err.code})
-      res.status(400).send({message: 'Duplicate',})
+      res.status(400).send({message: 'Duplicate'})
 
     } else {
 
       // console.log('RET DOC - ',retDoc)
 
-      // TODO: create a new model/collection for newly added gym:
+      // initialize a new model/collection for newly added gym:
       let NewGymRoutes = GymRoutes(cleanedUpGymName);
+
+      // initialize specified number of blank routes 
+      if (req.body.new_gym_num_routes !== 0) {
+        
+      }
 
       // res.json(req.body);
       res.json({message: 'Created '+ req.body.new_gym_name +' with '+ req.body.new_gym_num_routes +' climbing routes'})
@@ -111,7 +132,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
   
 })
 
-
+// NEW CLIMBING ROUTES IN GYM: view render
 router.get('/admin-create/gym-route', function(req,res){
   // TODO: Add new route in gym collection for each new route created 
 
@@ -119,8 +140,13 @@ router.get('/admin-create/gym-route', function(req,res){
   res.json({under_construction: 'page to create new route in current gym'})
 })
 
-router.post('/admin-create/gym-route/new-route', function(req,res){
-  res.send(req.body)
+// NEW CLIMBING ROUTES IN GYM: update database
+router.post('/admin-create/gym-route', function(req,res){
+  console.log('NEW ROUTE - POST: ', req.body)
+
+  let ThisGymModel = GymRoutes(req.body.model_name)
+
+  res.json(req.body)
 })
 
 
