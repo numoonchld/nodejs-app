@@ -26,11 +26,21 @@ router.post('/admin', function(req, res, next) {
   
 
   console.log('model names create in this instance of mongoose: ',mongoose.modelNames());
-  // Gym.
+  Gym.find({},function(err,retDocs){
 
-  res.render('admin-gyms', { gymList: [] });
+    if (err) console.error(err)
+    else {
+      console.info(retDocs, retDocs.map(doc => doc.gym_name));
+      
+      // render list of gyms
+      res.render('admin-gyms', { gymList: retDocs.map(doc => doc.gym_name) });
+    }
 
-  // render list of gyms
+  })
+
+  
+
+  
 
 });
 
@@ -79,7 +89,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
   Gym.create({gym_name: req.body.new_gym_name, model_name: cleanedUpGymName, route_count: req.body.new_gym_num_routes }, function(err,retDoc){
     
     if (err) {
-      
+
       // console.error('NEW GYM ERROR - ', typeof(err.code), err.code)
       // res.json({message: err.code})
       res.status(400).send({message: 'Duplicate',})
