@@ -87,8 +87,6 @@ router.get('/admin-create/gym', function(req,res){
 router.post('/admin-create/gym/new-gym', function(req,res){
   
   // console.log("NEW GYM - POST: ",req.body);
-  // res.json({message: 'POST loaded'})
-
   // console.log("NEW GYM NAME: ", req.body.new_gym_name)
   // console.log("NEW GYM NAME (filtered): ", req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join(''))
   let new_gym_name = req.body.new_gym_name;
@@ -121,8 +119,6 @@ router.post('/admin-create/gym/new-gym', function(req,res){
       // (2a) initialize a new model/collection for newly added gym:
       let NewGymRoutes = GymRoutes(cleanedUpGymName);
 
-      console.log("Current Collection (for " + req.body.new_gym_name + ") to write to: ", NewGymRoutes)
-
       // (2b) initialize specified number of blank routes 
       if (new_gym_num_routes > 0) {
 
@@ -140,8 +136,20 @@ router.post('/admin-create/gym/new-gym', function(req,res){
               console.error("Route Write Error: ", err);
               res.status(400).json({error: true, message: 'Error initializing routes in newly created Gym'})
             } else {
-              // res.json(req.body);
-              res.json({message: 'Created '+ new_gym_name +' with '+ new_gym_num_routes +' climbing routes'})
+              
+              // verify newly created collection exists and it's name matches the cleanedup version of the name:
+              let currentCollections = Object.keys(mongoose.connection.collections);
+              let newCollectionToExpect = cleanedUpGymName+'s';
+              // console.log("Collections of this connection: ",currentCollections);
+              // console.log('New collection to expect:', newCollectionToExpect);
+
+              if (currentCollections.includes(newCollectionToExpect) !== -1) {
+                res.json({message: 'Created '+ new_gym_name +' with '+ new_gym_num_routes +' climbing routes'})
+              } else {
+                res.json({message: 'Dedicated collection creation failed for '+ new_gym_name })
+              }
+
+              
             }
           })
 
@@ -151,6 +159,8 @@ router.post('/admin-create/gym/new-gym', function(req,res){
 
         }
 
+      } else {
+        res.json({message: 'Created '+ new_gym_name +', no climbing routes initialized'})
       }
 
     }
@@ -186,7 +196,7 @@ router.delete('/admin-delete/:gym', function(req,res){
   Gym.find({gym_name: req.params.gym}, function(err,retDoc){
     
     if (err) {
-      console.error(err)
+      console.error("Error finding gym document in gyms --", err)
       res.json({error: true, message: 'gym not found'});
     }
     else {
@@ -195,7 +205,7 @@ router.delete('/admin-delete/:gym', function(req,res){
       let gym_collection_name = retDoc[0].model_name + 's';
       let gym_name = retDoc[0].gym_name;
 
-      console.log("parsed object names: ",gym_collection_name,gym_name)
+      // console.log("parsed object names: ",gym_collection_name,gym_name)
 
       mongoose.connection.dropCollection(gym_collection_name, function(err,retObj){
 
