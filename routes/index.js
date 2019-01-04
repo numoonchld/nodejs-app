@@ -29,7 +29,7 @@ router.post('/admin', function(req, res, next) {
     if (err) console.error(err)
     else {
 
-      console.log("GYM - RETURNED OBJ: ",retDocs)
+      // console.log("GYM - RETURNED OBJ: ",retDocs)
       // render retrieved list of gyms
       res.render('admin-gyms', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
     }
@@ -55,7 +55,7 @@ router.post('/admin/gym', function(req,res){
       let gym_name = req.body.gym_name;
       let gym_collection_name = req.body.model_name;
       let route_info_arr = retDocs.map(doc => ({route_name: doc.route_name, setter_grade: doc.setter_input.setter_grade, current_grade_avg: doc.current_grade_average, current_star_rating: doc.current_star_rating}))
-      console.log('Route Info to pass to GYM dash: ', route_info_arr)
+      // console.log('Route Info to pass to GYM dash: ', route_info_arr)
 
       // console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
       res.render('admin-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name});
