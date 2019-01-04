@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const Gym = require('../models/gym')
 const GymRoutes = require('../models/gymroutes')
 
-
+const rtArrGen = require('../helpers/gen-route-obj-arr')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -20,21 +20,15 @@ router.get('/login', function(req, res, next) {
 /* POST username and password, authenticate, then load dashboard */
 router.post('/admin', function(req, res, next) {
 
-  console.log(req.body, req.body.adminname, req.body.password);
+  /* TO LIST GYMS IN DATABASE */
 
-  // TODO: Input validation
-  // TODO: Authetication
-  
-
-  console.log('model names create in this instance of mongoose: ',mongoose.modelNames());
+  // Look for gyms listed in gym model: 
   Gym.find({},function(err,retDocs){
 
     if (err) console.error(err)
     else {
-      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => doc.gym_name), retDocs.map(doc => doc.model_name) );
-      console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
-      console.log()
-      // render list of gyms
+
+      // render retrieved list of gyms
       res.render('admin-gyms', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
     }
 
@@ -89,7 +83,7 @@ router.get('/admin-create/gym', function(req,res){
   // res.json({under_construction: 'page to create new gym '})
 })
 
-// NEW GYM: update database
+// CREATE NEW GYM: edit database
 router.post('/admin-create/gym/new-gym', function(req,res){
   
   // console.log("NEW GYM - POST: ",req.body);
@@ -97,16 +91,24 @@ router.post('/admin-create/gym/new-gym', function(req,res){
 
   // console.log("NEW GYM NAME: ", req.body.new_gym_name)
   // console.log("NEW GYM NAME (filtered): ", req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join(''))
+  let new_gym_name = req.body.new_gym_name;
+  let new_gym_num_routes = req.body.new_gym_num_routes;
 
   // Create MLAB friendly name for newly created gym's routes' mongoose model (i.e. mlab mongdb collection)
   let cleanedUpGymName = req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join('') + 'route';
   
-  // TODO: create a new gym document 
-  Gym.create({gym_name: req.body.new_gym_name, model_name: cleanedUpGymName, route_count: req.body.new_gym_num_routes }, function(err,retDoc){
+  /* NEW GYM COMPONENTS:  
+   * (1) entry in gyms collection  
+   * (2a) a new dedicated collection, 
+   * (2b) with specified number fo routes initilaized for that gym
+   */
+
+  // (1) create a new gym document, 
+  Gym.create({gym_name: new_gym_name, model_name: cleanedUpGymName, route_count: new_gym_num_routes }, function(err,retDoc){
     
     if (err) {
 
-      // console.error('NEW GYM ERROR - ', typeof(err.code), err.code)
+      console.error('NEW GYM ERROR - ', typeof(err.code), err.code)
       // res.json({message: err.code})
       res.status(400).send({message: 'Duplicate'})
 
@@ -114,19 +116,45 @@ router.post('/admin-create/gym/new-gym', function(req,res){
 
       // console.log('RET DOC - ',retDoc)
 
-      // initialize a new model/collection for newly added gym:
+      console.log("Initializing new collection for ",cleanedUpGymName)
+
+      // (2a) initialize a new model/collection for newly added gym:
       let NewGymRoutes = GymRoutes(cleanedUpGymName);
 
-      // initialize specified number of blank routes 
-      if (req.body.new_gym_num_routes !== 0) {
+      console.log("Current Collection (for " + req.body.new_gym_name + ") to write to: ", NewGymRoutes)
+
+      // (2b) initialize specified number of blank routes 
+      if (new_gym_num_routes > 0) {
+
+        console.log('Need to initialize '+new_gym_num_routes+' routes in new Gym: ' + new_gym_name)
         
+        initRtArr = rtArrGen(new_gym_num_routes,new_gym_name)
+
+        // console.log("Insert ", initRtArr, " to collection "+ cleanedUpGymName )
+
+        if (initRtArr != []) {
+
+          NewGymRoutes.insertMany(initRtArr, function(err,retObj){
+
+            if (err) {
+              console.error("Route Write Error: ", err);
+              res.status(400).json({error: true, message: 'Error initializing routes in newly created Gym'})
+            } else {
+              // res.json(req.body);
+              res.json({message: 'Created '+ new_gym_name +' with '+ new_gym_num_routes +' climbing routes'})
+            }
+          })
+
+        } else {
+
+          res.status(400).send({message: 'Routes Array not created!'})
+
+        }
+
       }
 
-      // res.json(req.body);
-      res.json({message: 'Created '+ req.body.new_gym_name +' with '+ req.body.new_gym_num_routes +' climbing routes'})
-
     }
-    
+
   })
 
   
@@ -140,7 +168,7 @@ router.get('/admin-create/gym-route', function(req,res){
   res.json({under_construction: 'page to create new route in current gym'})
 })
 
-// NEW CLIMBING ROUTES IN GYM: update database
+// NEW CLIMBING ROUTES IN GYM: edit database
 router.post('/admin-create/gym-route', function(req,res){
   // console.log('NEW ROUTE - POST: ', req.body)
 
@@ -151,7 +179,7 @@ router.post('/admin-create/gym-route', function(req,res){
 
 /* Delete gym route collections and corresponding entries in gym model */
 
-// DELETE 
+// DELETE GYM: edit database
 router.delete('/admin-delete/:gym', function(req,res){
   console.log('DELETE - gym: ', req.params)
 

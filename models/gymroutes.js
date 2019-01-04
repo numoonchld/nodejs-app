@@ -41,12 +41,16 @@ const routeSchema = new Schema({
     required: true,
     unique: true
   },
+  created: {
+    type: Date,
+    default: Date.now()
+  },
   gym_name:{
     type: String,
     required: true
   },
   setter_input: setterSchema,
-  climber_opinions: [climberSchema]
+  climber_opinions: [climberSchema],
 })
 
 module.exports = function(filteredGymName){

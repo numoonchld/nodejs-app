@@ -54,8 +54,17 @@ $("#new-gym-form").submit(function(event){
                     confirmButtonText: 'Done'
                 })
 
-            } else {
+            } else if (err.responseJSON.message) {
                 
+                swal({
+                    title: "POST-n't",
+                    text: err.responseJSON.message,
+                    type: 'error',
+                    confirmButtonText: 'Done'
+                })
+
+            } else {
+
                 swal({
                     title: "POST-n't",
                     text: errMsg,
