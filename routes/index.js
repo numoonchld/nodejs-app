@@ -144,9 +144,9 @@ router.post('/admin-create/gym/new-gym', function(req,res){
               // console.log('New collection to expect:', newCollectionToExpect);
 
               if (currentCollections.includes(newCollectionToExpect) !== -1) {
-                res.json({message: 'Created '+ new_gym_name +' with '+ new_gym_num_routes +' climbing routes'})
+                res.json({message: 'Created "'+ new_gym_name +'" with '+ new_gym_num_routes +' climbing routes'})
               } else {
-                res.json({message: 'Dedicated collection creation failed for '+ new_gym_name })
+                res.json({message: 'Dedicated collection creation failed for "'+ new_gym_name +'"'})
               }
 
               
@@ -160,7 +160,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
         }
 
       } else {
-        res.json({message: 'Created '+ new_gym_name +', no climbing routes initialized'})
+        res.json({message: 'Created "'+ new_gym_name +'", no climbing routes initialized'})
       }
 
     }
