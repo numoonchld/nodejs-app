@@ -201,7 +201,7 @@ router.post('/admin-create/gym-route', function(req,res){
 
 // DELETE GYM: edit database
 router.delete('/admin-delete/:gym', function(req,res){
-  console.log('DELETE - gym: ', req.params)
+  // console.log('DELETE - gym: ', req.params)
 
   Gym.find({gym_name: req.params.gym}, function(err,retDoc){
     
