@@ -17,7 +17,7 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'LOGIN' });
 });
 
-/* POST username and password, authenticate, then load dashboard */
+/* POST - ADMIN dashboard */
 router.post('/admin', function(req, res, next) {
 
   /* TO LIST GYMS IN DATABASE */
@@ -28,6 +28,8 @@ router.post('/admin', function(req, res, next) {
     if (err) console.error(err)
     else {
 
+
+      console.log("GYM - RETURNED OBJ: ",retDocs)
       // render retrieved list of gyms
       res.render('admin-gyms', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
     }
@@ -36,16 +38,22 @@ router.post('/admin', function(req, res, next) {
 
 });
 
+/** POST - GYM dashboard */
 router.post('/admin/gym', function(req,res){
   console.log('POST - routes for: ',req.body)
 
   let ThisGymModel = GymRoutes(req.body.model_name);
+
   ThisGymModel.find({}, function(err,retDocs){
 
     if (err) {
       console.error(err);
-      res.json({message: 'see console for error detailsrs'})
+      res.json({message: 'see console for error details'})
     } else {
+
+      console.log('Routes for '+ req.body.gym_name +'----- ',retDocs);
+      let rtInfoArr = retDocs.map(doc => ({route_name: doc.route_name, setter_grade: doc.setter_input.setter_grade, current_grade_avg: doc.current_grade_average, current_star_rating: doc.current_star_rating}))
+      console.log('Route Info to pass to GYM dash: ', rtInfoArr)
 
       // console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
       res.render('admin-gym-routes', { gym: [], gym_name: req.body.gym_name, model_name: req.body.model_name});
@@ -134,7 +142,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
 
             if (err) {
               console.error("Route Write Error: ", err);
-              res.status(400).json({error: true, message: 'Error initializing routes in newly created Gym'})
+              res.status(400).json({error: true, message: 'Init-ing routes in new Gym failed - delete Gym and retry.'})
             } else {
               
               // verify newly created collection exists and it's name matches the cleanedup version of the name:
@@ -210,25 +218,22 @@ router.delete('/admin-delete/:gym', function(req,res){
       mongoose.connection.dropCollection(gym_collection_name, function(err,retObj){
 
         if (err) {
-
-          console.error(gym_collection_name +' Collection delete error: ',err)
-          res.json({error: true, message: gym_name + ' Collection not found in database.'});
-
+          console.error(gym_collection_name +' Collection delete error -- Error Code: ',err.code,'; Error Msg: ', err.errmsg)
         } else {
-
           console.log('Dropped collection - ', retObj)
-
-          Gym.deleteOne({gym_name: gym_name },function(err,retObjB){
-
-            if (err) {
-              console.error(gym_name + ' document delete error: ',err)
-              res.json({error: true, message: gym_name + "not found in Gyms' collection" });
-            } else {
-              console.log("Deleted Gym entry",retObjB)
-              res.json({message: 'uri response success'})
-            }
-          })
         }
+
+        Gym.deleteOne({gym_name: gym_name },function(err,retObjB){
+
+          if (err) {
+            console.error(gym_name + ' document delete error: ',err)
+            res.json({error: true, message: gym_name + "not found in Gyms' collection" });
+          } else {
+            console.log("Deleted Gym entry",retObjB)
+            res.json({message: 'uri response success'})
+          }
+        })
+        
 
       })
       
