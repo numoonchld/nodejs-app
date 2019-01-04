@@ -40,7 +40,7 @@ router.post('/admin', function(req, res, next) {
 
 // POST - GYM dashboard: List all routes in Gym
 router.post('/admin/gym', function(req,res){
-  console.log('POST - routes for: ',req.body)
+  // console.log('POST - routes for: ',req.body)
 
   let ThisGymModel = GymRoutes(req.body.model_name);
 
@@ -51,7 +51,7 @@ router.post('/admin/gym', function(req,res){
       res.json({message: 'see console for error details'})
     } else {
 
-      console.log('Routes for '+ req.body.gym_name +'----- ',retDocs);
+      // console.log('Routes for '+ req.body.gym_name +'----- ',retDocs);
       let gym_name = req.body.gym_name;
       let gym_collection_name = req.body.model_name;
       let route_info_arr = retDocs.map(doc => ({route_name: doc.route_name, setter_grade: doc.setter_input.setter_grade, current_grade_avg: doc.current_grade_average, current_star_rating: doc.current_star_rating}))

@@ -8,7 +8,7 @@ $(".delete-gym-form").submit(function(event){
         buttonsStyling: false,
     })
 
-    console.log("DELETE GYM - FORM DATA: " , $(this).serializeArray());
+    // console.log("DELETE GYM - FORM DATA: " , $(this).serializeArray());
 
     let gym_name =  $(this).serializeArray()[0].value;
     
@@ -23,7 +23,7 @@ $(".delete-gym-form").submit(function(event){
         showLoaderOnConfirm: true,                
         preConfirm: function(swal_input) {
 
-            console.log("pC inp: ",swal_input)
+            // console.log("pC inp: ",swal_input)
 
             if (swal_input == true) {
 
@@ -31,12 +31,12 @@ $(".delete-gym-form").submit(function(event){
                     url: '/admin-delete/' + gym_name ,
                     type: 'DELETE',
                     success: function(data){
-                        console.log('DELETE - gym response: ',data)
+                        // console.log('DELETE - gym response: ',data)
                         return data;
                     },
                     timeout: 6500,
                     error: function(errObj,errMsg){
-                        console.log('DELETE - gym error: ',errMsg);
+                        // console.log('DELETE - gym error: ',errMsg);
 
                         // Swal.showValidationMessage(
                         //     `Request failed: ${errMsg}`
@@ -61,7 +61,7 @@ $(".delete-gym-form").submit(function(event){
         }
     }).then( function(result) {
 
-        console.log('Here---',result)
+        // console.log('Here---',result)
 
         if (result.value && !result.value.error) {
 

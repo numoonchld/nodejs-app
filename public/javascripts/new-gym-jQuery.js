@@ -17,7 +17,7 @@ $("#new-gym-form").submit(function(event){
         url: '/admin-create/gym/new-gym',
         data: $(this).serializeArray(),
         success: function(data) {
-            console.log('POST returned - ' + JSON.stringify(data))
+            // console.log('POST returned - ' + JSON.stringify(data))
             
             // if (data.message === 11000) {
             //     swal({
