@@ -11,7 +11,11 @@ const gymSchema = new Schema({
       unique: true
     },
     model_name: String,
-    route_count: Number
+    route_count: Number,
+    created: {
+      type: Date,
+      default: Date.now()
+    }
 })
 
 module.exports = mongoose.model('Gym', gymSchema);
