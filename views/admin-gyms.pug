@@ -8,11 +8,15 @@ block content
     h3.my-3.text-center ADMIN - GYMS
     hr
     h6.text-center Active Gyms
-    each gym in gyms
-        form.my-3(action='/admin/gym' method='post')
-            input(type="hidden" name="gym_name" value= gym.gym_name )
-            input(type="hidden" name="model_name" value= gym.model_name )
-            button.btn.btn-primary.btn-block(type='submit')= gym.gym_name
+
+    if gyms.length === 0
+        p.text-center.my-3 (No Gyms found in database, try adding a new one!)
+    else 
+        each gym in gyms
+            form.my-3(action='/admin/gym' method='post')
+                input(type="hidden" name="gym_name" value= gym.gym_name )
+                input(type="hidden" name="model_name" value= gym.model_name )
+                button.btn.btn-primary.btn-block(type='submit')= gym.gym_name
     
     hr
 

@@ -6,6 +6,12 @@ $("#new-gym-form").submit(function(event){
     //     console.log(data);
     // })
 
+    const swalWithBootstrapButtons = Swal.mixin({
+        confirmButtonClass: 'btn btn-success mx-3',
+        cancelButtonClass: 'btn btn-danger mx-3',
+        buttonsStyling: false,
+    })
+
     $.ajax({
         type: "POST",
         url: '/admin-create/gym/new-gym',
@@ -22,7 +28,7 @@ $("#new-gym-form").submit(function(event){
             //         confirmButtonText: 'Done'
             //     })
             // } else {
-                swal({
+                swalWithBootstrapButtons({
                     title: 'POST-ed',
                     text: data.message,
                     type: 'success',
@@ -40,7 +46,7 @@ $("#new-gym-form").submit(function(event){
             
             if (err.responseJSON.message === 'Duplicate') {
              
-                swal({
+                swalWithBootstrapButtons({
                     title: 'DUPLICATE',
                     text: 'Gym with the same name found, new one not created!',
 

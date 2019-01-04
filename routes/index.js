@@ -33,7 +33,7 @@ router.post('/admin', function(req, res, next) {
     else {
       // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => doc.gym_name), retDocs.map(doc => doc.model_name) );
       console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
-      
+      console.log()
       // render list of gyms
       res.render('admin-gyms', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
     }
@@ -53,7 +53,7 @@ router.post('/admin/gym', function(req,res){
       res.json({message: 'see console for error detailsrs'})
     } else {
 
-      console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
+      // console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
       res.render('admin-gym-routes', { gym: [], gym_name: req.body.gym_name, model_name: req.body.model_name});
     }
 
@@ -63,18 +63,18 @@ router.post('/admin/gym', function(req,res){
 
 router.post('/admin/dev-access', function(req,res){
 
-  // set db for proof-of-concept:
+  Gym.find({},function(err,retDocs){
 
-  // // TODO: create default admin login and password:
-  // Admin.create({adminname: 'admin', password: 'password'})
+    if (err) console.error(err)
+    else {
+      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => doc.gym_name), retDocs.map(doc => doc.model_name) );
+      console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
+      
+      // render list of gyms
+      res.render('dev-dashboard', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
+    }
 
-  // // TODO: initialize three gyms:
-  // Gym.insertMany([{gym_name: 'GYM A', model_name: 'gymaroute', route_count: 20},{gym_name: 'GYM B'},{gym_name: 'GYM C'}])
-
-  // // TODO: initilize twenty routes in first gym: 
-  // GymARoute.insertMany([{route_name: 'Route 1',gym_name: 'Gym A',climber_opinions:[]}])
-  
-  res.json({under_construction: 'reset database to default values'})
+  })
 
 })
 
@@ -92,7 +92,7 @@ router.get('/admin-create/gym', function(req,res){
 // NEW GYM: update database
 router.post('/admin-create/gym/new-gym', function(req,res){
   
-  console.log("NEW GYM - POST: ",req.body);
+  // console.log("NEW GYM - POST: ",req.body);
   // res.json({message: 'POST loaded'})
 
   // console.log("NEW GYM NAME: ", req.body.new_gym_name)
@@ -142,13 +142,68 @@ router.get('/admin-create/gym-route', function(req,res){
 
 // NEW CLIMBING ROUTES IN GYM: update database
 router.post('/admin-create/gym-route', function(req,res){
-  console.log('NEW ROUTE - POST: ', req.body)
+  // console.log('NEW ROUTE - POST: ', req.body)
 
   let ThisGymModel = GymRoutes(req.body.model_name)
 
   res.json(req.body)
 })
 
+/* Delete gym route collections and corresponding entries in gym model */
+
+// DELETE 
+router.delete('/admin-delete/:gym', function(req,res){
+  console.log('DELETE - gym: ', req.params)
+
+  Gym.find({gym_name: req.params.gym}, function(err,retDoc){
+    
+    if (err) {
+      console.error(err)
+      res.json({error: true, message: 'gym not found'});
+    }
+    else {
+      // console.log(retDoc);
+  
+      let gym_collection_name = retDoc[0].model_name + 's';
+      let gym_name = retDoc[0].gym_name;
+
+      console.log("parsed object names: ",gym_collection_name,gym_name)
+
+      mongoose.connection.dropCollection(gym_collection_name, function(err,retObj){
+
+        if (err) {
+
+          console.error(gym_collection_name +' Collection delete error: ',err)
+          res.json({error: true, message: gym_name + ' Collection not found in database.'});
+
+        } else {
+
+          console.log('Dropped collection - ', retObj)
+
+          Gym.deleteOne({gym_name: gym_name },function(err,retObjB){
+
+            if (err) {
+              console.error(gym_name + ' document delete error: ',err)
+              res.json({error: true, message: gym_name + "not found in Gyms' collection" });
+            } else {
+              console.log("Deleted Gym entry",retObjB)
+              res.json({message: 'uri response success'})
+            }
+          })
+        }
+
+      })
+      
+
+    }
+
+    
+    
+  })
+
+  // setTimeout(function() {return res.json({message: 'uri response success'}) },2000,'timeout?')
+  
+})
 
 
 module.exports = router;
