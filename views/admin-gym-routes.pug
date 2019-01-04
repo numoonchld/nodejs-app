@@ -7,9 +7,29 @@ block content
 
     h3.text-center= gym_name
     hr
-    h6.text-center Active Climbing Routes 
+    h5.text-center Active Climbing Routes 
 
-    
+    table.table.table-hover.text-center
+        thead
+            tr
+                th(scope="col") Name
+                th(scope="col") Setter Grade
+                th(scope="col") Average Grade
+                th(scope="col") Average Rating
+                th(scope="col") 
+        tbody
+            each route in gym
+                tr
+                    th(scope="row")= route.route_name
+                    td= route.setter_grade
+                    td= route.current_grade_avg
+                    td= route.current_star_rating
+                    td
+                        form.edit-route-form
+                            input(type="hidden" name="model_name" value= model_name)
+                            input(type="hidden" name="route_name" value= route.route_name)
+                            button.btn.btn-primary.btn-block(type='submit') Edit Route
+                            
 
     hr 
 

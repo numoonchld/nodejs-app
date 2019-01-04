@@ -17,17 +17,17 @@ router.get('/login', function(req, res, next) {
   res.render('login', { title: 'LOGIN' });
 });
 
-/* POST - ADMIN dashboard */
-router.post('/admin', function(req, res, next) {
 
-  /* TO LIST GYMS IN DATABASE */
+/** RENDERING  VIEWS */
+
+// POST - ADMIN dashboard: List all Gyms in Database:
+router.post('/admin', function(req, res, next) {
 
   // Look for gyms listed in gym model: 
   Gym.find({},function(err,retDocs){
 
     if (err) console.error(err)
     else {
-
 
       console.log("GYM - RETURNED OBJ: ",retDocs)
       // render retrieved list of gyms
@@ -38,7 +38,7 @@ router.post('/admin', function(req, res, next) {
 
 });
 
-/** POST - GYM dashboard */
+// POST - GYM dashboard: List all routes in Gym
 router.post('/admin/gym', function(req,res){
   console.log('POST - routes for: ',req.body)
 
@@ -52,11 +52,13 @@ router.post('/admin/gym', function(req,res){
     } else {
 
       console.log('Routes for '+ req.body.gym_name +'----- ',retDocs);
-      let rtInfoArr = retDocs.map(doc => ({route_name: doc.route_name, setter_grade: doc.setter_input.setter_grade, current_grade_avg: doc.current_grade_average, current_star_rating: doc.current_star_rating}))
-      console.log('Route Info to pass to GYM dash: ', rtInfoArr)
+      let gym_name = req.body.gym_name;
+      let gym_collection_name = req.body.model_name;
+      let route_info_arr = retDocs.map(doc => ({route_name: doc.route_name, setter_grade: doc.setter_input.setter_grade, current_grade_avg: doc.current_grade_average, current_star_rating: doc.current_star_rating}))
+      console.log('Route Info to pass to GYM dash: ', route_info_arr)
 
       // console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
-      res.render('admin-gym-routes', { gym: [], gym_name: req.body.gym_name, model_name: req.body.model_name});
+      res.render('admin-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name});
     }
 
   })
