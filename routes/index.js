@@ -96,11 +96,8 @@ router.post('/admin/gym', function(req,res){
           current_star_rating: doc.current_star_rating
         }
 
-      }).sort(function(a,b){ 
-
-        // sort the docs route 1, route 2, route 3, etc...
-        return parseInt(a.route_name[a.route_name.length - 1]) - parseInt(b.route_name[b.route_name.length - 1])
       })
+    
       
       // console.log('Route Info to pass to GYM dash: ', route_info_arr)
       // console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
