@@ -102,7 +102,7 @@ router.post('/admin/gym', function(req,res){
         return parseInt(a.route_name[a.route_name.length - 1]) - parseInt(b.route_name[b.route_name.length - 1])
       })
       
-      console.log('Route Info to pass to GYM dash: ', route_info_arr)
+      // console.log('Route Info to pass to GYM dash: ', route_info_arr)
       // console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
       res.render('admin-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name});
 
@@ -257,10 +257,31 @@ router.post('/admin-edit/route', function(req,res) {
 
     if (err) {
       console.error('Route Setter Grade update error -- ',err);
-      res.json({error: true, message: route_to_edit +' write to database failed!'})
+      res.json({error: true, message: route_to_edit +' grade update to database failed!'})
     } else {
-      console.log('Route edit returned object: ', retObj)
-      res.json({error: false, message: route_to_edit +' Setter-Grade Updated!'})
+      // console.log('Route edit returned object: ', retObj)
+
+      /** Update Average Grade: */
+      
+      // if no climber ratings exist, set average to the setter-grade:
+      if (retObj.climber_opinions.length === 0 ) {
+        ThisGymModel.findOneAndUpdate({route_name: route_to_edit}, {current_grade_average: new_setter_grade}, function(err,retObj2){
+
+          if (err) {
+            console.error('Route Setter Grade Average Grade update error -- ',err);
+            res.json({error: true, message: route_to_edit +' avergae grade update to database failed!'})
+          } else {
+            // console.log('Route edit returned object: ', retObj2)
+
+            res.json({error: false, message: route_to_edit +' Setter-Grade Updated!'})
+          }
+        })
+      }
+      // updating average grade when climber opinions do exist:
+      // else {
+      // 
+      // }
+
     }
 
 
