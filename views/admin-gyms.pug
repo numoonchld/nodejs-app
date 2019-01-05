@@ -5,7 +5,7 @@ extends layout
 block content
   .card.p-5.container.bg-light
 
-    h3.my-3.text-center ADMIN - GYMS
+    h3.my-3.text-center.text-uppercase ADMIN - GYMS
     hr
     h5.text-center.my-3 Active Gyms
 
@@ -16,7 +16,7 @@ block content
             form.my-3(action='/admin/gym' method='post')
                 input(type="hidden" name="gym_name" value= gym.gym_name )
                 input(type="hidden" name="model_name" value= gym.model_name )
-                button.btn.btn-primary.btn-block(type='submit')= gym.gym_name
+                button.btn.btn-primary.btn-block.text-uppercase(type='submit')= gym.gym_name
     
     hr
 
