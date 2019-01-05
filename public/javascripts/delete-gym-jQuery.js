@@ -66,7 +66,7 @@ $(".delete-gym-form").submit(function(event){
         if (result.value && !result.value.error) {
 
             swalWithBootstrapButtons(
-                'Deleted!',
+                'Deleted',
                 'Gym database has been deleted.',
                 'success'
             ).then(function(result){

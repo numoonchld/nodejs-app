@@ -379,5 +379,28 @@ router.delete('/admin-delete/:gym', function(req,res){
   
 })
 
+router.post('/admin-delete/route',function(req,res){
+  console.log('POST - route delete: ',req.body)
+
+  let target_route = req.body.route_to_delete
+  let target_gym_collection = req.body.gym_collection_name
+  let TargetGymModel = GymRoutes(target_gym_collection)
+
+  TargetGymModel.deleteOne({route_name: target_route}, function(err,retObj){
+
+    if (err) {
+      console.error('Route delete error -- ',err);
+      res.json({error: true, message: target_route +' delete from '+ target_gym_collection +'s + failed!'})
+    } else {
+      // console.log('delete one route succeeds -- ', retObj )
+      res.json({error: false, message: 'Server responds!'})
+    }
+
+  })
+
+
+  
+})
+
 
 module.exports = router;
