@@ -126,7 +126,7 @@ router.post('/admin/dev-access', function(req,res){
 
 })
 
-/* Create new collections and documents */
+/* CREATE GYMS and ROUTES */
 
 // NEW GYM: view render
 router.get('/admin-create/gym', function(req,res){
@@ -224,23 +224,61 @@ router.post('/admin-create/gym/new-gym', function(req,res){
 })
 
 // NEW CLIMBING ROUTES IN GYM: view render
-router.get('/admin-create/gym-route', function(req,res){
-  // TODO: Add new route in gym collection for each new route created 
+{
+  // router.get('/admin-create/gym-route', function(req,res){
+  //   // TODO: Add new route in gym collection for each new route created 
 
-  // res.render('admin-create-gym-route', {  });
-  res.json({under_construction: 'page to create new route in current gym'})
-})
+  //   // res.render('admin-create-gym-route', {  });
+  //   res.json({under_construction: 'page to create new route in current gym'})
+  // })
+}
 
-// NEW CLIMBING ROUTES IN GYM: edit database
+// CREATE NEW ROUTES IN GYM: edit database
 router.post('/admin-create/gym-route', function(req,res){
-  // console.log('NEW ROUTE - POST: ', req.body)
+  console.log('NEW ROUTE - POST: ', req.body)
 
-  // let ThisGymModel = GymRoutes(req.body.model_name)
+  
+  let target_gym = req.body.gym_collection_name
+  let routes_num_to_add = req.body.routes_num_to_add
+  let TargetGymModel = GymRoutes(target_gym);
 
-  res.json(req.body)
+  TargetGymModel.countDocuments({},function(err,count){
+
+    if (err) {
+      console.error("Counting existing docs failed: ", err);
+      res.status(400).json({error: true, message: 'Couting exisitng docs in '+ target_gym+'s collection failed'})
+    } else {      
+      console.log(target_gym ,'s collection has ',count, 'documents');
+
+      initRtArr = rtArrGen(routes_num_to_add,target_gym,count+1)
+      console.log("Insert ", initRtArr, " to collection "+ target_gym )
+
+      if (initRtArr != []) {
+
+        TargetGymModel.insertMany(initRtArr, function(err,retObj){
+
+          if (err) {
+            console.error("Route Write Error: ", err);
+            res.status(400).json({error: true, message: 'Init-ing routes in new Gym failed - delete Gym and retry.'})
+          } else {      
+            console.log('Added new routes to ', target_gym , retObj)
+            res.json({error: false, message: 'Added routes - POST success'})       
+          }
+        })
+
+      } else {
+        res.status(400).json({error:true, message: 'Failed to create Init Routes Array'})
+      }
+    }
+
+  })
+
+
+  
+
 })
 
-/** Edit Route Setter-GradePath: */
+/* EDIT ROUTES */
 router.post('/admin-edit/route', function(req,res) {
 
   // console.log('POST - route EDIT: ', req.body)
@@ -289,7 +327,7 @@ router.post('/admin-edit/route', function(req,res) {
 })
 
 
-/* Delete gym route collections and corresponding entries in gym model */
+/* DELETE GYMS and ROUTES */
 
 // DELETE GYM: edit database
 router.delete('/admin-delete/:gym', function(req,res){

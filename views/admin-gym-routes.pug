@@ -17,6 +17,7 @@ block content
                 th(scope="col") Average Grade
                 th(scope="col") Average Rating
                 th(scope="col") 
+                th(scope="col") 
         tbody
             each route in gym
                 tr
@@ -36,6 +37,15 @@ block content
                             input(type="hidden" name="current_grade_average" value= route.current_grade_avg)
                             button.btn.btn-warning(type='submit') 
                                 i.fas.fa-edit
+                    
+                    td
+                        form.delete-route-form
+                            input(type="hidden" name="model_name" value= model_name)
+                            input(type="hidden" name="route_name" value= route.route_name)
+                            input(type="hidden" name="current_setter_grade" value= route.setter_grade)
+                            input(type="hidden" name="current_grade_average" value= route.current_grade_avg)
+                            button.btn.btn-danger(type='submit') 
+                                i.fas.fa-trash
                         
                             
 
@@ -44,7 +54,8 @@ block content
     //- form#new-route-form.my-3(action="/admin-create/gym-route", method="post")
     form#new-route-form.my-3
         input(type="hidden" name="model_name" value= model_name)
-        button.btn.btn-success.btn-block(type='submit') Add Route
+        input(type="hidden" name="gym_name" value= gym_name)
+        button.btn.btn-success.btn-block(type='submit') Add Routes
 
     form.my-3(action="/admin", method="post")
         button.btn.btn-primary.btn-block(type='submit') Back
@@ -58,3 +69,4 @@ block content
   script
         include ../public/javascripts/new-route-jQuery.js
         include ../public/javascripts/route-edit-jQuery.js
+        include ../public/javascripts/route-delete-jQuery.js
