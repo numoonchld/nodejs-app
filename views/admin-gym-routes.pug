@@ -28,6 +28,8 @@ block content
                         form.edit-route-form
                             input(type="hidden" name="model_name" value= model_name)
                             input(type="hidden" name="route_name" value= route.route_name)
+                            input(type="hidden" name="current_setter_grade" value= route.setter_grade)
+                            input(type="hidden" name="current_grade_average" value= route.current_grade_avg)
                             button.btn.btn-primary.btn-block(type='submit') Edit Setter Grade
                             
 
@@ -49,4 +51,4 @@ block content
 
   script
         include ../public/javascripts/new-route-jQuery.js
-        //- include ../public/javascripts/delete-gym-jQuery.js
+        include ../public/javascripts/route-edit-jQuery.js

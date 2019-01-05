@@ -1,6 +1,6 @@
 $("#new-route-form").submit(function(event){
 
-    console.log("NEW ROUTE - FORM DATA: " ,$(this).serializeArray());
+    // console.log("NEW ROUTE - FORM DATA: " ,$(this).serializeArray());
 
     $.ajax({
         url: '/admin-create/gym-route',

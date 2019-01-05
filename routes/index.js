@@ -54,11 +54,58 @@ router.post('/admin/gym', function(req,res){
       // console.log('Routes for '+ req.body.gym_name +'----- ',retDocs);
       let gym_name = req.body.gym_name;
       let gym_collection_name = req.body.model_name;
-      let route_info_arr = retDocs.map(doc => ({route_name: doc.route_name, setter_grade: doc.setter_input.setter_grade, current_grade_avg: doc.current_grade_average, current_star_rating: doc.current_star_rating}))
-      // console.log('Route Info to pass to GYM dash: ', route_info_arr)
 
+      // create mapping from numerical grade # of 5.# stored in database 
+      // to display valid climing grades in '5.#' 
+      let gradeOptions = [
+        { val: 5, name: "5.5"},
+        { val: 6, name: "5.6"},
+        { val: 7, name: "5.7"},
+        { val: 8, name: "5.8"},
+        { val: 9, name: "5.9"},
+        { val: 10, name: "5.10a"},
+        { val: 10.25, name: "5.10b"},
+        { val: 10.5, name: "5.10c"},
+        { val: 10.75, name: "5.10d"},
+        { val: 11, name: "5.11a"},
+        { val: 11.25, name: "5.11b"},
+        { val: 11.5, name: "5.11c"},
+        { val: 11.75, name: "5.11d"},
+        { val: 12, name: "5.12a"},
+        { val: 12.25, name: "5.12b"},
+        { val: 12.5, name: "5.12c"},
+        { val: 12.75, name: "5.12d"},
+        { val: 13, name: "5.13"},
+        { val: 14, name: "5.13+"}
+      ]
+
+      const grade_num_to_str = new Map()
+
+      gradeOptions.forEach(function(option) {
+        grade_num_to_str.set(option.val, option.name)
+      })
+
+      // Array of routes' info to be sent into gym page render: 
+      let route_info_arr = retDocs.map(function(doc) {
+
+        // Clean up docs returned from moongoose find({}):
+        return {
+          route_name: doc.route_name, 
+          setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade), 
+          current_grade_avg: grade_num_to_str.get(doc.current_grade_average), 
+          current_star_rating: doc.current_star_rating
+        }
+
+      }).sort(function(a,b){ 
+
+        // sort the docs route 1, route 2, route 3, etc...
+        return parseInt(a.route_name[a.route_name.length - 1]) - parseInt(b.route_name[b.route_name.length - 1])
+      })
+      
+      console.log('Route Info to pass to GYM dash: ', route_info_arr)
       // console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
       res.render('admin-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name});
+
     }
 
   })
@@ -81,7 +128,6 @@ router.post('/admin/dev-access', function(req,res){
   })
 
 })
-
 
 /* Create new collections and documents */
 
@@ -192,10 +238,38 @@ router.get('/admin-create/gym-route', function(req,res){
 router.post('/admin-create/gym-route', function(req,res){
   // console.log('NEW ROUTE - POST: ', req.body)
 
-  let ThisGymModel = GymRoutes(req.body.model_name)
+  // let ThisGymModel = GymRoutes(req.body.model_name)
 
   res.json(req.body)
 })
+
+/** Edit Route Setter-GradePath: */
+router.post('/admin-edit/route', function(req,res) {
+
+  console.log('POST - route EDIT: ', req.body)
+  
+  let route_to_edit = req.body.route_to_edit;
+  let gym_route_belongs_to = req.body.gym_collection_name;
+  let new_setter_grade = req.body.new_setter_grade;
+  let ThisGymModel = GymRoutes(gym_route_belongs_to)
+
+  ThisGymModel.findOneAndUpdate({route_name: route_to_edit}, {setter_input: {setter_grade: new_setter_grade}}, function(err,retObj){
+
+    if (err) {
+      console.error('Route Setter Grade update error -- ',err);
+      res.json({error: true, message: route_to_edit +' write to database failed!'})
+    } else {
+      console.log('Route edit returned object: ', retObj)
+      res.json({error: false, message: route_to_edit +' Setter-Grade Updated!'})
+    }
+
+
+  });
+  
+  
+
+})
+
 
 /* Delete gym route collections and corresponding entries in gym model */
 

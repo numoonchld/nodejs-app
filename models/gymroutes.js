@@ -63,7 +63,7 @@ const routeSchema = new Schema({
   setter_input: setterSchema,
   climber_opinions: [climberSchema],
   current_grade_average: {
-    type: String,
+    type: Number,
     required: true
   },
   current_star_rating: {
