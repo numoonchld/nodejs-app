@@ -116,7 +116,7 @@ router.post('/admin/dev-access', function(req,res){
     if (err) console.error(err)
     else {
       // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => doc.gym_name), retDocs.map(doc => doc.model_name) );
-      console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
+      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
       
       // render list of gyms
       res.render('dev-dashboard', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
@@ -167,7 +167,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
 
       // console.log('RET DOC - ',retDoc)
 
-      console.log("Initializing new collection for ",cleanedUpGymName)
+      // console.log("Initializing new collection for ",cleanedUpGymName)
 
       // (2a) initialize a new model/collection for newly added gym:
       let NewGymRoutes = GymRoutes(cleanedUpGymName);
@@ -175,7 +175,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
       // (2b) initialize specified number of blank routes 
       if (new_gym_num_routes > 0) {
 
-        console.log('Need to initialize '+new_gym_num_routes+' routes in new Gym: ' + new_gym_name)
+        // console.log('Need to initialize '+new_gym_num_routes+' route(s) in new Gym: ' + new_gym_name)
         
         initRtArr = rtArrGen(new_gym_num_routes,new_gym_name)
 
@@ -197,7 +197,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
               // console.log('New collection to expect:', newCollectionToExpect);
 
               if (currentCollections.includes(newCollectionToExpect) !== -1) {
-                res.json({message: 'Created "'+ new_gym_name +'" with '+ new_gym_num_routes +' climbing routes'})
+                res.json({message: 'Created "'+ new_gym_name +'" with '+ new_gym_num_routes +' climbing route(s)'})
               } else {
                 res.json({message: 'Dedicated collection creation failed for "'+ new_gym_name +'"'})
               }
@@ -380,7 +380,7 @@ router.delete('/admin-delete/:gym', function(req,res){
 })
 
 router.post('/admin-delete/route',function(req,res){
-  console.log('POST - route delete: ',req.body)
+  // console.log('POST - route delete: ',req.body)
 
   let target_route = req.body.route_to_delete
   let target_gym_collection = req.body.gym_collection_name
