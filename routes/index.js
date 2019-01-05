@@ -243,7 +243,7 @@ router.post('/admin-create/gym-route', function(req,res){
 /** Edit Route Setter-GradePath: */
 router.post('/admin-edit/route', function(req,res) {
 
-  console.log('POST - route EDIT: ', req.body)
+  // console.log('POST - route EDIT: ', req.body)
   
   let route_to_edit = req.body.route_to_edit;
   let gym_route_belongs_to = req.body.gym_collection_name;

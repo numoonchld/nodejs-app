@@ -1,6 +1,6 @@
 $(".edit-route-form").submit(function(event){
 
-    console.log("NEW ROUTE - FORM DATA: " ,$(this).serializeArray());
+    // console.log("NEW ROUTE - FORM DATA: " ,$(this).serializeArray());
 
     const swalWithBootstrapButtons = Swal.mixin({
         confirmButtonClass: 'btn btn-success mx-3',

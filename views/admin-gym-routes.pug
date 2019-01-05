@@ -7,9 +7,9 @@ block content
 
     h3.text-center= gym_name
     hr
-    h5.text-center Active Climbing Routes 
+    h5.text-center.my-3 Active Climbing Routes 
 
-    table.table.table-hover.text-center
+    table.table.table-hover.table-sm.table-striped.text-center
         thead
             tr
                 th(scope="col") Name
@@ -21,17 +21,22 @@ block content
             each route in gym
                 tr
                     th(scope="row")= route.route_name
-                    td= route.setter_grade
+
+                    td= route.setter_grade 
+ 
                     td= route.current_grade_avg
+                        
                     td= route.current_star_rating
+
                     td
                         form.edit-route-form
                             input(type="hidden" name="model_name" value= model_name)
                             input(type="hidden" name="route_name" value= route.route_name)
                             input(type="hidden" name="current_setter_grade" value= route.setter_grade)
                             input(type="hidden" name="current_grade_average" value= route.current_grade_avg)
-                            button.btn.btn-warning.btn-block(type='submit') 
+                            button.btn.btn-warning(type='submit') 
                                 i.fas.fa-edit
+                        
                             
 
     hr 
