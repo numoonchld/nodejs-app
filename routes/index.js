@@ -10,7 +10,9 @@ const addRtArrGen = require('../helpers/add-routes-to-gym')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'ADMIN ACCESS' });
+  res.render('land-climb-zombie', { });
+
+  // res.render('index', { title: 'ADMIN ACCESS' });
 });
 
 /* GET admin login page */

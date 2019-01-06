@@ -5,13 +5,24 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const adminSchema = new Schema({
-    adminname: {
+    login_name: {
         type: String,
         unique: true,
         required: true
     },
     password: {
         type: String,
+        required: true
+    },
+    login_level: {
+        type: String,
+        validate: {
+            validator: function(level) {
+                if (level === 'ADM' || level === 'GO' ) {
+                    return true
+                } else return false
+            }
+        },
         required: true
     },
     last_login: {

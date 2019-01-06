@@ -19,8 +19,8 @@ const climberSchema = new Schema({
   climber_grade: {
     type: Number,
     required: true,
-    min: 5.5,
-    max: 5.13
+    min: 5,
+    max: 14
   },
   climber_rating: {
     type: Number,
