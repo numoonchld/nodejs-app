@@ -5,7 +5,8 @@ const mongoose = require('mongoose')
 const Gym = require('../models/gym')
 const GymRoutes = require('../models/gymroutes')
 
-const rtArrGen = require('../helpers/gen-init-route-arr')
+const initRtArrGen = require('../helpers/gen-init-route-arr')
+const addRtArrGen = require('../helpers/add-routes-to-gym')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -91,11 +92,14 @@ router.post('/admin/gym', function(req,res){
         // Clean up docs returned from moongoose find({}):
         return {
           route_name: doc.route_name, 
+          route_number: doc.route_number,
           setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade), 
           current_grade_avg: grade_num_to_str.get(doc.current_grade_average), 
           current_star_rating: doc.current_star_rating
         }
 
+      }).sort(function(a,b){
+        return a.route_number - b.route_number
       })
     
       
@@ -161,11 +165,11 @@ router.post('/admin-create/gym/new-gym', function(req,res){
 
         // console.log('Need to initialize '+new_gym_num_routes+' route(s) in new Gym: ' + new_gym_name)
         
-        initRtArr = rtArrGen(new_gym_num_routes,new_gym_name)
+        initRtArr = initRtArrGen(new_gym_num_routes,new_gym_name)
 
         // console.log("Insert ", initRtArr, " to collection "+ cleanedUpGymName )
-
-        if (initRtArr != []) {
+        // console.log(initRtArr.length,new_gym_num_routes, initRtArr.length == new_gym_num_routes)
+        if (initRtArr != [] && initRtArr.length == new_gym_num_routes) {
 
           NewGymRoutes.insertMany(initRtArr, function(err,retObj){
 
@@ -185,7 +189,6 @@ router.post('/admin-create/gym/new-gym', function(req,res){
               } else {
                 res.json({message: 'Dedicated collection creation failed for "'+ new_gym_name +'"'})
               }
-
               
             }
           })
@@ -217,7 +220,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
   // })
 }
 
-// CREATE NEW ROUTES IN GYM: edit database
+// ADD NEW ROUTES IN GYM: edit database
 router.post('/admin-create/gym-route', function(req,res){
   // console.log('NEW ROUTE - POST: ', req.body)
 
@@ -225,20 +228,26 @@ router.post('/admin-create/gym-route', function(req,res){
   let routes_num_to_add = req.body.routes_num_to_add
   let TargetGymModel = GymRoutes(target_gym);
 
-  TargetGymModel.countDocuments({},function(err,count){
+  TargetGymModel.find({},function(err,docsArr){
 
     if (err) {
-      console.error("Counting existing docs failed: ", err);
-      res.status(400).json({error: true, message: 'Couting exisitng docs in '+ target_gym+'s collection failed'})
+      console.error("Scanning existing docs failed: ", err);
+      res.status(400).json({error: true, message: 'Scanning exisitng docs in '+ target_gym+'s collection failed'})
     } else {      
-      // console.log(target_gym ,'s collection has ',count, 'documents');
+      // console.log(target_gym ,'s collection has ',docsArr, 'documents');
 
-      initRtArr = rtArrGen(routes_num_to_add,target_gym,count+1)
+      let existing_route_nums = docsArr.map(function(doc){
+        return doc.route_number
+      });
+
+      // console.log('Existing routes nums Outside -- ',existing_route_nums)
+
+      addRtArr = addRtArrGen(routes_num_to_add,target_gym,existing_route_nums)
       // console.log("Insert ", initRtArr, " to collection "+ target_gym )
 
-      if (initRtArr != []) {
+      if (addRtArr != [] && addRtArr.length == routes_num_to_add) {
 
-        TargetGymModel.insertMany(initRtArr, function(err,retObj){
+        TargetGymModel.insertMany(addRtArr, function(err,retObj){
 
           if (err) {
             console.error("Route Write Error: ", err);
@@ -250,14 +259,13 @@ router.post('/admin-create/gym-route', function(req,res){
         })
 
       } else {
+
         res.status(400).json({error:true, message: 'Failed to create Init Routes Array'})
+
       }
     }
 
   })
-
-
-  
 
 })
 

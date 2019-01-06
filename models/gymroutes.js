@@ -53,7 +53,7 @@ const routeSchema = new Schema({
     unique: true
   },
   route_number: {
-    type: String,
+    type: Number,
     required: true,
     unique: true
   },
