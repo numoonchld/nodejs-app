@@ -4,7 +4,7 @@ module.exports = function(num_of_routes_to_add,gym_of_routes,existing_route_numb
     let added_num = 0
     let route_name_count = 1
 
-    console.log('Existing routes nums -- ',existing_route_numbers)
+    // console.log('Existing routes nums -- ',existing_route_numbers)
 
     while (added_num < num_of_routes_to_add ) {
         console.log('')
@@ -19,7 +19,7 @@ module.exports = function(num_of_routes_to_add,gym_of_routes,existing_route_numb
 
     }
 
-    console.log("Helper output: ", routes_array)
+    // console.log("Helper output: ", routes_array)
     return routes_array;
 
 }

@@ -392,7 +392,6 @@ router.post('/admin-delete/gym', function(req,res){
 
 })
 
-
 router.post('/admin-delete/route',function(req,res){
   // console.log('POST - route delete: ',req.body)
 

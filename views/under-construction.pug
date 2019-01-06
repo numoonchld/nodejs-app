@@ -1,37 +1,29 @@
-//- extends layout
-
-//- //- this is the admin login page:
-
-//- block content
-//-     //- img.img-fluid(src='/images/climbZombie_flippedHorizontal.JPG' alt='Climber Vista')
-//-     img#land-image.img-fluid(src='/images/climbZombie.JPG' alt='Climber Vista')
-
 doctype html
-html#land-page-html
+html
   head
-    title Climb Zombie
+    title Climb Zombie Climbers
     link(rel='stylesheet', href='/stylesheets/style.css')
-    link(href="https://fonts.googleapis.com/css?family=Kanit", rel="stylesheet")
+    
     link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css", integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS", crossorigin="anonymous")
     link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css")
     link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
     script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=", crossorigin="anonymous")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.js")
     
-  body#land-page-body.container
-
-    h1.text-right.text-secondary CLIMB ZOMBIE
+  body.container.bg-secondary
     
-    hr
+    .card.m-5.p-5.w-50.mx-auto.bg-light
+        i.fas.fa-hammer.fa-10x.text-center.m-5
 
-    #buttons-block.w-25.float-right
-        form.my-3(action='/login', method='get')
-            button.btn.btn-info.btn-block(type='submit') MANAGE GYM
-
-        form.my-3(action='/users', method='get')
-            button.btn.btn-info.btn-block(type='submit') RATE A ROUTE
-
-  
+  //- script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js", integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo", crossorigin="anonymous")
   script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js", integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut", crossorigin="anonymous")
   script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js", integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k", crossorigin="anonymous")
+  //- script(src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.js")
+  //- script(src="https://unpkg.com/sweetalert/dist/sweetalert.min.js")
+  //- script(src='/javascripts/app-jQuery.js')
   
+
+
+    
+
+    
