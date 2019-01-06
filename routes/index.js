@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 const Gym = require('../models/gym')
 const GymRoutes = require('../models/gymroutes')
 
-const rtArrGen = require('../helpers/gen-route-obj-arr')
+const rtArrGen = require('../helpers/gen-init-route-arr')
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -109,22 +109,6 @@ router.post('/admin/gym', function(req,res){
   
 })
 
-router.post('/admin/dev-access', function(req,res){
-
-  Gym.find({},function(err,retDocs){
-
-    if (err) console.error(err)
-    else {
-      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => doc.gym_name), retDocs.map(doc => doc.model_name) );
-      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
-      
-      // render list of gyms
-      res.render('dev-dashboard', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
-    }
-
-  })
-
-})
 
 /* CREATE GYMS and ROUTES */
 
@@ -277,6 +261,7 @@ router.post('/admin-create/gym-route', function(req,res){
 
 })
 
+
 /* EDIT ROUTES */
 router.post('/admin-edit/route', function(req,res) {
 
@@ -378,6 +363,25 @@ router.delete('/admin-delete/:gym', function(req,res){
   // setTimeout(function() {return res.json({message: 'uri response success'}) },2000,'timeout?')
   
 })
+
+// DELETE GYM: render UI
+router.post('/admin-delete/gym', function(req,res){
+
+  Gym.find({},function(err,retDocs){
+
+    if (err) console.error(err)
+    else {
+      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => doc.gym_name), retDocs.map(doc => doc.model_name) );
+      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
+      
+      // render list of gyms
+      res.render('admin-gym-delete', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
+    }
+
+  })
+
+})
+
 
 router.post('/admin-delete/route',function(req,res){
   // console.log('POST - route delete: ',req.body)

@@ -52,6 +52,11 @@ const routeSchema = new Schema({
     required: true,
     unique: true
   },
+  route_number: {
+    type: String,
+    required: true,
+    unique: true
+  },
   created: {
     type: Date,
     default: Date.now()
