@@ -1,32 +1,68 @@
+// express and associated app dependencies 
 const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-// const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const bodyParser = require('body-parser');
-const app = express();
 
-require('dotenv').config()
+const express = require('express');
+
+const path = require('path');
+const bodyParser = require('body-parser');
+
+const session = require('express-session')
+
+// database dependencies
 const mongoose = require('mongoose')
 
-// Setup Database Connection:
+// security dependencies
+const helmet = require('helmet')
+
+// auth dependencies
+const passport = require('passport')
+const bcrypt = require('bcrypt')
+const localStrategy = require('passport-local')
+
+require('dotenv').config()
+
+const app = express();
+
+/** Mongoose Connection Setup */
+
+// init connection, config and error handling
 mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true})
 mongoose.set('useCreateIndex', true);
 mongoose.connection.on('error',console.error.bind(console, 'connection error:'))
 
+
+// Component Scripts:
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
-// view engine setup
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+/** Helmet Protection */
+app.use(helmet());
+
+/** Pug view engine setup */ 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+/** Passport Setup */
 
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// init session:
+app.use(session({
+  name: 'climbzombie',
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store:
+}))
+
+// use passport and passport session:
+app.use(passport.initialize())
+app.use(passport.session())
+
+
+
 
 // routing occurs here: 
 app.use('/', indexRouter); // ADMIN ACCESS ROUTING

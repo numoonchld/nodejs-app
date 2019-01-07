@@ -8,6 +8,9 @@ const GymRoutes = require('../models/gymroutes')
 const initRtArrGen = require('../helpers/gen-init-route-arr')
 const addRtArrGen = require('../helpers/add-routes-to-gym')
 
+const bcrypt = require('bcrypt')
+const passport = require('passport')
+
 /** 00. LANDING PAGE ------------------------------------------------ */
 router.get('/', function(req, res, next) {
   res.render('land-climb-zombie', { });
@@ -29,7 +32,7 @@ router.get('/login', function(req, res, next) {
 
     } else {
 
-      console.log('----', docsArr)
+      // console.log('----', docsArr)
 
       if (docsArr.length > 0) {
 
@@ -190,8 +193,12 @@ router.post('/admin-delete/gym', function(req,res){
 /* CREATE ------------------------------------------------ */
 
 // process - new admin account request
-router.post('admin-create/admin/new-admin', function(req,res){
+router.post('/admin-create/admin/new-admin', function(req,res){
+  console.log('NEW ADMIN - POST - payload: ', req.body);
+
   
+  
+  res.json({error: false, message: 'payload seen' })
 })
 
 // process - new gym account request
