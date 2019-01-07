@@ -8,23 +8,31 @@ const GymRoutes = require('../models/gymroutes')
 const initRtArrGen = require('../helpers/gen-init-route-arr')
 const addRtArrGen = require('../helpers/add-routes-to-gym')
 
-/* GET home page. */
+
+
+
+/** RENDERING  DASHBOARDS */
+
+/* 01. landing page */
 router.get('/', function(req, res, next) {
   res.render('land-climb-zombie', { });
-
-  // res.render('index', { title: 'ADMIN ACCESS' });
 });
 
-/* GET admin login page */
+/* 02.a. login page */
 router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'LOGIN' });
+  //  gym owner login page:
+  res.render('login', { title: 'GYM OWNER LOGIN', further_access: true });
 });
 
+/* 02.b. login page */
+router.get('/login/admin', function(req, res, next) {
+  // admin login page:
+  res.render('login', { title: 'ADMIN LOGIN', further_access: false });
+});
 
-/** RENDERING  VIEWS */
-
-// POST - ADMIN dashboard: List all Gyms in Database:
-router.post('/admin', function(req, res, next) {
+/** 03.a. ADMIN DASH */
+// List all Gyms in Database:
+router.get('/admin', function(req, res, next) {
 
   // Look for gyms listed in gym model: 
   Gym.find({},function(err,retDocs){
@@ -34,15 +42,17 @@ router.post('/admin', function(req, res, next) {
 
       // console.log("GYM - RETURNED OBJ: ",retDocs)
       // render retrieved list of gyms
-      res.render('admin-gyms', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
+      res.render('admin-dash', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
     }
 
   })
 
 });
 
+/** 03.b. GO DASH */
+
 // POST - GYM dashboard: List all routes in Gym
-router.post('/admin/gym', function(req,res){
+router.post('/go/gym', function(req,res){
   // console.log('POST - routes for: ',req.body)
 
   let ThisGymModel = GymRoutes(req.body.model_name);
@@ -116,10 +126,13 @@ router.post('/admin/gym', function(req,res){
 })
 
 
-/* CREATE ACCOUNTS, GYMS and ROUTES */
+
+/** 04. ADMIN FUNCTIONS */
+
+/* CREATE GYM ACCOUNTS */
 
 router.get('/admin-create/admin', function(req,res){
-  res.render('admin-create-account')
+  res.render('go-create-account')
   // res.json({error: false, message: 'To create admin account'});  
 })
 
@@ -132,7 +145,7 @@ router.get('/admin-create/gym', function(req,res){
   // res.json({under_construction: 'page to create new gym '})
 })
 
-// CREATE NEW GYM: edit database
+// CREATE NEW GYM OWNER ACCOUNT: edit database
 router.post('/admin-create/gym/new-gym', function(req,res){
   
   // console.log("NEW GYM - POST: ",req.body);
@@ -229,7 +242,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
 }
 
 // ADD NEW ROUTES IN GYM: edit database
-router.post('/admin-create/gym-route', function(req,res){
+router.post('/go-create/gym-route', function(req,res){
   // console.log('NEW ROUTE - POST: ', req.body)
 
   let target_gym = req.body.gym_collection_name
@@ -278,7 +291,7 @@ router.post('/admin-create/gym-route', function(req,res){
 })
 
 /* EDIT ROUTES */
-router.post('/admin-edit/route', function(req,res) {
+router.post('/go-edit/route', function(req,res) {
 
   // console.log('POST - route EDIT: ', req.body)
   
@@ -396,7 +409,7 @@ router.post('/admin-delete/gym', function(req,res){
 
 })
 
-router.post('/admin-delete/route',function(req,res){
+router.post('/go-delete/route',function(req,res){
   // console.log('POST - route delete: ',req.body)
 
   let target_route = req.body.route_to_delete

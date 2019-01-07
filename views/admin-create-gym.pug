@@ -5,10 +5,11 @@ extends layout
 block content
   .card.p-5.container.bg-light
     
-    h3.text-center.text-uppercase CREATE NEW GYM 
-    p.text-center (create a database for a new gym here)
+    h3.text-center.text-uppercase New Gym Account
+    p.text-center (create a database for a new gym account here)
 
-    form#new-gym-form.my-3       
+    form#new-gym-form.my-3      
+
         .form-group
             label Name 
             //- .input-group
@@ -17,6 +18,7 @@ block content
             input.form-control(type="text" name="new_gym_name" required)
         
             small.form-text.text-muted (enter name of the new gym to be created)
+
         .form-group
             label Climing Routes 
             //- .input-group
@@ -28,10 +30,31 @@ block content
                     option= n++
         
             small.form-text.text-muted (set initial number of climbing routes in new gym)
-        button.btn.btn-success.btn-block(type='submit') Submit
+
+        hr 
+
+        .form-group
+            label Password
+            //- .input-group
+            //-     .input-group-prepend
+            //-         span.input-group-text ROUTES
+            input.form-control(type="password" name="new_gym_login_password" required)
+        
+            small.form-text.text-muted (new gym account's login password)
+
+        .form-group
+            label Confirm Password
+            //- .input-group
+            //-     .input-group-prepend
+            //-         span.input-group-text ROUTES
+            input.form-control(type="password" name="new_gym_login_password" required)
+        
+            small.form-text.text-muted (new gym account's login password)
+
+        button.btn.btn-success.btn-block.text-uppercase(type='submit') Create
 
     form.my-3(action="/admin", method="post")
-        button.btn.btn-primary.btn-block(type='submit') Back
+        button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back
 
     script
-        include ../public/javascripts/new-gym-jQuery.js
+        include ../public/javascripts/new-gym-account-jQuery.js

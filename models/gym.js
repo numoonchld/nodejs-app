@@ -12,6 +12,10 @@ const gymSchema = new Schema({
     },
     model_name: String,
     route_count: Number,
+    password: {
+      type: String,
+      required: true
+    },
     created: {
       type: Date,
       default: Date.now()

@@ -7,21 +7,36 @@ block content
     
     h3.text-center= title
     //- p Welcome to #{title}
-    p.text-center (submit your admin credentials)
+    p.text-center (submit your account credentials)
 
-    form.my-5(action='/admin', method='post')
-      .form-group
-        //- label Adminname:
-        input.form-control(type='text' name='adminname' placeholder="login name" value="" required)
-      .form-group
-        //- label Password:
-        input.form-control(type='password' name='password' placeholder="login password" value="" required)
-      button.btn.btn-primary.btn-block.text-uppercase(type='submit') Submit
+    //- Load Gym-Owner Login view if further-access is true
+    if further_access
+      form.my-5(action='/go', method='get')
+        .form-group
+          //- label Adminname:
+          input.form-control(type='text' name='adminname' placeholder="login name" value="" required)
+        .form-group
+          //- label Password:
+          input.form-control(type='password' name='password' placeholder="login password" value="" required)
+        button.btn.btn-primary.btn-block.text-uppercase(type='submit') Submit
 
-    hr
+      hr
 
-    form.my-5(action='/admin-create/admin', method='get')
-      button.btn.btn-secondary.btn-block.text-uppercase(type='submit') New Account
+      form.my-5(action='/login/admin', method='get')
+        button.btn.btn-secondary.btn-block.text-uppercase(type='submit') Admin
+
+    //- else Load Admin Login view if further-access is false
+    else 
+      form.my-5(action='/admin', method='get')
+        .form-group
+          //- label Adminname:
+          input.form-control(type='text' name='adminname' placeholder="login name" value="" required)
+        .form-group
+          //- label Password:
+          input.form-control(type='password' name='password' placeholder="login password" value="" required)
+        button.btn.btn-primary.btn-block.text-uppercase(type='submit') Submit
+
+      
       
 
   
