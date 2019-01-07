@@ -116,7 +116,13 @@ router.post('/admin/gym', function(req,res){
 })
 
 
-/* CREATE GYMS and ROUTES */
+/* CREATE ACCOUNTS, GYMS and ROUTES */
+
+router.get('/admin-create/admin', function(req,res){
+  res.render('admin-create-account')
+  // res.json({error: false, message: 'To create admin account'});  
+})
+
 
 // NEW GYM: view render
 router.get('/admin-create/gym', function(req,res){
@@ -271,7 +277,6 @@ router.post('/admin-create/gym-route', function(req,res){
 
 })
 
-
 /* EDIT ROUTES */
 router.post('/admin-edit/route', function(req,res) {
 
@@ -319,7 +324,6 @@ router.post('/admin-edit/route', function(req,res) {
   
 
 })
-
 
 /* DELETE GYMS and ROUTES */
 
