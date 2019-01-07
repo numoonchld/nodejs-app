@@ -9,35 +9,54 @@ block content
     //- p Welcome to #{title}
     p.text-center (submit your account credentials)
 
-    //- Load Gym-Owner Login view if further-access is true
-    if further_access
-      form.my-5(action='/go', method='get')
-        .form-group
-          //- label Adminname:
-          input.form-control(type='text' name='adminname' placeholder="login name" value="" required)
-        .form-group
-          //- label Password:
-          input.form-control(type='password' name='password' placeholder="login password" value="" required)
-        button.btn.btn-primary.btn-block.text-uppercase(type='submit') Submit
+    if !error 
+
+      //- Load Gym-Owner Login view if further-access is true
+      if further_access && gym_account_exist
+
+        form.my-5(action='/go', method='get')
+          .form-group
+            //- label Adminname:
+            input.form-control(type='text' name='adminname' placeholder="login name" value="" required)
+          .form-group
+            //- label Password:
+            input.form-control(type='password' name='password' placeholder="login password" value="" required)
+          button.btn.btn-primary.btn-block.text-uppercase(type='submit') Login
+
+        hr
+
+        form.my-5(action='/login/admin', method='get')
+          button.btn.btn-secondary.btn-block.text-uppercase(type='submit') Admin Access
+
+      else if further_access && !gym_account_exist
+
+        hr
+
+        p.my-5.text-center (gym account doesn't exist - contact admin) 
+
+        hr
+
+        form.my-5(action='/login/admin', method='get')
+          button.btn.btn-secondary.btn-block.text-uppercase(type='submit') Admin Access
+
+      //- else Load Admin Login view if further-access is false
+      else if !further_access
+        form.my-5(action='/admin', method='get')
+          .form-group
+            //- label Adminname:
+            input.form-control(type='text' name='adminname' placeholder="login name" value="" required)
+          .form-group
+            //- label Password:
+            input.form-control(type='password' name='password' placeholder="login password" value="" required)
+          button.btn.btn-primary.btn-block.text-uppercase(type='submit') Login
+
+    else 
+
+      hr 
+
+      p.my-5.text-center (couldn't reach database)
 
       hr
 
       form.my-5(action='/login/admin', method='get')
-        button.btn.btn-secondary.btn-block.text-uppercase(type='submit') Admin
-
-    //- else Load Admin Login view if further-access is false
-    else 
-      form.my-5(action='/admin', method='get')
-        .form-group
-          //- label Adminname:
-          input.form-control(type='text' name='adminname' placeholder="login name" value="" required)
-        .form-group
-          //- label Password:
-          input.form-control(type='password' name='password' placeholder="login password" value="" required)
-        button.btn.btn-primary.btn-block.text-uppercase(type='submit') Submit
-
-      
-      
-
-  
-
+        button.btn.btn-secondary.btn-block.text-uppercase(type='submit') Admin Access

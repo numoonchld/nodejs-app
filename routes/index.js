@@ -8,30 +8,56 @@ const GymRoutes = require('../models/gymroutes')
 const initRtArrGen = require('../helpers/gen-init-route-arr')
 const addRtArrGen = require('../helpers/add-routes-to-gym')
 
-
-
-
-/** RENDERING  DASHBOARDS */
-
-/* 01. landing page */
+/** 00. LANDING PAGE ------------------------------------------------ */
 router.get('/', function(req, res, next) {
   res.render('land-climb-zombie', { });
 });
 
-/* 02.a. login page */
+/** 01. LOGIN UI ------------------------------------------------ */
+
+// 01.a. login page
 router.get('/login', function(req, res, next) {
-  //  gym owner login page:
-  res.render('login', { title: 'GYM OWNER LOGIN', further_access: true });
+  
+  // look for existing gym accounts:
+  Gym.find({},function(err,docsArr){
+
+    if (err) {
+
+      console.log('GO login page, db connect error -- ',err)
+
+      res.render('login', { title: 'GYM OWNER LOGIN', further_access: true, gym_accounts_exist: false, error: true });
+
+    } else {
+
+      console.log('----', docsArr)
+
+      if (docsArr.length > 0) {
+
+        //  gym owner login page:
+        res.render('login', { title: 'GYM OWNER LOGIN', further_access: true, gym_accounts_exist: true, error: false });
+
+      } else {
+
+        //  gym owner login page:
+        res.render('login', { title: 'GYM OWNER LOGIN', further_access: true, gym_accounts_exist: false, error: false });
+
+      }
+
+    }
+
+  })
+
 });
 
-/* 02.b. login page */
+// 01.b. login page 
 router.get('/login/admin', function(req, res, next) {
   // admin login page:
   res.render('login', { title: 'ADMIN LOGIN', further_access: false });
 });
 
-/** 03.a. ADMIN DASH */
-// List all Gyms in Database:
+/** 02. LANDING DASHBOARDS ------------------------------------------------ */
+
+// 02.a. render - ADMIN DASH 
 router.get('/admin', function(req, res, next) {
 
   // Look for gyms listed in gym model: 
@@ -49,9 +75,7 @@ router.get('/admin', function(req, res, next) {
 
 });
 
-/** 03.b. GO DASH */
-
-// POST - GYM dashboard: List all routes in Gym
+// 02.b.  render - Gym Owner DASH 
 router.post('/go/gym', function(req,res){
   // console.log('POST - routes for: ',req.body)
 
@@ -125,19 +149,19 @@ router.post('/go/gym', function(req,res){
   
 })
 
+/** 03. ADMIN FUNCTIONS ------------------------------------------------ */
 
 
-/** 04. ADMIN FUNCTIONS */
+/* RENDER ------------------------------------------------ */
 
-/* CREATE GYM ACCOUNTS */
-
+// render - new admin form
 router.get('/admin-create/admin', function(req,res){
-  res.render('go-create-account')
-  // res.json({error: false, message: 'To create admin account'});  
+
+  res.render('admin-create-admin', {})
+
 })
 
-
-// NEW GYM: view render
+// render - new gym account form 
 router.get('/admin-create/gym', function(req,res){
   // TODO: Add new model for each new gym created 
 
@@ -145,7 +169,32 @@ router.get('/admin-create/gym', function(req,res){
   // res.json({under_construction: 'page to create new gym '})
 })
 
-// CREATE NEW GYM OWNER ACCOUNT: edit database
+// render - delete gym account UI
+router.post('/admin-delete/gym', function(req,res){
+
+  Gym.find({},function(err,retDocs){
+
+    if (err) console.error(err)
+    else {
+      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => doc.gym_name), retDocs.map(doc => doc.model_name) );
+      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
+      
+      // render list of gyms
+      res.render('admin-gym-delete', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
+    }
+
+  })
+
+})
+
+/* CREATE ------------------------------------------------ */
+
+// process - new admin account request
+router.post('admin-create/admin/new-admin', function(req,res){
+  
+})
+
+// process - new gym account request
 router.post('/admin-create/gym/new-gym', function(req,res){
   
   // console.log("NEW GYM - POST: ",req.body);
@@ -231,17 +280,7 @@ router.post('/admin-create/gym/new-gym', function(req,res){
   
 })
 
-// NEW CLIMBING ROUTES IN GYM: view render
-{
-  // router.get('/admin-create/gym-route', function(req,res){
-  //   // TODO: Add new route in gym collection for each new route created 
-
-  //   // res.render('admin-create-gym-route', {  });
-  //   res.json({under_construction: 'page to create new route in current gym'})
-  // })
-}
-
-// ADD NEW ROUTES IN GYM: edit database
+// process - add new routes in gym request
 router.post('/go-create/gym-route', function(req,res){
   // console.log('NEW ROUTE - POST: ', req.body)
 
@@ -290,7 +329,7 @@ router.post('/go-create/gym-route', function(req,res){
 
 })
 
-/* EDIT ROUTES */
+// process - edit existing route setter grade request
 router.post('/go-edit/route', function(req,res) {
 
   // console.log('POST - route EDIT: ', req.body)
@@ -338,9 +377,9 @@ router.post('/go-edit/route', function(req,res) {
 
 })
 
-/* DELETE GYMS and ROUTES */
+/* DELETE ------------------------------------------------ */
 
-// DELETE GYM: edit database
+// delete - delete gym account 
 router.delete('/admin-delete/:gym', function(req,res){
   // console.log('DELETE - gym: ', req.params)
 
@@ -391,24 +430,6 @@ router.delete('/admin-delete/:gym', function(req,res){
   
 })
 
-// DELETE GYM: render UI
-router.post('/admin-delete/gym', function(req,res){
-
-  Gym.find({},function(err,retDocs){
-
-    if (err) console.error(err)
-    else {
-      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => doc.gym_name), retDocs.map(doc => doc.model_name) );
-      // console.info("All Gym Documents - ", retDocs, retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})))
-      
-      // render list of gyms
-      res.render('admin-gym-delete', { gyms: retDocs.map(doc => ({gym_name: doc.gym_name, model_name: doc.model_name})) });
-    }
-
-  })
-
-})
-
 router.post('/go-delete/route',function(req,res){
   // console.log('POST - route delete: ',req.body)
 
@@ -431,6 +452,5 @@ router.post('/go-delete/route',function(req,res){
 
   
 })
-
 
 module.exports = router;

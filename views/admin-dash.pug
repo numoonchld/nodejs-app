@@ -25,3 +25,11 @@ block content
 
     form.my-3(action='/admin-delete/gym', method='post')
         button.btn.btn-danger.btn-block.text-uppercase(type='submit') Delete Gym Account
+
+    form.my-3(action='/', method='get')
+        button.btn.btn-primary.btn-block.text-uppercase(type='submit') logout
+
+    hr
+
+    form.my-3(action='/admin-create/admin', method='get')
+        button.btn.btn-info.btn-block.text-uppercase(type='submit') add admin 

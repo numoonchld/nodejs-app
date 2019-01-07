@@ -80,3 +80,5 @@ $("#new-gym-form").submit(function(event){
     event.preventDefault();
     
 })
+
+$('#confirm-password').on('paste', false);
