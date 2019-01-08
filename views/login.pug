@@ -28,6 +28,7 @@ block content
         form.my-5(action='/login/admin', method='get')
           button.btn.btn-secondary.btn-block.text-uppercase(type='submit') Admin Access
 
+      //- gym-onwer login view when no gyms exist in database:
       else if further_access && !gym_account_exist
 
         hr
@@ -41,7 +42,7 @@ block content
 
       //- else Load Admin Login view if further-access is false
       else if !further_access
-        form.my-5(action='/admin', method='get')
+        form.my-5(action='/admin-auth', method='post')
           .form-group
             //- label Adminname:
             input.form-control(type='text' name='adminname' placeholder="login name" value="" required)

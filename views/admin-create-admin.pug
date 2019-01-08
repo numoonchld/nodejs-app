@@ -21,6 +21,11 @@ block content
             input.form-control(type="password" name="password" required)
         
             //- small.form-text.text-muted (set initial number of climbing routes in new gym)
+        .form-group
+            label Confirm Password
+            input.form-control(type="password" name="confirm_password" required)
+        
+            //- small.form-text.text-muted (set initial number of climbing routes in new gym)
         button.btn.btn-success.btn-block.text-uppercase(type='submit') Create
 
     form.my-3(action="/admin", method="get")

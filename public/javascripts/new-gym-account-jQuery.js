@@ -56,7 +56,7 @@ $("#new-gym-form").submit(function(event){
 
             } else if (err.responseJSON.message) {
                 
-                swal({
+                swalWithBootstrapButtons({
                     title: "POST-n't",
                     text: err.responseJSON.message,
                     type: 'error',
@@ -65,7 +65,7 @@ $("#new-gym-form").submit(function(event){
 
             } else {
 
-                swal({
+                swalWithBootstrapButtons({
                     title: "POST-n't",
                     text: errMsg,
                     type: 'error',
