@@ -1,0 +1,15 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.3
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  'npm:clean-css:20180306':
+    - pug > pug-filters > clean-css:
+        reason: No patch available when wizard was run
+        expires: '2019-02-07T03:41:21.655Z'
+  'npm:chownr:20180731':
+    - bcrypt > node-pre-gyp > tar > chownr:
+        reason: >-
+          Unremediable at time of wizard run as upgrade unavailable as
+          node-pre-gyp@0.12.0 is bundled in vulnerable chownr
+        expires: '2019-02-07T03:43:50.203Z'
+patch: {}
