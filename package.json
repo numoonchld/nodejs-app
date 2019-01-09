@@ -16,6 +16,7 @@
     "express": "~4.16.0",
     "express-force-https": "^1.0.0",
     "express-session": "^1.15.6",
+    "force-https": "^1.0.2",
     "helmet": "^3.15.0",
     "http-errors": "~1.6.2",
     "mongoose": "^5.4.1",

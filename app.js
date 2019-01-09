@@ -17,7 +17,7 @@ const mongoose = require('mongoose')
 
 // security dependencies
 const helmet = require('helmet')
-// const force_https = require('express-force-https')
+const force_https = require('express-force-https')
 
 // auth dependencies
 const passport = require('passport')
