@@ -56,7 +56,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 /** Security and Protection */
 app.use(helmet())
-// app.use(force_https)
+app.use(force_https)
 
 /** Pug view engine setup */ 
 app.set('views', path.join(__dirname, 'views'));
@@ -72,7 +72,7 @@ app.use(session({
   saveUninitialized: false,
   store: new MongoStore({mongooseConnection: mongoose.connection}),
   cookie: {
-    secure: false,
+    secure: true,
     maxAge: 1000 * 60 * 30 // 30 minutes cookie
   }
 }))
