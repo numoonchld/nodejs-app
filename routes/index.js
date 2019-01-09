@@ -22,10 +22,6 @@ const passport = require('passport')
 
 // admin-auth-ensuring
 function ensureAdminOnly(req, res, next) {
-  
-  // console.log('ensure admin (middleware) -- auth -- ', req.user)
-  // console.log(req._passport)
-  // console.log(Object.keys(req._passport.instance._strategies)[1])
 
   let local_strategy_name = Object.keys(req._passport.instance._strategies)[1];
 
@@ -116,7 +112,7 @@ router.get('/admin', ensureAdminOnly, function(req, res, next) {
 });
 
 // 02.b.  render - Gym Owner DASH
-router.get('/go/:gym', function (req, res) {
+router.get('/go/:gym', ensureAuth, function (req, res) {
 
   // res.json({ message: 'Say Hello - Deep Dish' })
   // res.json(req.params)
@@ -130,7 +126,7 @@ router.get('/go/:gym', function (req, res) {
       res.json({ message: 'see console for error details' })
     } else if (retDocs.length === 1) { 
       let gymDoc = retDocs[0]
-      console.log('Logged In: ', gymDoc)
+      // console.log('Logged In: ', gymDoc)
       
       let ThisGymModel = GymRoutes(gymDoc.model_name);
 
@@ -207,7 +203,6 @@ router.get('/go/:gym', function (req, res) {
 
 
 /** 03. ADMIN FUNCTIONS ------------------------------------------------ */
-
 
 /* RENDER ------------------------------------------------ */
 
@@ -400,7 +395,7 @@ router.post('/admin-create/gym/new-gym', ensureAdminOnly, function(req,res){
 })
 
 // process - add new routes in gym request
-router.post('/go-create/gym-route', function(req,res){
+router.post('/go-create/gym-route', ensureAuth, function(req,res){
   // console.log('NEW ROUTE - POST: ', req.body)
 
   let target_gym = req.body.gym_collection_name
@@ -449,7 +444,7 @@ router.post('/go-create/gym-route', function(req,res){
 })
 
 // process - edit existing route setter grade request
-router.post('/go-edit/route', function(req,res) {
+router.post('/go-edit/route', ensureAuth, function(req,res) {
 
   // console.log('POST - route EDIT: ', req.body)
 
@@ -550,7 +545,7 @@ router.delete('/admin-delete/:gym', ensureAdminOnly, function(req,res){
 
 })
 
-router.post('/go-delete/route',function(req,res){
+router.post('/go-delete/route', ensureAuth, function(req,res){
   // console.log('POST - route delete: ',req.body)
 
   let target_route = req.body.route_to_delete

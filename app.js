@@ -85,7 +85,8 @@ app.use(passport.session())
 
 // serialize-deserialize 
 passport.serializeUser(function (user, done) { 
-  console.log('serializing user: ', user)
+  
+  // console.log('serializing user: ', user)
 
   if (user.username) done(null, user.username)
   else if (user.gym_name) done(null, { gym: true, name: user.gym_name })
@@ -119,7 +120,7 @@ passport.deserializeUser(function (loginer, done) {
         console.log('gym-owner deserialization database access error', err)
 
       } else { 
-        console.log('gym-owner deserialization complete for', retDoc[0])
+        // console.log('gym-owner deserialization complete for', retDoc[0])
         done(null, retDoc[0])
 
       }
@@ -182,7 +183,7 @@ passport.use('gym-owner',
     
       Gyms.find({ gym_name: gymname }, function (err, gymDocsArr) {
     
-        console.log('LOCAL G-O STRATEGY: doc found with entered gymname -- ', gymDocsArr)
+        // console.log('LOCAL G-O STRATEGY: doc found with entered gymname -- ', gymDocsArr)
         let gymDoc = gymDocsArr[0]
 
         // password stored in the database are bcrypted
