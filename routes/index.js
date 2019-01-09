@@ -34,7 +34,14 @@ function ensureAdminOnly(req, res, next) {
   res.redirect('/')
 }
 
-// 
+// admin-or-gym-owner-auth-ensuring
+function ensureAuth(req, res, next) { 
+
+  if (req.isAuthenticated()) return next()
+
+  res.redirect('/')
+
+}
 
 /** 00. LANDING PAGE ------------------------------------------------ */
 router.get('/', function(req, res, next) {
@@ -109,80 +116,94 @@ router.get('/admin', ensureAdminOnly, function(req, res, next) {
 });
 
 // 02.b.  render - Gym Owner DASH
-router.post('/go', function(req,res){
-  console.log('POST - routes for: ',req.body)
+router.get('/go/:gym', function (req, res) {
 
-  let ThisGymModel = GymRoutes(req.body.model_name);
+  // res.json({ message: 'Say Hello - Deep Dish' })
+  // res.json(req.params)
 
-  ThisGymModel.find({}, function(err,retDocs){
+  let logged_in_gym_name = req.params.gym
+
+  Gyms.find({ gym_name: logged_in_gym_name }, function (err, retDocs) { 
 
     if (err) {
-      console.error(err);
-      res.json({message: 'see console for error details'})
-    } else {
+      console.error(err)
+      res.json({ message: 'see console for error details' })
+    } else if (retDocs.length === 1) { 
+      let gymDoc = retDocs[0]
+      console.log('Logged In: ', gymDoc)
+      
+      let ThisGymModel = GymRoutes(gymDoc.model_name);
 
-      // console.log('Routes for '+ req.body.gym_name +'----- ',retDocs);
-      let gym_name = req.body.gym_name;
-      let gym_collection_name = req.body.model_name;
+      ThisGymModel.find({}, function(err,retDocs){
 
-      // create mapping from numerical grade # of 5.# stored in database
-      // to display valid climing grades in '5.#'
-      let gradeOptions = [
-        { val: 5, name: "5.5"},
-        { val: 6, name: "5.6"},
-        { val: 7, name: "5.7"},
-        { val: 8, name: "5.8"},
-        { val: 9, name: "5.9"},
-        { val: 10, name: "5.10a"},
-        { val: 10.25, name: "5.10b"},
-        { val: 10.5, name: "5.10c"},
-        { val: 10.75, name: "5.10d"},
-        { val: 11, name: "5.11a"},
-        { val: 11.25, name: "5.11b"},
-        { val: 11.5, name: "5.11c"},
-        { val: 11.75, name: "5.11d"},
-        { val: 12, name: "5.12a"},
-        { val: 12.25, name: "5.12b"},
-        { val: 12.5, name: "5.12c"},
-        { val: 12.75, name: "5.12d"},
-        { val: 13, name: "5.13"},
-        { val: 14, name: "5.13+"}
-      ]
+        if (err) {
+          console.error(err);
+          res.json({message: 'see console for error details'})
+        } else {
 
-      const grade_num_to_str = new Map()
+          // console.log('Routes for '+ req.body.gym_name +'----- ',retDocs);
+          let gym_name = logged_in_gym_name;
+          let gym_collection_name = gymDoc.model_name;
 
-      gradeOptions.forEach(function(option) {
-        grade_num_to_str.set(option.val, option.name)
-      })
+          // create mapping from numerical grade # of 5.# stored in database
+          // to display valid climing grades in '5.#'
+          let gradeOptions = [
+            { val: 5, name: "5.5"},
+            { val: 6, name: "5.6"},
+            { val: 7, name: "5.7"},
+            { val: 8, name: "5.8"},
+            { val: 9, name: "5.9"},
+            { val: 10, name: "5.10a"},
+            { val: 10.25, name: "5.10b"},
+            { val: 10.5, name: "5.10c"},
+            { val: 10.75, name: "5.10d"},
+            { val: 11, name: "5.11a"},
+            { val: 11.25, name: "5.11b"},
+            { val: 11.5, name: "5.11c"},
+            { val: 11.75, name: "5.11d"},
+            { val: 12, name: "5.12a"},
+            { val: 12.25, name: "5.12b"},
+            { val: 12.5, name: "5.12c"},
+            { val: 12.75, name: "5.12d"},
+            { val: 13, name: "5.13"},
+            { val: 14, name: "5.13+"}
+          ]
 
-      // Array of routes' info to be sent into gym page render:
-      let route_info_arr = retDocs.map(function(doc) {
+          const grade_num_to_str = new Map()
 
-        // Clean up docs returned from moongoose find({}):
-        return {
-          route_name: doc.route_name,
-          route_number: doc.route_number,
-          setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
-          current_grade_avg: grade_num_to_str.get(doc.current_grade_average),
-          current_star_rating: doc.current_star_rating
+          gradeOptions.forEach(function(option) {
+            grade_num_to_str.set(option.val, option.name)
+          })
+
+          // Array of routes' info to be sent into gym page render:
+          let route_info_arr = retDocs.map(function(doc) {
+
+            // Clean up docs returned from moongoose find({}):
+            return {
+              route_name: doc.route_name,
+              route_number: doc.route_number,
+              setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
+              current_grade_avg: grade_num_to_str.get(doc.current_grade_average),
+              current_star_rating: doc.current_star_rating
+            }
+
+          }).sort(function(a,b){
+            return a.route_number - b.route_number
+          })
+
+
+          res.render('admin-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name});
+
         }
 
-      }).sort(function(a,b){
-        return a.route_number - b.route_number
       })
-
-
-      // console.log('Route Info to pass to GYM dash: ', route_info_arr)
-      // console.log('Routes in ' + req.body.gym_name + ': ', retDocs)
-      res.render('admin-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name});
-
+      
+      
     }
-
   })
 
+
 })
-
-
 
 
 /** 03. ADMIN FUNCTIONS ------------------------------------------------ */
@@ -559,21 +580,20 @@ router.post('/go-delete/route',function(req,res){
 router.post('/admin-auth',
   passport.authenticate('admin', {
     successRedirect: '/admin',
-    failureRedirect: '/',
-    failureFlash: true
+    failureRedirect: '/login',
+    failureFlash: 'Invalid Login Credentials!'
   }
   )
 )
 
 // gym-owner auth
-router.post('/go-auth',   
-  passport.authenticate('gym-owner', {
-    successRedirect: '/go',
-    failureRedirect: '/',
-    failureFlash: true
-  })
+router.post('/go-auth',
+  passport.authenticate('gym-owner'),
+  function (req, res) {
+    console.log('fire', req.body)
+    res.redirect('/go/' + req.body.gymname)
+  }
 )
-
 
 
 // logout
@@ -581,8 +601,6 @@ router.get('/logout', function (req, res) {
   req.logout()
   res.redirect('/')
 })
-
-
 
 
 /** EXPORT ROUTER ------------------------------------------------ */

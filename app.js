@@ -30,9 +30,10 @@ require('dotenv').config()
 const app = express();
 
 /** Logger */
-app.use(morgan('combined'))
+app.use(morgan('dev'))
 
 app.use(flash())
+
 
 /** Mongoose Connection Setup */
 
@@ -41,6 +42,9 @@ mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true})
 mongoose.set('useCreateIndex', true);
 mongoose.connection.on('error',console.error.bind(console, 'connection error:'))
 
+//  require models of collections 
+const Admins = require('./models/adminuser')
+const Gyms = require('./models/gym')
 
 // Component Scripts:
 const indexRouter = require('./routes/index')
@@ -64,7 +68,7 @@ app.set('view engine', 'pug');
 app.use(session({
   name: 'climbzombie',
   secret: process.env.SESSION_SECRET,
-  resave: false,
+  resave: true,
   saveUninitialized: false,
   store: new MongoStore({mongooseConnection: mongoose.connection}),
   cookie: {
@@ -77,37 +81,54 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-//  require models of collections 
-const Admins = require('./models/adminuser')
-const Gyms = require('./models/gym')
+
 
 // serialize-deserialize 
 passport.serializeUser(function (user, done) { 
   console.log('serializing user: ', user)
 
   if (user.username) done(null, user.username)
-  else if (user.gym_name) done(null, user.gym_name)
-  // else done(null,null)
+  else if (user.gym_name) done(null, { gym: true, name: user.gym_name })
   
 })
 
-passport.deserializeUser(function (username, done) { 
+passport.deserializeUser(function (loginer, done) { 
 
-  console.log('begin to deserialize user: ', username)
+  // console.log('begin to deserialize user: ', loginer, typeof(loginer))
 
-  Admins.find({ username: username }, function (err, retDoc) { 
+  if (!loginer.gym && typeof (loginer) === 'string') {
 
-    if (err) { 
-      console.log('deserialization database access error', err)
-      
-    } else {
+    Admins.find({ username: loginer }, function (err, retDoc) {
 
-      console.log('deserialization complete user: ', retDoc[0])
-      done(null, retDoc[0]) 
+      if (err) {
+        console.log('admin deserialization database access error', err)
+        
+      } else {
+        // console.log('admin deserialization complete for: ', retDoc[0])
+        done(null, retDoc[0])
 
-    }
+      }
 
-  })
+    })
+
+  } else if (loginer.gym && typeof (loginer) === 'object') { 
+
+    Gyms.find({ gym_name: loginer.name }, function (err, retDoc) { 
+
+      if (err) {
+        console.log('gym-owner deserialization database access error', err)
+
+      } else { 
+        console.log('gym-owner deserialization complete for', retDoc[0])
+        done(null, retDoc[0])
+
+      }
+
+    })
+
+  }
+
+  
 })
 
 // implement passport-local strategy: (admins)
@@ -161,7 +182,7 @@ passport.use('gym-owner',
     
       Gyms.find({ gym_name: gymname }, function (err, gymDocsArr) {
     
-        // console.log('doc found with entered gymname -- ', gymDocsArr)
+        console.log('LOCAL G-O STRATEGY: doc found with entered gymname -- ', gymDocsArr)
         let gymDoc = gymDocsArr[0]
 
         // password stored in the database are bcrypted
