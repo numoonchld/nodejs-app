@@ -92,7 +92,7 @@ router.get('/login/admin', function(req, res, next) {
 
 /** 02. LANDING DASHBOARDS ------------------------------------------------ */
 
-// 02.a. render - ADMIN DASH
+// 02.a. render: ADMIN DASH
 router.get('/admin', ensureAdminOnly, function(req, res, next) {  
 
   // Look for gyms listed in gym model:
@@ -111,7 +111,93 @@ router.get('/admin', ensureAdminOnly, function(req, res, next) {
 
 });
 
-// 02.b.  render - Gym Owner DASH
+// 02.b.  render: ADMIN's GYM DASH
+router.get('/admin/:gym', ensureAdminOnly, function (req, res) {
+
+  let logged_in_gym_name = req.params.gym
+
+  Gyms.find({ gym_name: logged_in_gym_name }, function (err, retDocs) { 
+
+    if (err) {
+      console.error(err)
+      res.json({ message: 'see console for error details' })
+    } else if (retDocs.length === 1) { 
+      let gymDoc = retDocs[0]
+      // console.log('Logged In: ', gymDoc)
+      
+      let ThisGymModel = GymRoutes(gymDoc.model_name);
+
+      ThisGymModel.find({}, function(err,retDocs){
+
+        if (err) {
+          console.error(err);
+          res.json({message: 'see console for error details'})
+        } else {
+
+          // console.log('Routes for '+ req.body.gym_name +'----- ',retDocs);
+          let gym_name = logged_in_gym_name;
+          let gym_collection_name = gymDoc.model_name;
+
+          // create mapping from numerical grade # of 5.# stored in database
+          // to display valid climing grades in '5.#'
+          let gradeOptions = [
+            { val: 5, name: "5.5"},
+            { val: 6, name: "5.6"},
+            { val: 7, name: "5.7"},
+            { val: 8, name: "5.8"},
+            { val: 9, name: "5.9"},
+            { val: 10, name: "5.10a"},
+            { val: 10.25, name: "5.10b"},
+            { val: 10.5, name: "5.10c"},
+            { val: 10.75, name: "5.10d"},
+            { val: 11, name: "5.11a"},
+            { val: 11.25, name: "5.11b"},
+            { val: 11.5, name: "5.11c"},
+            { val: 11.75, name: "5.11d"},
+            { val: 12, name: "5.12a"},
+            { val: 12.25, name: "5.12b"},
+            { val: 12.5, name: "5.12c"},
+            { val: 12.75, name: "5.12d"},
+            { val: 13, name: "5.13"},
+            { val: 14, name: "5.13+"}
+          ]
+
+          const grade_num_to_str = new Map()
+
+          gradeOptions.forEach(function(option) {
+            grade_num_to_str.set(option.val, option.name)
+          })
+
+          // Array of routes' info to be sent into gym page render:
+          let route_info_arr = retDocs.map(function(doc) {
+
+            // Clean up docs returned from moongoose find({}):
+            return {
+              route_name: doc.route_name,
+              route_number: doc.route_number,
+              setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
+              current_grade_avg: grade_num_to_str.get(doc.current_grade_average),
+              current_star_rating: doc.current_star_rating
+            }
+
+          }).sort(function(a,b){
+            return a.route_number - b.route_number
+          })
+
+
+          res.render('go-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name, admin_view: true});
+
+        }
+
+      })
+      
+      
+    }
+  })
+
+})
+
+// 02.c.  render: GYM-OWNER's GYM DASH
 router.get('/go/:gym', ensureAuth, function (req, res) {
 
   // res.json({ message: 'Say Hello - Deep Dish' })
@@ -188,7 +274,7 @@ router.get('/go/:gym', ensureAuth, function (req, res) {
           })
 
 
-          res.render('admin-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name});
+          res.render('go-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name, admin_view: false});
 
         }
 
@@ -200,6 +286,8 @@ router.get('/go/:gym', ensureAuth, function (req, res) {
 
 
 })
+
+
 
 
 /** 03. ADMIN FUNCTIONS ------------------------------------------------ */
@@ -453,7 +541,8 @@ router.post('/go-edit/route', ensureAuth, function(req,res) {
   let new_setter_grade = req.body.new_setter_grade;
   let ThisGymModel = GymRoutes(gym_route_belongs_to)
 
-  ThisGymModel.findOneAndUpdate({route_name: route_to_edit}, {setter_input: {setter_grade: new_setter_grade}}, function(err,retObj){
+  ThisGymModel.findOneAndUpdate({route_name: route_to_edit}, {setter_input: {setter_grade: new_setter_grade}}, 
+    function(err,retObj){
 
     if (err) {
       console.error('Route Setter Grade update error -- ',err);
@@ -469,21 +558,16 @@ router.post('/go-edit/route', ensureAuth, function(req,res) {
 
           if (err) {
             console.error('Route Setter Grade Average Grade update error -- ',err);
-            res.json({error: true, message: route_to_edit +' avergae grade update to database failed!'})
+            res.json({error: true, message: route_to_edit +' average grade update to database failed!'})
           } else {
+            
             // console.log('Route edit returned object: ', retObj2)
-
             res.json({error: false, message: route_to_edit +' Setter-Grade Updated!'})
           }
         })
       }
-      // updating average grade when climber opinions do exist:
-      // else {
-      //
-      // }
 
     }
-
 
   });
 
@@ -545,6 +629,7 @@ router.delete('/admin-delete/:gym', ensureAdminOnly, function(req,res){
 
 })
 
+// delete - route in a gym
 router.post('/go-delete/route', ensureAuth, function(req,res){
   // console.log('POST - route delete: ',req.body)
 
@@ -585,7 +670,7 @@ router.post('/admin-auth',
 router.post('/go-auth',
   passport.authenticate('gym-owner'),
   function (req, res) {
-    console.log('fire', req.body)
+    // console.log('fire', req.body)
     res.redirect('/go/' + req.body.gymname)
   }
 )

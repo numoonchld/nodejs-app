@@ -68,7 +68,7 @@ $(".edit-route-form").submit(function(event){
             }
 
             return $.ajax({
-                url: '/admin-edit/route',
+                url: '/go-edit/route',
                 type: 'POST',
                 data: new_grade_payload,
                 success: function(data){

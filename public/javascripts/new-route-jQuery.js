@@ -41,7 +41,7 @@ $("#new-route-form").submit(function(event){
             }
 
             return $.ajax({
-                url: '/admin-create/gym-route',
+                url: '/go-create/gym-route',
                 type: 'POST',
                 data: add_routes_payload,
                 success: function(data){

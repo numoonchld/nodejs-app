@@ -12,14 +12,6 @@ $(".delete-route-form").submit(function(event){
     const target_route_name = $(this).serializeArray()[1].value
     console.log("To add routes to Gym collection: ", target_gym_collection, target_route_name)
 
-    // const optionSeedArr = [...Array(100).keys()]
-
-    // const inputOptions = new Map()
-    // optionSeedArr.forEach(function(option) {
-    //     if (option > 0 ) inputOptions.set(option, option.toString())
-    // })
-
-    // // console.log('inputoptions: ', optionSeedArr);
     
     swalWithBootstrapButtons({
         title: 'Sure?',
@@ -40,7 +32,7 @@ $(".delete-route-form").submit(function(event){
             }
 
             return $.ajax({
-                url: '/admin-delete/route',
+                url: '/go-delete/route',
                 type: 'POST',
                 data: delete_route_payload,
                 success: function(data){

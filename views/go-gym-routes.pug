@@ -6,8 +6,8 @@ block content
   .card.p-5.container.bg-light
 
     h3.text-center.text-uppercase #{gym_name} - Admin Access
-    hr.border.border-light
-    h5.text-center.my-5 Active Climbing Routes in #{gym_name}
+    hr
+    h5.text-center.mt-5.mb-3 Active Climbing Routes in #{gym_name}
 
     table.table.table-hover.table-sm.table-striped.text-center
         thead
@@ -15,7 +15,7 @@ block content
                 th(scope="col") Name 
                 th(scope="col") Setter Grade
                 th(scope="col") Climbers Grade
-                th(scope="col") Rating (0-4)
+                th(scope="col") Rating
                 th(scope="col") Edit Setter Grade
                 th(scope="col") Delete Route
         tbody
@@ -27,7 +27,7 @@ block content
  
                     td= route.current_grade_avg
                         
-                    td= route.current_star_rating
+                    td= route.current_star_rating + "/4"
 
                     td
                         form.edit-route-form
@@ -55,8 +55,13 @@ block content
         input(type="hidden" name="gym_name" value= gym_name)
         button.btn.btn-success.btn-block(type='submit') Add Routes
 
-    form.my-3(action="/logout", method="get")
-        button.btn.btn-primary.btn-block(type='submit') Logout
+    if admin_view
+        form.my-3(action="/admin", method="get")
+            button.btn.btn-primary.btn-block(type='submit') Back
+    
+    else 
+        form.my-3(action="/logout", method="get")
+            button.btn.btn-primary.btn-block(type='submit') Logout
 
 
   script
