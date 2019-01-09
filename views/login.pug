@@ -12,12 +12,12 @@ block content
     if !error 
 
       //- Load Gym-Owner Login view if further-access is true
-      if further_access && gym_account_exist
+      if further_access && gym_accounts_exist
 
-        form.my-5(action='/go', method='get')
+        form.my-5(action='/go-auth', method='post')
           .form-group
             //- label Adminname:
-            input.form-control(type='text' name='adminname' placeholder="login name" value="" required)
+            input.form-control(type='text' name='gymname' placeholder="login name" value="" required)
           .form-group
             //- label Password:
             input.form-control(type='password' name='password' placeholder="login password" value="" required)
@@ -29,7 +29,7 @@ block content
           button.btn.btn-secondary.btn-block.text-uppercase(type='submit') Admin Access
 
       //- gym-onwer login view when no gyms exist in database:
-      else if further_access && !gym_account_exist
+      else if further_access && !gym_accounts_exist
 
         hr
 

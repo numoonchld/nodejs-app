@@ -1,13 +1,14 @@
 // express and associated app dependencies 
 const createError = require('http-errors');
 
-
+// display server-side app activity 
 const morgan = require('morgan')
 
-const express = require('express');
+const express = require('express')
 
-const path = require('path');
-const bodyParser = require('body-parser');
+const path = require('path')
+const bodyParser = require('body-parser')
+const flash = require('connect-flash')
 
 const session = require('express-session')
 
@@ -30,6 +31,8 @@ const app = express();
 
 /** Logger */
 app.use(morgan('combined'))
+
+app.use(flash())
 
 /** Mongoose Connection Setup */
 
@@ -74,26 +77,32 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 
-// implement passport-local strategy: (admins)
+//  require models of collections 
 const Admins = require('./models/adminuser')
+const Gyms = require('./models/gym')
 
+// serialize-deserialize 
 passport.serializeUser(function (user, done) { 
-  // console.log('serializing user: ', user)
-  done(null, user.username)
+  console.log('serializing user: ', user)
+
+  if (user.username) done(null, user.username)
+  else if (user.gym_name) done(null, user.gym_name)
+  // else done(null,null)
+  
 })
 
 passport.deserializeUser(function (username, done) { 
 
-  // console.log('being to deserialize user: ', username)
+  console.log('begin to deserialize user: ', username)
 
   Admins.find({ username: username }, function (err, retDoc) { 
 
     if (err) { 
-      console.log('Deserialization database access error', err)
+      console.log('deserialization database access error', err)
       
     } else {
 
-      // console.log('deserialization complete user: ', retDoc[0])
+      console.log('deserialization complete user: ', retDoc[0])
       done(null, retDoc[0]) 
 
     }
@@ -101,31 +110,80 @@ passport.deserializeUser(function (username, done) {
   })
 })
 
-passport.use('admin', new LocalStrategy( {
-    usernameField: 'adminname',
-    passwordField: 'password'
-  },function (adminname, password, done) {
-    Admins.find({username: adminname}, function(err, userDocArr) {
+// implement passport-local strategy: (admins)
+passport.use('admin',
+  
+  new LocalStrategy(
 
-      // console.log('Doc with adminname: ',userDoc)
-      let userDoc = userDocArr[0]
+    {
+      usernameField: 'adminname',
+      passwordField: 'password'
+    },
+    
+    function (adminname, password, done) {
 
-      // password stored in the database are bcrypted
-      if (err) return done(err)
-      
-      // if authentication fails:
-      if (!userDoc) return done(null,false, {error: true, message:'Username not found!'})
+      Admins.find({ username: adminname }, function (err, userDocArr) {
 
-      if ( !bcrypt.compareSync(password, userDoc.password)) return done(null, false, {message:'Password Incorrect!'})
-      
-      // if authentication is successful:
-      return done(null,userDoc)
+        // console.log('Doc with adminname: ',userDoc)
+        let userDoc = userDocArr[0]
 
-    })
+        // password stored in the database are bcrypted
+        if (err) return done(err)
+        
+        // if authentication fails:
+        if (!userDoc) return done(null,false, {error: true, message:'Username not found!'})
 
-  })
+        if ( !bcrypt.compareSync(password, userDoc.password)) return done(null, false, {message:'Password Incorrect!'})
+        
+        // if authentication is successful:
+        return done(null,userDoc)
+
+      })
+
+    }
+
+  )
+  
 )
 
+
+// implement passport-local strategy: (gym-owner)
+passport.use('gym-owner',
+  
+  new LocalStrategy(
+
+    {
+      usernameField: 'gymname',
+      passwordField: 'password'
+    },
+  
+    function (gymname, password, done) {    
+    
+      Gyms.find({ gym_name: gymname }, function (err, gymDocsArr) {
+    
+        // console.log('doc found with entered gymname -- ', gymDocsArr)
+        let gymDoc = gymDocsArr[0]
+
+        // password stored in the database are bcrypted
+        if (err) return done(err)
+        
+        // if authentication fails:
+
+        // bad userame
+        if (!gymDoc) return done(null,false, {error: true, message:'Gym not found!'})
+
+        //  bad password
+        if ( !bcrypt.compareSync(password, gymDoc.password)) return done(null, false, {message:'Password Incorrect!'})
+        
+        // if authentication is successful:
+        return done(null,gymDoc)
+
+      })
+
+    }
+
+  )
+)
 
 // routing occurs here: 
 app.use('/', indexRouter); // ADMIN ACCESS ROUTING

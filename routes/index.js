@@ -1,4 +1,5 @@
 const express = require('express')
+
 const router = express.Router()
 
 // database access and model dependencies
@@ -33,6 +34,8 @@ function ensureAdminOnly(req, res, next) {
   res.redirect('/')
 }
 
+// 
+
 /** 00. LANDING PAGE ------------------------------------------------ */
 router.get('/', function(req, res, next) {
   res.render('land-climb-zombie', { });
@@ -46,7 +49,7 @@ router.get('/', function(req, res, next) {
 router.get('/login', function(req, res, next) {
 
   // look for existing gym accounts:
-  Gyms.find({},function(err,docsArr){
+  Gyms.countDocuments({},function(err,gymCount){
 
     if (err) {
 
@@ -56,9 +59,9 @@ router.get('/login', function(req, res, next) {
 
     } else {
 
-      // console.log('----', docsArr)
+      // console.log('----', gymCount)
 
-      if (docsArr.length > 0) {
+      if (gymCount > 0) {
 
         //  gym owner login page:
         res.render('login', { title: 'GYM OWNER LOGIN', further_access: true, gym_accounts_exist: true, error: false });
@@ -106,8 +109,8 @@ router.get('/admin', ensureAdminOnly, function(req, res, next) {
 });
 
 // 02.b.  render - Gym Owner DASH
-router.post('/go/gym', function(req,res){
-  // console.log('POST - routes for: ',req.body)
+router.post('/go', function(req,res){
+  console.log('POST - routes for: ',req.body)
 
   let ThisGymModel = GymRoutes(req.body.model_name);
 
@@ -284,33 +287,40 @@ router.post('/admin-create/admin/new-admin',ensureAdminOnly, function(req,res){
 // process - new gym account request
 router.post('/admin-create/gym/new-gym', ensureAdminOnly, function(req,res){
 
-  // console.log("NEW GYM - POST: ",req.body);
+  console.log("NEW GYM - POST: ",req.body)
   // console.log("NEW GYM NAME: ", req.body.new_gym_name)
   // console.log("NEW GYM NAME (filtered): ", req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join(''))
-  let new_gym_name = req.body.new_gym_name;
-  let new_gym_num_routes = req.body.new_gym_num_routes;
+  let new_gym_name = req.body.new_gym_name
+  let new_gym_num_routes = req.body.new_gym_num_routes
+  let hashed_password = bcrypt.hashSync(req.body.password, 13)
 
   // Create MLAB friendly name for newly created gym's routes' mongoose model (i.e. mlab mongdb collection)
   let cleanedUpGymName = req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join('') + 'route';
 
   /* NEW GYM COMPONENTS:
-   * (1) entry in gyms collection
-   * (2a) a new dedicated collection,
-   * (2b) with specified number fo routes initilaized for that gym
-   */
+  * (1) entry in gyms collection
+  * (2a) a new dedicated collection,
+  * (2b) with specified number fo routes initilaized for that gym
+  */
 
   // (1) create a new gym document,
-  Gyms.create({gym_name: new_gym_name, model_name: cleanedUpGymName, route_count: new_gym_num_routes }, function(err,retDoc){
+  Gyms.create({
+    gym_name: new_gym_name,
+    model_name: cleanedUpGymName,
+    password: hashed_password,
+    route_count: new_gym_num_routes
+
+  }, function (err, retDoc) {
 
     if (err) {
 
-      console.error('NEW GYM ERROR - ', typeof(err.code), err.code)
+      console.error('NEW GYM ERROR - ', err)
       // res.json({message: err.code})
       res.status(400).send({message: 'Duplicate'})
 
     } else {
 
-      // console.log('RET DOC - ',retDoc)
+      console.log('RET DOC - ',retDoc)
 
       // console.log("Initializing new collection for ",cleanedUpGymName)
 
@@ -364,6 +374,7 @@ router.post('/admin-create/gym/new-gym', ensureAdminOnly, function(req,res){
 
   })
 
+  
 
 })
 
@@ -545,11 +556,25 @@ router.post('/go-delete/route',function(req,res){
 /** 04. AUTH HANDLING ---------------------------------- */
 
 // admin auth
-router.post('/admin-auth', passport.authenticate('admin', {
+router.post('/admin-auth',
+  passport.authenticate('admin', {
     successRedirect: '/admin',
-    failureRedirect: '/'
+    failureRedirect: '/',
+    failureFlash: true
+  }
+  )
+)
+
+// gym-owner auth
+router.post('/go-auth',   
+  passport.authenticate('gym-owner', {
+    successRedirect: '/go',
+    failureRedirect: '/',
+    failureFlash: true
   })
 )
+
+
 
 // logout
 router.get('/logout', function (req, res) { 
