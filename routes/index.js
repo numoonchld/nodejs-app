@@ -41,7 +41,7 @@ function ensureAuth(req, res, next) {
 
 /** 00. LANDING PAGE ------------------------------------------------ */
 router.get('/', function(req, res, next) {
-  res.render('land-climb-zombie', { });
+  res.render('splash-page', { });
 });
 
 
@@ -286,8 +286,6 @@ router.get('/go/:gym', ensureAuth, function (req, res) {
 
 
 })
-
-
 
 
 /** 03. ADMIN FUNCTIONS ------------------------------------------------ */

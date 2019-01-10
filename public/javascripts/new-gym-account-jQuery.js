@@ -1,10 +1,6 @@
 $("#new-gym-form").submit(function(event){    
         
     // console.log("NEW GYM - FORM DATA: " ,$(this).serializeArray());
-    
-    // $.post('/admin-create/gym/new-gym', $(this).serializeArray() ).done( function(data){
-    //     console.log(data);
-    // })
 
     const swalWithBootstrapButtons = Swal.mixin({
         confirmButtonClass: 'btn btn-success mx-3',

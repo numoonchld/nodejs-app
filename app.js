@@ -31,7 +31,6 @@ const app = express();
 
 /** Logger */
 app.use(morgan('dev'))
-
 app.use(flash())
 
 
@@ -80,8 +79,6 @@ app.use(session({
 // use passport and passport session:
 app.use(passport.initialize())
 app.use(passport.session())
-
-
 
 // serialize-deserialize 
 passport.serializeUser(function (user, done) { 

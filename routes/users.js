@@ -7,8 +7,10 @@ var router = express.Router();
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 
+  // List Gyms:
+  res.render('climber-ui');
 
-  res.render('under-construction');
+
 });
 
 module.exports = router;
