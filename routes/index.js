@@ -491,9 +491,10 @@ router.post('/admin-create/gym/new-gym', ensureAdminOnly, function(req,res){
 router.post('/go-create/gym-route', ensureAuth, function(req,res){
   // console.log('NEW ROUTE - POST: ', req.body)
 
-  let target_gym = req.body.gym_collection_name
+  let target_gym_name = req.body.gym_name
+  let target_gym_collection = req.body.gym_collection_name
   let routes_num_to_add = req.body.routes_num_to_add
-  let TargetGymModel = GymRoutes(target_gym);
+  let TargetGymModel = GymRoutes(target_gym_collection);
 
   TargetGymModel.find({},function(err,docsArr){
 
@@ -509,7 +510,7 @@ router.post('/go-create/gym-route', ensureAuth, function(req,res){
 
       // console.log('Existing routes nums Outside -- ',existing_route_nums)
 
-      addRtArr = addRtArrGen(routes_num_to_add,target_gym,existing_route_nums)
+      addRtArr = addRtArrGen(routes_num_to_add,target_gym_name,existing_route_nums)
       // console.log("Insert ", initRtArr, " to collection "+ target_gym )
 
       if (addRtArr != [] && addRtArr.length == routes_num_to_add) {
@@ -594,7 +595,7 @@ router.delete('/admin-delete/:gym', ensureAdminOnly, function(req,res){
       res.json({error: true, message: 'gym not found'});
     }
     else {
-      // console.log(retDoc);
+      console.log(retDoc);
 
       let gym_collection_name = retDoc[0].model_name + 's';
       let gym_name = retDoc[0].gym_name;

@@ -190,7 +190,7 @@ $('#disagree').submit(function () {
                 
                 swalWithBootstrapButtons(
                   'Cancelled',
-                  'Dropped editing.',
+                  'Dropped grade updation!',
                   'error'
                 )
     

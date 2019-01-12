@@ -51,10 +51,6 @@ $(".edit-route-form").submit(function(event){
             "<hr><br> Update Setter's Grade: ",
         input: 'select',
         inputOptions,
-        // inputPlaceholder: 'Setter Grade for ' + route_name,
-        // inputValidator: function(selectedValue) {
-        //     console.log(selectedValue);            
-        // }
         showLoaderOnConfirm: true,
         preConfirm: function(selectedValue) {
 

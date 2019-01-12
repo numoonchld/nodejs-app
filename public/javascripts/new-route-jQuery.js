@@ -37,6 +37,7 @@ $("#new-route-form").submit(function(event){
 
             let add_routes_payload = {
                 gym_collection_name: target_gym_collection,
+                gym_name: target_gym_name,
                 routes_num_to_add: selectedValue
             }
 

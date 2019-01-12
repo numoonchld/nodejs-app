@@ -161,19 +161,20 @@ router.post('/:gym/:route', function (req, res) {
 
   console.log('climber input for', req.body)
 
-  let gym = req.body.gym;
-  let route = req.body.route;
-  let num_grade = grade_str_to_num.get(req.body.grade); //current average grade 
-  let clientIP = req.body.clientIP;
-  let ip_exists_flag = false
-  let same_grade_flag = false
+  let gym = req.body.gym,
+    route = req.body.route,
+    num_grade = grade_str_to_num.get(req.body.grade), //current average grade 
+    clientIP = req.body.clientIP,
+    ip_exists_flag = false,
+    same_grade_flag = false
 
-/** Write Operation */
+  
+  /** Write Operation */
   
   // find the collection name of gym: 
-  Gyms.find({ gym_name: gym }, function (err, foundGymArr) { 
+  Gyms.find({ gym_name: gym }, function (err, foundGymArr) {
 
-    if (err) { 
+    if (err) {
       console.error('error getting gym details: ', err)
       res.status(404).json(err).end()
 
@@ -189,25 +190,47 @@ router.post('/:gym/:route', function (req, res) {
           console.error('error getting route details: ', err)
           res.status(404).json(err).end()
 
-        } else { 
+        } else {
           console.log('extracted route info: ', routeDoc[0])
 
           let existing_climber_opinions = routeDoc[0].climber_opinions
           ip_exists_flag = existing_climber_opinions.map((opinion) => opinion.climber_IP).indexOf(clientIP) !== -1 ? true : false
           
           console.log('existing climber opinions: ', existing_climber_opinions)
-          console.log('IP exists: ',ip_exists_flag)
+          console.log('IP exists: ', ip_exists_flag)
 
           // if IP exists already: 
-          if (ip_exists_flag) {          
+          if (ip_exists_flag) {
             let index_of_exisitng_climber_IP = existing_climber_opinions.map((opinion) => opinion.climber_IP).indexOf(clientIP)
             same_grade_flag = existing_climber_opinions[index_of_exisitng_climber_IP].climber_grade === num_grade ? true : false
           }
 
-          if (same_grade_flag) {            
-            res.status(200).json({ message: 'Previous response exists! (no changes)' }).end()           
+          if (ip_exists_flag && same_grade_flag) {
+            res.status(200).json({ message: 'Previous response exists! (no changes)' }).end()
 
-          } else if (existing_climber_opinions.length === 0 || !same_grade_flag) { 
+          } else if (ip_exists_flag && !same_grade_flag) { 
+
+            thisGym.updateOne(
+              { route_name: route },
+              {
+                $set: { "climber_opinions.$[opinion].climber_grade": num_grade}
+              }, {
+                arrayFilters: [{"opinion.climber_IP": clientIP}]
+              },function (err, callback) { 
+                
+                if (err) {
+                  console.error('error setting route details: ', err)
+                  res.status(404).json(err).end()
+
+                } else {
+                  console.log('updated climber grading: ', callback)
+                  if (callback.ok === 1) res.status(200).json({ message: 'Registered climber opinion!' }).end()
+
+                }
+              }
+            )
+
+          } else if (existing_climber_opinions.length === 0 || !ip_exists_flag) {
 
             thisGym.updateOne({
               route_name: route
@@ -231,32 +254,125 @@ router.post('/:gym/:route', function (req, res) {
 
               })
 
-          } else { 
+          } else {
             res.status(500).json({ message: 'Unknown Error - response not recorded!' }).end()
             
           }
-          
-
-          
 
         }
       })
 
-    }    
-
+    }
+    // res.json({})
   })
-
-
-
-  // res.json({})
 
 })
 
 /** PROCESS: climber disagrees setter's grade */
 router.post('/:gym/:route/disagree', function (req, res) { 
   console.log('Climber disagrees: ', req.body);
+
+  let gym = req.body.gym,
+    route = req.body.route,
+    new_grade = req.body.climber_input_grade, // this is already numerical
+    clientIP = req.body.clientIP,
+    ip_exists_flag = false,
+    same_grade_flag = false
   
-  res.status(200).json({message: 'Server responds!'})
+  // find the collection name of gym: 
+  Gyms.find({ gym_name: gym }, function (err, foundGymArr) {
+
+    if (err) {
+      console.error('error getting gym details: ', err)
+      res.status(404).json(err).end()
+
+    } else {
+      
+      // initiate access to gym route model:
+      let thisGym = GymRoutes(foundGymArr[0].model_name)
+
+      // find route in current gym routes collection:
+      thisGym.find({ route_name: route }, function (err, routeDoc) { 
+
+        if (err) {
+          console.error('error getting route details: ', err)
+          res.status(404).json(err).end()
+
+        } else {
+        
+          console.log('extracted route info: ', routeDoc[0])
+
+          let existing_climber_opinions = routeDoc[0].climber_opinions
+          ip_exists_flag = existing_climber_opinions.map((opinion) => opinion.climber_IP).indexOf(clientIP) !== -1 ? true : false
+
+          console.log('existing climber opinions: ', existing_climber_opinions)
+          console.log('IP exists: ', ip_exists_flag)
+
+          // if IP exists already: 
+          if (ip_exists_flag) {
+            let index_of_exisitng_climber_IP = existing_climber_opinions.map((opinion) => opinion.climber_IP).indexOf(clientIP)
+            same_grade_flag = existing_climber_opinions[index_of_exisitng_climber_IP].climber_grade === new_grade ? true : false
+          }
+
+          if (ip_exists_flag && same_grade_flag) {
+            res.status(200).json({ message: 'Previous response exists! (no changes made)' }).end()
+
+          } else if (ip_exists_flag && !same_grade_flag) {
+
+            thisGym.updateOne(
+              { route_name: route },
+              {
+                $set: { "climber_opinions.$[opinion].climber_grade": new_grade}
+              }, {
+                arrayFilters: [{"opinion.climber_IP": clientIP}]
+              },function (err, callback) { 
+                
+                if (err) {
+                  console.error('error setting route details: ', err)
+                  res.status(404).json(err).end()
+
+                } else {
+                  console.log('updated climber grading: ', callback)
+                  if (callback.ok === 1) res.status(200).json({ message: 'Registered climber opinion!' }).end()
+
+                }
+              }
+            )
+
+          } else if (existing_climber_opinions.length === 0 || !ip_exists_flag ) { 
+
+            thisGym.updateOne({
+              route_name: route
+            },
+              {
+                $push: {
+                  climber_opinions: { climber_IP: clientIP, climber_grade: new_grade }
+                }
+              },
+              function (err, callback) {
+            
+                if (err) {
+                  console.error('error setting route details: ', err)
+                  res.status(404).json(err).end()
+
+                } else {
+                  console.log('updated climber grading: ', callback)
+                  if (callback.ok === 1) res.status(200).json({ message: 'Registered climber opinion!' }).end()
+
+                }
+
+              })
+
+          } else { 
+            res.status(500).json({ message: 'Unknown Error - response not recorded!' }).end()
+            
+          }
+
+        }
+
+      })
+    }
+  })
 })
 
 /** PROCESS: climber rating update */

@@ -10,7 +10,7 @@ $("#new-gym-form").submit(function(event){
 
     let incoming_payload = $(this).serializeArray()
     let outgoing_payload = {
-        new_gym_name: incoming_payload[0].value,
+        new_gym_name: incoming_payload[0].value.trim(),
         new_gym_num_routes: incoming_payload[1].value
     }
     

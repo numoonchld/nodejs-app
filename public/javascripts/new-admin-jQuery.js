@@ -10,7 +10,7 @@ $("#new-admin-form").submit(function(event){
 
     let incoming_payload = $(this).serializeArray()
     let outgoing_payload = {
-        username: incoming_payload[0].value
+        username: incoming_payload[0].value.trim()
     }
     
     if (incoming_payload[1].value === incoming_payload[2].value) {
