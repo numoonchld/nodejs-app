@@ -46,6 +46,9 @@ gradeOptions.forEach(function(option) {
   grade_str_to_num.set(option.name, option.val)
 })
 
+// load helper function to update average grade when called 
+let update_avg_grade = require('../helpers/route-avg-grade-update')
+
 
 
 /** RENDER ------------------------------------------ */
@@ -224,8 +227,18 @@ router.post('/:gym/:route', function (req, res) {
 
                 } else {
                   console.log('updated climber grading: ', callback)
-                  if (callback.ok === 1) res.status(200).json({ message: 'Registered climber opinion!' }).end()
+                  if (callback.ok === 1) {
 
+                    update_avg_grade(gym, route)
+                      .then(function (data) {
+                        res.status(200).json({ message: 'Registered climber opinion!' }).end()
+
+                      }).catch(function (data) { 
+                        res.status(500).json({ message: 'Failed to register climber opinion!' }).end()
+
+                      })
+
+                  }
                 }
               }
             )
@@ -248,7 +261,19 @@ router.post('/:gym/:route', function (req, res) {
 
                 } else {
                   console.log('updated climber grading: ', callback)
-                  if (callback.ok === 1) res.status(200).json({ message: 'Registered climber opinion!' }).end()
+                  if (callback.ok === 1) {
+
+                    update_avg_grade(gym, route)
+                      .then(function (data) {
+                        res.status(200).json({ message: 'Registered climber opinion!' }).end()
+
+                      }).catch(function (data) { 
+                        res.status(500).json({ message: 'Failed to register climber opinion!' }).end()
+
+                      })
+                    
+                    
+                  }
                   
                 }
 
@@ -308,7 +333,7 @@ router.post('/:gym/:route/disagree', function (req, res) {
           console.log('existing climber opinions: ', existing_climber_opinions)
           console.log('IP exists: ', ip_exists_flag)
 
-          // if IP exists already: 
+          // check if IP has already left a grading: 
           if (ip_exists_flag) {
             let index_of_exisitng_climber_IP = existing_climber_opinions.map((opinion) => opinion.climber_IP).indexOf(clientIP)
             same_grade_flag = existing_climber_opinions[index_of_exisitng_climber_IP].climber_grade === new_grade ? true : false
@@ -333,7 +358,18 @@ router.post('/:gym/:route/disagree', function (req, res) {
 
                 } else {
                   console.log('updated climber grading: ', callback)
-                  if (callback.ok === 1) res.status(200).json({ message: 'Registered climber opinion!' }).end()
+                  if (callback.ok === 1) {
+                    
+                    update_avg_grade(gym, route)
+                      .then(function (data) { 
+                        if (data.updated) res.status(200).json({ message: 'Registered climber opinion!' }).end()
+
+                      }).catch(function (data) { 
+                        res.status(500).json({ message: 'Failed to register climber opinion!' }).end()
+
+                      })
+                    
+                  }
 
                 }
               }
@@ -357,13 +393,27 @@ router.post('/:gym/:route/disagree', function (req, res) {
 
                 } else {
                   console.log('updated climber grading: ', callback)
-                  if (callback.ok === 1) res.status(200).json({ message: 'Registered climber opinion!' }).end()
+
+                  if (callback.ok === 1) {
+                    
+                    update_avg_grade(gym, route)
+                      .then(function (data) { 
+                        console.log('user router: ', data);
+                        if (data.updated) res.status(200).json({ message: 'Registered climber opinion!' }).end()
+
+                      }).catch(function (data) { 
+                        res.status(500).json({ message: 'Failed to register climber opinion!' }).end()
+
+                      })
+                    
+                  }
 
                 }
 
               })
 
           } else { 
+            
             res.status(500).json({ message: 'Unknown Error - response not recorded!' }).end()
             
           }

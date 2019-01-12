@@ -27,7 +27,7 @@ let gradeOptions = [
     { val: 14, name: "5.13+"}
 ]
 
-$('#agree').submit(function () { 
+$('#agree').submit(function (event) { 
     
     // console.log("Climber agrees with setter grading -- form data: " , $(this).serializeArray())
 
@@ -59,7 +59,9 @@ $('#agree').submit(function () {
                     'Noted',
                     data.message,
                     'success'
-                ).then(function(result){
+                ).then(function (result) {
+                    
+                    console.log(result)
                 
                     if (result.value) {
                         location.reload(true)
@@ -87,7 +89,7 @@ $('#agree').submit(function () {
     event.preventDefault()
 })
 
-$('#disagree').submit(function () { 
+$('#disagree').submit(function (event) { 
 
     console.log("Climber disagrees with setter grading -- form data: ", $(this).serializeArray())
 
@@ -145,16 +147,13 @@ $('#disagree').submit(function () {
                     data: payload,
                     success: function (data) {
 
-                        event.preventDefault()
-
                         console.log('POST - AJAX success: ', data)
-
                         return data
                     },
                     timeout: 6500,
                     error: function (errObj, errMsg, errText) {
 
-                        event.preventDefault()
+                        // event.preventDefault()
 
                         error = new Error(errText)
                         console.log("AJAX Error:", error)
