@@ -4,17 +4,13 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-// function rockClimbingGradeValidate(entry) {
-//   let allowed 
-//   return entry
-// }
-
 
 // CLIMBING ROUTES SCHEMA AND MODEL: ---------------------------
 const climberSchema = new Schema({
   climber_IP: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   climber_grade: {
     type: Number,

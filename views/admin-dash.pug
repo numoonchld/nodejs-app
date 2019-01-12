@@ -14,8 +14,8 @@ block content
     else 
         each gym in gyms
             form.my-3(action='/admin/'+gym.gym_name method='get')
-                input(type="hidden" name="gym_name" value= gym.gym_name )
-                input(type="hidden" name="model_name" value= gym.model_name )
+                //- input(type="hidden" name="gym_name" value= gym.gym_name )
+                //- input(type="hidden" name="model_name" value= gym.model_name )
                 button.btn.btn-primary.btn-block.text-uppercase(type='submit')= gym.gym_name
     
     hr

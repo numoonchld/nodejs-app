@@ -18,6 +18,9 @@ const addRtArrGen = require('../helpers/add-routes-to-gym')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 
+
+
+
 /** express-function (middleware) to check authentication */
 
 // admin-auth-ensuring
@@ -38,6 +41,8 @@ function ensureAuth(req, res, next) {
   res.redirect('/')
 
 }
+
+
 
 /** 00. LANDING PAGE ------------------------------------------------ */
 router.get('/', function(req, res, next) {
@@ -90,10 +95,10 @@ router.get('/login/admin', function(req, res, next) {
 
 
 
-/** 02. LANDING DASHBOARDS ------------------------------------------------ */
+/** 02. LANDING DASHBOARDS --------------------------------------------- */
 
 // 02.a. render: ADMIN DASH
-router.get('/admin', ensureAdminOnly, function(req, res, next) {  
+router.get('/admin', ensureAdminOnly,  function(req, res, next) {  
 
   // Look for gyms listed in gym model:
   Gyms.find({},function(err,retDocs){
@@ -288,7 +293,9 @@ router.get('/go/:gym', ensureAuth, function (req, res) {
 })
 
 
+
 /** 03. ADMIN FUNCTIONS ------------------------------------------------ */
+
 
 /* RENDER ------------------------------------------------ */
 
@@ -329,13 +336,13 @@ router.post('/admin-delete/gym', ensureAdminOnly, function(req,res){
 /* CREATE ------------------------------------------------ */
 
 // process - new admin account request
-router.post('/admin-create/admin/new-admin',ensureAdminOnly, function(req,res){
-  console.log('NEW ADMIN - POST - payload: ', req.body);
+router.post('/admin-create/admin/new-admin', ensureAdminOnly, function(req,res){
+  // console.log('NEW ADMIN - POST - payload: ', req.body);
 
   let to_create_username = req.body.username
   let hashed_password = bcrypt.hashSync(req.body.password,13)
 
-  console.log(to_create_username,hashed_password);
+  // console.log(to_create_username,hashed_password);
 
   Admins.find({username: to_create_username}, function(err,retDoc){
 
@@ -346,7 +353,7 @@ router.post('/admin-create/admin/new-admin',ensureAdminOnly, function(req,res){
 
     } else {
 
-      console.log('existing docs with the same admin username', retDoc)
+      // console.log('existing docs with the same admin username', retDoc)
 
       if (retDoc.length === 0) {
 
@@ -365,7 +372,7 @@ router.post('/admin-create/admin/new-admin',ensureAdminOnly, function(req,res){
 
           } else {
 
-            console.log('New admin added to database: ',retObj)
+            // console.log('New admin added to database: ',retObj)
             res.json({error: false, message: 'New admin login created!' })
 
           }
@@ -389,7 +396,7 @@ router.post('/admin-create/admin/new-admin',ensureAdminOnly, function(req,res){
 // process - new gym account request
 router.post('/admin-create/gym/new-gym', ensureAdminOnly, function(req,res){
 
-  console.log("NEW GYM - POST: ",req.body)
+  // console.log("NEW GYM - POST: ",req.body)
   // console.log("NEW GYM NAME: ", req.body.new_gym_name)
   // console.log("NEW GYM NAME (filtered): ", req.body.new_gym_name.toLowerCase().split('').filter(strChar => strChar != ' ').join(''))
   let new_gym_name = req.body.new_gym_name
@@ -422,7 +429,7 @@ router.post('/admin-create/gym/new-gym', ensureAdminOnly, function(req,res){
 
     } else {
 
-      console.log('RET DOC - ',retDoc)
+      // console.log('RET DOC - ',retDoc)
 
       // console.log("Initializing new collection for ",cleanedUpGymName)
 
@@ -650,6 +657,7 @@ router.post('/go-delete/route', ensureAuth, function(req,res){
 
 
 })
+
 
 
 /** 04. AUTH HANDLING ---------------------------------- */

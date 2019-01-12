@@ -29,12 +29,11 @@ require('dotenv').config()
 
 const app = express();
 
-/** Logger */
+/** LOGGER */
 app.use(morgan('dev'))
 app.use(flash())
 
-
-/** Mongoose Connection Setup */
+/** MONGOOSE - SETUP */
 
 // init connection, config and error handling
 mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true})
@@ -53,7 +52,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
 
-/** Security and Protection */
+/** SECURITY - PROTECTION */
 app.use(helmet())
 app.use(force_https)
 
@@ -61,7 +60,7 @@ app.use(force_https)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-/** Passport Setup */
+/** PASSPORT - SETUP */
 
 // init session:
 app.use(session({
@@ -206,8 +205,7 @@ passport.use('gym-owner',
 
 // routing occurs here: 
 app.use('/', indexRouter); // ADMIN ACCESS ROUTING
-// app.use('/admin-login', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', usersRouter); // CLIMBER ACCESS ROUTING
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

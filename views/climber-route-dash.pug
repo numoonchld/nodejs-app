@@ -1,0 +1,45 @@
+extends layout
+
+block content
+    .card.p-5.container.bg-light
+
+        h3.text-center.text-uppercase #{gym_name} - #{route_name}
+
+        hr
+        
+        #grade-ui.my-3.py-5
+
+            h4.text-center.text-uppercase Route Setter's Grade 
+            h1.text-center.my-5 #{setter_grade}
+
+            p.text-center Agree? 
+
+            form.my-2#agree.w-50.mx-auto
+                input(type="hidden" name="gym" value= gym_name )
+                input(type="hidden" name="route" value= route_name )
+                input(type="hidden" name="grade" value= setter_grade )
+                button.btn.btn-success.btn-block.text-uppercase(type='submit') Yes
+
+            form.my-2#disagree.w-50.mx-auto
+                input(type="hidden" name="gym" value= gym_name )
+                input(type="hidden" name="route" value= route_name )
+                input(type="hidden" name="grade" value= setter_grade )
+                button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
+            
+            .my-3
+                p.text-center <emphasis> Current Climbers' Average Grade: <strong>#{climber_average_grade}</strong> </emphasis>
+
+        hr
+        
+        #rate-ui.my-3.py-5
+
+            h4.text-center.text-uppercase Climber Rating 
+            h1.text-center.my-5 #{rating}
+
+        hr
+
+        form.my-3(action='/users/'+gym_name, method='get')
+            button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back
+
+    script 
+        include ../public/javascripts/climber-route-grade-update-jQuery.js

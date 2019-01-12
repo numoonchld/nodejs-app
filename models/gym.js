@@ -7,8 +7,7 @@ const Schema = mongoose.Schema
 const gymSchema = new Schema({
     gym_name: {
       type:String,
-      required: true,
-      unique: true
+      required: true
     },
     model_name: String,
     route_count: Number,
