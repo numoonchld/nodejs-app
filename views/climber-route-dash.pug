@@ -29,14 +29,26 @@ block content
                 input(type="hidden" name="grade" value= setter_grade )
                 button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
             
+            
             hr.w-25
 
             .my-3
-                if average_grade_int
-                    p.text-center <emphasis> Current Climbers' Average Grade: <strong>#{climber_average_grade}</strong> </emphasis>
-                else 
-                    p.text-center 
-                        <emphasis> Climber's Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong> </emphasis>
+                
+                if num_of_climber_grades > 1
+                    if average_grade_int 
+                        p.text-center.text-lowercase <em> (#{num_of_climber_grades} Climbers' Average Grade: <strong>#{climber_average_grade}</strong>) </em>
+                    else 
+                        p.text-center.text-lowercase
+                            <em> (#{num_of_climber_grades} climbers' Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong>) </em>
+               
+                else if num_of_climber_grades === 1
+                    if average_grade_int 
+                        p.text-center.text-lowercase <em> (Current Climber Average Grade is <strong>#{climber_average_grade}</strong>) </em>
+                    else 
+                        p.text-center.text-lowercase
+                            <em> (Current Climber Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
+
+
 
 
         hr
@@ -44,8 +56,11 @@ block content
         #rate-ui.my-3.py-5
 
             .card.p-5.w-75.mx-auto.bg-warning
-                h4.text-center.text-uppercase Climber Rating 
-                h1.text-center.my-5 #{rating}/4
+                h4.text-center.text-uppercase Climber Rating
+                p.text-center.text-lowercase (current average of #{num_of_climber_ratings} rating(s))
+
+                
+                h1.text-center.my-5 #{rating}
 
                 //- hr.w-25.mx-auto
 
@@ -53,6 +68,9 @@ block content
                     input(type="hidden" name="gym" value= gym_name )
                     input(type="hidden" name="route" value= route_name )
                     button.btn.btn-success.btn-block.text-uppercase(type='submit') Rate 
+
+                br
+                p.text-center.text-lowercase (0 - low rating | 4 - high rating)
 
         hr
 

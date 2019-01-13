@@ -35,14 +35,12 @@ $('#rate').submit(function (event) {
         })
 
         swalWithBootstrapButtons({
-            title: "Rate",
+            title: "RATE",
             type: 'info',
             showCancelButton: true,
             confirmButtonText: 'Grade',
             html:  `<p> How fun is this route? </p>
-                    <br>
-                    <p> 0 = sucks <p>
-                    <p> 4 = awesome! </p>`,
+                    <p> 0 = sucks | 4 = awesome! </p>`,
             input: 'select',
             inputOptions: rating_num_to_str,
             showLoaderOnConfirm: true,
@@ -108,7 +106,7 @@ $('#rate').submit(function (event) {
                 
                 swalWithBootstrapButtons(
                   'Cancelled',
-                  'Dropped grade updation!',
+                  'Dropped rate updation!',
                   'error'
                 )
     

@@ -149,7 +149,9 @@ router.get('/:gym/:route', function (req, res) {
               setter_grade: grade_num_to_str.get(routesArr[0].setter_input.setter_grade),
               average_grade_int: true,
               climber_average_grade: grade_num_to_str.get(routesArr[0].current_grade_average),
-              rating: routesArr[0].current_star_rating
+              rating: routesArr[0].current_star_rating,
+              num_of_climber_grades: routesArr[0].climber_opinions.length,
+              num_of_climber_ratings: routesArr[0].climber_opinions.length
             })
 
           } else {
@@ -160,7 +162,9 @@ router.get('/:gym/:route', function (req, res) {
               setter_grade: grade_num_to_str.get(routesArr[0].setter_input.setter_grade),
               average_grade_int: false,
               climber_average_grade: [grade_num_to_str.get(Math.floor(climber_avg)), grade_num_to_str.get(Math.ceil(climber_avg))],
-              rating: routesArr[0].current_star_rating
+              rating: routesArr[0].current_star_rating,
+              num_of_climber_grades: routesArr[0].climber_opinions.length,
+              num_of_climber_ratings: routesArr[0].climber_opinions.length
             })
 
           }
@@ -366,6 +370,8 @@ router.post('/:gym/:route/disagree', function (req, res) {
             same_grade_flag = existing_climber_opinions[index_of_exisitng_climber_IP].climber_grade === new_grade ? true : false
           }
 
+          console.log('Same grade: ', same_grade_flag)
+
           if (ip_exists_flag && same_grade_flag) {
             res.status(200).json({ message: 'Previous response exists! (no changes made)' }).end()
 
@@ -375,9 +381,7 @@ router.post('/:gym/:route/disagree', function (req, res) {
               { route_name: route },
               {
                 $set: { "climber_opinions.$[opinion].climber_grade": new_grade}
-              }, {
-                $set: { "climber_opinions.$[opinion].climber_grade": num_grade}
-              }, {
+              },{
                 arrayFilters: [{"opinion.climber_IP": clientIP}]
               },function (err, callback) { 
                 
