@@ -9,7 +9,7 @@ block content
         
         #grade-ui.my-3.py-5
 
-            .card.p-5.w-75.mx-auto
+            .card.p-5.w-75.mx-auto.bg-warning
                 h4.text-center.text-uppercase Route Setter's Grade 
                 h1.text-center.my-5 #{setter_grade}
 
@@ -35,15 +35,24 @@ block content
                 if average_grade_int
                     p.text-center <emphasis> Current Climbers' Average Grade: <strong>#{climber_average_grade}</strong> </emphasis>
                 else 
-                    p.text-center <emphasis> Climber's Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong> </emphasis>
+                    p.text-center 
+                        <emphasis> Climber's Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong> </emphasis>
 
 
         hr
         
         #rate-ui.my-3.py-5
 
-            h4.text-center.text-uppercase Climber Rating 
-            h1.text-center.my-5 #{rating}
+            .card.p-5.w-75.mx-auto.bg-warning
+                h4.text-center.text-uppercase Climber Rating 
+                h1.text-center.my-5 #{rating}/4
+
+                //- hr.w-25.mx-auto
+
+                form.my-2#rate.w-50.mx-auto
+                    input(type="hidden" name="gym" value= gym_name )
+                    input(type="hidden" name="route" value= route_name )
+                    button.btn.btn-success.btn-block.text-uppercase(type='submit') Rate 
 
         hr
 
@@ -52,3 +61,4 @@ block content
 
     script 
         include ../public/javascripts/climber-route-grade-update-jQuery.js
+        include ../public/javascripts/climber-route-rate-update-jQuery.js

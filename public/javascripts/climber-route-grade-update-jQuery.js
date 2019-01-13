@@ -209,3 +209,5 @@ $('#disagree').submit(function (event) {
     event.preventDefault()
     
 })
+
+// Needs a blank line at end of script, else pug wont render jQuery correctly and button scripts on page wont work!
