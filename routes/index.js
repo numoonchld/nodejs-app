@@ -18,9 +18,6 @@ const addRtArrGen = require('../helpers/add-routes-to-gym')
 const bcrypt = require('bcrypt')
 const passport = require('passport')
 
-
-
-
 /** express-function (middleware) to check authentication */
 
 // admin-auth-ensuring
@@ -264,20 +261,39 @@ router.get('/go/:gym', ensureAuth, function (req, res) {
 
           // Array of routes' info to be sent into gym page render:
           let route_info_arr = retDocs.map(function(doc) {
+            console.log(doc.route_name+ ' current grade average: ', doc.current_grade_average )
 
-            // Clean up docs returned from moongoose find({}):
-            return {
-              route_name: doc.route_name,
-              route_number: doc.route_number,
-              setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
-              current_grade_avg: grade_num_to_str.get(doc.current_grade_average),
-              current_star_rating: doc.current_star_rating
+            if (doc.current_grade_average % 1 === 0) {
+
+              // Clean up docs returned from moongoose find({}):
+              return {
+                route_name: doc.route_name,
+                route_number: doc.route_number,
+                setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
+                average_grade_int: true,
+                current_grade_avg: grade_num_to_str.get(doc.current_grade_average),
+                current_star_rating: doc.current_star_rating
+              }
+
+            } else { 
+
+              // Clean up docs returned from moongoose find({}):
+              return {
+                route_name: doc.route_name,
+                route_number: doc.route_number,
+                setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
+                average_grade_int: false,
+                current_grade_avg: [grade_num_to_str.get(Math.floor(doc.current_grade_average)),grade_num_to_str.get(Math.ceil(doc.current_grade_average))],
+                current_star_rating: doc.current_star_rating
+              }
+
+
             }
+            
 
           }).sort(function(a,b){
             return a.route_number - b.route_number
           })
-
 
           res.render('go-gym-routes', { gym: route_info_arr, gym_name: gym_name, model_name: gym_collection_name, admin_view: false});
 

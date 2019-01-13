@@ -24,8 +24,11 @@ block content
                     th(scope="row")= route.route_name
 
                     td= route.setter_grade 
- 
-                    td= route.current_grade_avg
+
+                    if average_grade_int 
+                        td= route.current_grade_avg
+                    else 
+                        td between #{route.current_grade_avg[0]} and #{route.current_grade_avg[1]}
                         
                     td= route.current_star_rating + "/4"
 
