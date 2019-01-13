@@ -39,7 +39,7 @@ module.exports = function (gym_name, route_name) {
 
                             let climber_opinion_sum = routeDocArr[0].climber_opinions.slice().map((opinion) => (opinion.climber_grade)).reduce((a, b) => a + b)
                             
-                            updated_avg_grade = (updated_avg_grade + climber_opinion_sum) / (routeDocArr[0].climber_opinions.length + 1)
+                            updated_avg_grade = (updated_avg_grade + climber_opinion_sum) / (routeDocArr[0].climber_opinions.slice().filter((opinion) => opinion.current_star_rating !== null).length + 1)
 
                             console.log('new grade average: ', updated_avg_grade)
 

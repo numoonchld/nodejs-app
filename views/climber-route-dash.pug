@@ -11,42 +11,43 @@ block content
 
             .card.p-5.w-75.mx-auto.bg-warning
                 h4.text-center.text-uppercase Route Setter's Grade 
+                
+                hr
+                
                 h1.text-center.my-5 #{setter_grade}
 
-            hr.w-25
+                hr
 
-            p.text-center Agree? 
+                p.text-center.text-uppercase Agree? 
 
-            form.my-2#agree.w-50.mx-auto
-                input(type="hidden" name="gym" value= gym_name )
-                input(type="hidden" name="route" value= route_name )
-                input(type="hidden" name="grade" value= setter_grade )
-                button.btn.btn-success.btn-block.text-uppercase(type='submit') Yes
+                form.my-2#agree.w-50.mx-auto
+                    input(type="hidden" name="gym" value= gym_name )
+                    input(type="hidden" name="route" value= route_name )
+                    input(type="hidden" name="grade" value= setter_grade )
+                    button.btn.btn-success.btn-block.text-uppercase(type='submit') Yes
 
-            form.my-2#disagree.w-50.mx-auto
-                input(type="hidden" name="gym" value= gym_name )
-                input(type="hidden" name="route" value= route_name )
-                input(type="hidden" name="grade" value= setter_grade )
-                button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
-            
-            
-            hr.w-25
-
-            .my-3
+                form.my-2#disagree.w-50.mx-auto
+                    input(type="hidden" name="gym" value= gym_name )
+                    input(type="hidden" name="route" value= route_name )
+                    input(type="hidden" name="grade" value= setter_grade )
+                    button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
                 
-                if num_of_climber_grades > 1
-                    if average_grade_int 
-                        p.text-center.text-lowercase <em> (#{num_of_climber_grades} Climbers' Average Grade: <strong>#{climber_average_grade}</strong>) </em>
-                    else 
-                        p.text-center.text-lowercase
-                            <em> (#{num_of_climber_grades} climbers' Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong>) </em>
-               
-                else if num_of_climber_grades === 1
-                    if average_grade_int 
-                        p.text-center.text-lowercase <em> (Current Climber Average Grade is <strong>#{climber_average_grade}</strong>) </em>
-                    else 
-                        p.text-center.text-lowercase
-                            <em> (Current Climber Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
+
+                .my-3
+                    
+                    if num_of_climber_grades > 1
+                        if average_grade_int 
+                            p.text-center.text-lowercase <em> (#{num_of_climber_grades} Climbers' Average Grade: <strong>#{climber_average_grade}</strong>) </em>
+                        else 
+                            p.text-center.text-lowercase
+                                <em> (#{num_of_climber_grades} climbers' Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong>) </em>
+                
+                    else if num_of_climber_grades === 1
+                        if average_grade_int 
+                            p.text-center.text-lowercase <em> (Current Climber Average Grade is <strong>#{climber_average_grade}</strong>) </em>
+                        else 
+                            p.text-center.text-lowercase
+                                <em> (Current Climber Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
 
 
 
@@ -57,12 +58,13 @@ block content
 
             .card.p-5.w-75.mx-auto.bg-warning
                 h4.text-center.text-uppercase Climber Rating
-                p.text-center.text-lowercase (current average of #{num_of_climber_ratings} rating(s))
+                p.text-center.text-lowercase <em> (current average of #{num_of_climber_ratings} rating(s)) </em>
 
-                
+                hr
+
                 h1.text-center.my-5 #{rating}
 
-                //- hr.w-25.mx-auto
+                hr
 
                 form.my-2#rate.w-50.mx-auto
                     input(type="hidden" name="gym" value= gym_name )
@@ -70,7 +72,9 @@ block content
                     button.btn.btn-success.btn-block.text-uppercase(type='submit') Rate 
 
                 br
-                p.text-center.text-lowercase (0 - low rating | 4 - high rating)
+                
+                p.text-center.text-lowercase <nobr> ( 0 < 4 ) </nobr>
+                    
 
         hr
 
