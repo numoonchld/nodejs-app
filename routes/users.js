@@ -139,13 +139,33 @@ router.get('/:gym/:route', function (req, res) {
 
           // console.log('climber selected route info: ', routesArr)
 
-          res.render('climber-route-dash', {
-            gym_name: req.params.gym,
-            route_name: req.params.route,
-            setter_grade: grade_num_to_str.get(routesArr[0].setter_input.setter_grade),
-            climber_average_grade: grade_num_to_str.get(routesArr[0].current_grade_average),
-            rating: routesArr[0].current_star_rating
-          })
+          let climber_avg = routesArr[0].current_grade_average
+
+          if (climber_avg % 1 === 0) {
+
+            res.render('climber-route-dash', {
+              gym_name: req.params.gym,
+              route_name: req.params.route,
+              setter_grade: grade_num_to_str.get(routesArr[0].setter_input.setter_grade),
+              average_grade_int: true,
+              climber_average_grade: grade_num_to_str.get(routesArr[0].current_grade_average),
+              rating: routesArr[0].current_star_rating
+            })
+
+          } else {
+
+            res.render('climber-route-dash', {
+              gym_name: req.params.gym,
+              route_name: req.params.route,
+              setter_grade: grade_num_to_str.get(routesArr[0].setter_input.setter_grade),
+              average_grade_int: false,
+              climber_average_grade: [grade_num_to_str.get(Math.floor(climber_avg)), grade_num_to_str.get(Math.ceil(climber_avg))],
+              rating: routesArr[0].current_star_rating
+            })
+
+          }
+
+          
           
         }
 

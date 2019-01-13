@@ -9,8 +9,11 @@ block content
         
         #grade-ui.my-3.py-5
 
-            h4.text-center.text-uppercase Route Setter's Grade 
-            h1.text-center.my-5 #{setter_grade}
+            .card.p-5.w-75.mx-auto
+                h4.text-center.text-uppercase Route Setter's Grade 
+                h1.text-center.my-5 #{setter_grade}
+
+            hr.w-25
 
             p.text-center Agree? 
 
@@ -26,8 +29,14 @@ block content
                 input(type="hidden" name="grade" value= setter_grade )
                 button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
             
+            hr.w-25
+
             .my-3
-                p.text-center <emphasis> Current Climbers' Average Grade: <strong>#{climber_average_grade}</strong> </emphasis>
+                if average_grade_int
+                    p.text-center <emphasis> Current Climbers' Average Grade: <strong>#{climber_average_grade}</strong> </emphasis>
+                else 
+                    p.text-center <emphasis> Climber's Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong> </emphasis>
+
 
         hr
         
