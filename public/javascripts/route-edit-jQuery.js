@@ -109,7 +109,15 @@ $(".edit-route-form").submit(function(event){
               'Cancelled',
               'Dropped editing.',
               'error'
-            )
+            ).then(function(result){
+                
+                if (result.value) {
+                    location.reload(true)
+                }
+
+            })
+
+            
 
         } else if (result.value && result.value.error) {
 
@@ -117,7 +125,13 @@ $(".edit-route-form").submit(function(event){
                 'Error',
                 result.value.message,
                 'error'
-              )
+            ).then(function(result){
+                
+                if (result.value) {
+                    location.reload(true)
+                }
+
+            })
 
         }
     })

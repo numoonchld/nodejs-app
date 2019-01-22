@@ -5,6 +5,9 @@ const router = express.Router()
 const Gyms = require('../models/gym')
 const GymRoutes = require('../models/gymroutes')
 
+// require the helper function
+const gradeDiscretize = require('../helpers/grade_discretizer')
+
 // create mapping from numerical grade # of 5.# stored in database
 // to display valid climing grades in '5.#'
 
@@ -139,29 +142,31 @@ router.get('/:gym/:route', function (req, res) {
 
           // console.log('climber selected route info: ', routesArr)
 
-          let climber_avg = routesArr[0].current_grade_average
+          // let climber_avg = routesArr[0].current_grade_average
 
-          if (climber_avg % 1 === 0) {
+          let renderGrades = gradeDiscretize(routesArr[0].current_grade_average)
+
+          if (renderGrades.length === 1) {
 
             res.render('climber-route-dash', {
               gym_name: req.params.gym,
               route_name: req.params.route,
               setter_grade: grade_num_to_str.get(routesArr[0].setter_input.setter_grade),
               average_grade_int: true,
-              climber_average_grade: grade_num_to_str.get(routesArr[0].current_grade_average),
+              climber_average_grade: renderGrades[0],
               rating: routesArr[0].current_star_rating,
               num_of_climber_grades: routesArr[0].climber_opinions.length,
               num_of_climber_ratings: routesArr[0].climber_opinions.length
             })
 
-          } else {
+          } else if (renderGrades.length === 2) {
 
             res.render('climber-route-dash', {
               gym_name: req.params.gym,
               route_name: req.params.route,
               setter_grade: grade_num_to_str.get(routesArr[0].setter_input.setter_grade),
               average_grade_int: false,
-              climber_average_grade: [grade_num_to_str.get(Math.floor(climber_avg)), grade_num_to_str.get(Math.ceil(climber_avg))],
+              climber_average_grade: renderGrades,
               rating: routesArr[0].current_star_rating,
               num_of_climber_grades: routesArr[0].climber_opinions.length,
               num_of_climber_ratings: routesArr[0].climber_opinions.length

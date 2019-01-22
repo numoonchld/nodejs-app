@@ -25,10 +25,10 @@ block content
 
                     td= route.setter_grade 
 
-                    if average_grade_int 
-                        td= route.current_grade_avg
-                    else 
+                    if route.non_discrete_avg 
                         td between #{route.current_grade_avg[0]} and #{route.current_grade_avg[1]}
+                    else
+                        td= route.current_grade_avg
                         
                     td= route.current_star_rating + "/4"
 

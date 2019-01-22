@@ -13,6 +13,7 @@ const Admins = require('../models/adminuser')
 // require helper functions
 const initRtArrGen = require('../helpers/gen-init-route-arr')
 const addRtArrGen = require('../helpers/add-routes-to-gym')
+const gradeDiscretize = require('../helpers/grade_discretizer')
 
 // require authentication dependencies
 const bcrypt = require('bcrypt')
@@ -172,15 +173,38 @@ router.get('/admin/:gym', ensureAdminOnly, function (req, res) {
 
           // Array of routes' info to be sent into gym page render:
           let route_info_arr = retDocs.map(function(doc) {
+            console.log(doc.route_name + ' current grade average: ', doc.current_grade_average, doc.current_grade_average % 1, doc.current_grade_average % 0.25)
+            
+            let renderGrades = gradeDiscretize(doc.current_grade_average)
 
-            // Clean up docs returned from moongoose find({}):
-            return {
-              route_name: doc.route_name,
-              route_number: doc.route_number,
-              setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
-              current_grade_avg: grade_num_to_str.get(doc.current_grade_average),
-              current_star_rating: doc.current_star_rating
+            console.log(renderGrades)
+
+            if (renderGrades.length === 1) {
+
+              // Clean up docs returned from moongoose find({}):
+              return {
+                route_name: doc.route_name,
+                route_number: doc.route_number,
+                setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
+                current_grade_avg: renderGrades[0],
+                current_star_rating: doc.current_star_rating
+              }
+
+            } else if (renderGrades.length === 2) { 
+
+              // Clean up docs returned from moongoose find({}):
+              return {
+                route_name: doc.route_name,
+                route_number: doc.route_number,
+                setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
+                non_discrete_avg: true,
+                current_grade_avg: renderGrades,
+                current_star_rating: doc.current_star_rating
+              }
+
+
             }
+            
 
           }).sort(function(a,b){
             return a.route_number - b.route_number
@@ -261,29 +285,32 @@ router.get('/go/:gym', ensureAuth, function (req, res) {
 
           // Array of routes' info to be sent into gym page render:
           let route_info_arr = retDocs.map(function(doc) {
-            console.log(doc.route_name+ ' current grade average: ', doc.current_grade_average )
+            console.log(doc.route_name + ' current grade average: ', doc.current_grade_average, doc.current_grade_average % 1, doc.current_grade_average % 0.25)
+            
+            let renderGrades = gradeDiscretize(doc.current_grade_average)
 
-            if (doc.current_grade_average % 1 === 0) {
+            console.log(renderGrades)
+
+            if (renderGrades.length === 1) {
 
               // Clean up docs returned from moongoose find({}):
               return {
                 route_name: doc.route_name,
                 route_number: doc.route_number,
                 setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
-                average_grade_int: true,
-                current_grade_avg: grade_num_to_str.get(doc.current_grade_average),
+                current_grade_avg: renderGrades[0],
                 current_star_rating: doc.current_star_rating
               }
 
-            } else { 
+            } else if (renderGrades.length === 2) { 
 
               // Clean up docs returned from moongoose find({}):
               return {
                 route_name: doc.route_name,
                 route_number: doc.route_number,
                 setter_grade: grade_num_to_str.get(doc.setter_input.setter_grade),
-                average_grade_int: false,
-                current_grade_avg: [grade_num_to_str.get(Math.floor(doc.current_grade_average)),grade_num_to_str.get(Math.ceil(doc.current_grade_average))],
+                non_discrete_avg: true,
+                current_grade_avg: renderGrades,
                 current_star_rating: doc.current_star_rating
               }
 
