@@ -21,7 +21,7 @@ a {
   height: 100%;
   background-size: cover;
   background-image: linear-gradient(white, 13%, transparent, 87%, black),
-                    url('../images/g5p13_splash.JPG'); 
+                    url('../images/g5p13_splash.jpg'); 
   font-family: 'Kanit', sans-serif;
 }
 
