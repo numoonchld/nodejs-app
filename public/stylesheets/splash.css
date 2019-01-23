@@ -34,12 +34,15 @@
     right: 5vw;
 }
 
+#enter-text {
+    font-size: 20vh;
+}
+
 @media only screen
 and (max-width: 500px) {
     
     #land-page-body {
 
-        background-color: red;
         background-size: auto;
         background-image: 
           linear-gradient(white, 50%, transparent, 87%, black),
@@ -55,8 +58,12 @@ and (max-width: 500px) {
     }
 
     #buttons-block {
-        border: 5px solid yellow;
-        width: 50vw;
+        width: 70vw;
+        margin: 0 auto;
     }
     
+    #enter-text {
+        font-size: 10vh;
+    }
+
 }
