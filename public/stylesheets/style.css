@@ -1,7 +1,8 @@
 body {
   padding: 50px;
-  /* font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
+  max-height: 100vh;
   font-family: 'Kanit', sans-serif;
+  max-width: 100vw;
 }
 
 a {
@@ -10,23 +11,5 @@ a {
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
   background-color: #F2E7C7;
-  /* border: 1px gray solid; */
 }
 
-#land-page-html {
-  height: 100%;
-}
-
-#land-page-body {
-  height: 95vh;
-  background-size: cover;
-  background-image: linear-gradient(white, 13%, transparent, 87%, black),
-                    url('../images/g5p13_splash.jpg'); 
-  font-family: 'Kanit', sans-serif;
-}
-
-#photo-credit {
-  position: absolute;
-  bottom: 3vh;
-  right: 5vw;
-}
