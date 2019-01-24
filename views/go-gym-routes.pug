@@ -1,12 +1,12 @@
-extends layout
+extends layout-splash
 
 //- this is the admin login page:
 
 block content
 
-  .card.p-5.container.bg-light
+  .card.mx-auto#splash-card
 
-    h3.text-center.text-uppercase #{gym_name} <br> Route Details
+    h3.text-light.text-center.text-uppercase #{gym_name} <br> Route Details
 
     .my-5.border.border-info.bg-white.rounded#go-gym-table
 
@@ -63,7 +63,6 @@ block content
     else 
         form.my-3(action="/logout", method="get")
             button.btn.btn-primary.btn-block.text-uppercase(type='submit') Logout
-
 
   script
         include ../public/javascripts/new-route-jQuery.js

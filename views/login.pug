@@ -1,13 +1,12 @@
-extends layout
-
-//- this is the admin login page:
+extends layout-splash
 
 block content
-  .card.p-5.container.bg-light
+
+  .card.mx-auto#splash-card
     
-    h3.text-center= title
-    //- p Welcome to #{title}
-    p.text-center (submit your account credentials)
+    h3.text-light.text-center= title
+    
+    p.text-light.text-center (submit your account credentials)
 
     if !error 
 

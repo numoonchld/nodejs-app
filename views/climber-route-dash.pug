@@ -1,81 +1,83 @@
-extends layout_climber
+extends layout-climber
 
 block content
 
-    .card.p-3.container.bg-info.text-white
+    #scroll-sub-body
 
-        h3.text-center.text-uppercase #{gym_name} <br> #{route_name}
+        .card#splash-card
 
-        hr.border.border-light
+            h3.text-light.text-center.text-uppercase #{gym_name} <br> #{route_name}
 
-        #grade-rate-flex-box.text-dark
+            hr.border.border-light
 
-            .card.p-3.mx-auto.bg-white.container
+            span#grade-rate-flex-box.text-dark.container
 
-                h4.text-center.text-uppercase Setter's Grade 
-                
-                hr
-                
-                h1.text-center.my-3 #{setter_grade}
+                span.card.py-3.bg-white.container
 
-                hr
-
-                p.text-center.text-uppercase Agree? 
-
-                form.my-2#agree.w-50.mx-auto
-                    input(type="hidden" name="gym" value= gym_name )
-                    input(type="hidden" name="route" value= route_name )
-                    input(type="hidden" name="grade" value= setter_grade )
-                    button.btn.btn-success.btn-block.text-uppercase(type='submit') Yes
-
-                form.my-2#disagree.w-50.mx-auto
-                    input(type="hidden" name="gym" value= gym_name )
-                    input(type="hidden" name="route" value= route_name )
-                    input(type="hidden" name="grade" value= setter_grade )
-                    button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
-                
-
-                .my-3
+                    h4.text-center.text-uppercase Setter's Grade 
                     
-                    if num_of_climber_grades > 1
-                        if average_grade_int 
-                            p.text-center.text-lowercase <em> (#{num_of_climber_grades} Climbers' Average Grade: <strong>#{climber_average_grade}</strong>) </em>
-                        else 
-                            p.text-center.text-lowercase
-                                <em> (#{num_of_climber_grades} climbers' Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong>) </em>
-                
-                    else if num_of_climber_grades === 1
-                        if average_grade_int 
-                            p.text-center.text-lowercase <em> (Current Climber Average Grade is <strong>#{climber_average_grade}</strong>) </em>
-                        else 
-                            p.text-center.text-lowercase
-                                <em> (Current Climber Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
+                    hr
+                    
+                    h1.text-center.my-3 #{setter_grade}
 
-            .card.p-3.mx-auto.bg-white.container
+                    hr
 
-                h4.text-center.text-uppercase Climber Rating
+                    p.text-center.text-uppercase Agree? 
 
-                hr
+                    form.my-2#agree.w-50.mx-auto
+                        input(type="hidden" name="gym" value= gym_name )
+                        input(type="hidden" name="route" value= route_name )
+                        input(type="hidden" name="grade" value= setter_grade )
+                        button.btn.btn-success.btn-block.text-uppercase(type='submit') Yes
 
-                h1.text-center.my-3 #{rating}
+                    form.my-2#disagree.w-50.mx-auto
+                        input(type="hidden" name="gym" value= gym_name )
+                        input(type="hidden" name="route" value= route_name )
+                        input(type="hidden" name="grade" value= setter_grade )
+                        button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
+                    
 
-                hr
-
-                form.my-2#rate.w-50.mx-auto
-                    input(type="hidden" name="gym" value= gym_name )
-                    input(type="hidden" name="route" value= route_name )
-                    button.btn.btn-success.btn-block.text-uppercase(type='submit') Rate 
-
-                br
-                
-                p.text-center.text-lowercase <nobr> ( 0 < 4 ) </nobr>
-
-                p.text-center.text-lowercase <em> (current average of <strong> #{num_of_climber_ratings} </strong> rating(s)) </em>
+                    span.my-3
                         
-        //- hr.border.border-light
+                        if num_of_climber_grades > 1
+                            if average_grade_int 
+                                p.text-center.text-lowercase <em> (#{num_of_climber_grades} Climbers' Average Grade: <strong>#{climber_average_grade}</strong>) </em>
+                            else 
+                                p.text-center.text-lowercase
+                                    <em> (#{num_of_climber_grades} climbers' Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong>) </em>
+                    
+                        else if num_of_climber_grades === 1
+                            if average_grade_int 
+                                p.text-center.text-lowercase <em> (Current Average is <strong>#{climber_average_grade}</strong>) </em>
+                            else 
+                                p.text-center.text-lowercase
+                                    <em> (Current Average is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
 
-        //- form.my-3(action='/users/'+gym_name, method='get')
-        //-     button.btn.btn-primary.btn-block.text-uppercase.(type='submit') Back
+                span.card.py-3.bg-white.container
+
+                    h4.text-center.text-uppercase Climber Rating
+
+                    hr
+
+                    h1.text-center.my-3 #{rating}
+
+                    hr
+
+                    form.my-2#rate.w-50.mx-auto
+                        input(type="hidden" name="gym" value= gym_name )
+                        input(type="hidden" name="route" value= route_name )
+                        button.btn.btn-success.btn-block.text-uppercase(type='submit') Rate 
+
+                    br
+                    
+                    p.text-center.text-lowercase <nobr> ( 0 < 4 ) </nobr>
+
+                    p.text-center.text-lowercase <em> (current average of <strong> #{num_of_climber_ratings} </strong> rating(s)) </em>
+            
+            hr.border.border-light
+            
+            form.back-button.my-3(action='/users/'+gym_name, method='get')
+                button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back
 
     script 
         include ../public/javascripts/climber-route-grade-update-jQuery.js

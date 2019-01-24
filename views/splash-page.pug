@@ -1,42 +1,26 @@
-doctype html
+extends layout-splash
 
-html#land-page-html
+block content
 
-  head
-    title  grade 5.13
+  .card.mx-auto#splash-card
+  
+    h1.text-light.text-center#enter-text grade 5.13
+  
+    hr.border.border-light
 
-    meta(name='viewport', content='width=device-width',initial-scale="1", minimum-scale="1")
+    #buttons-block
+        form.my-3.splash-button(action='/login', method='get')
+            button.btn.btn-info.btn-block(type='submit') 
+              h3 MANAGE GYM
 
-
-    link(rel='stylesheet', href='/stylesheets/splash.css')
-    link(href="https://fonts.googleapis.com/css?family=Kanit", rel="stylesheet")
-    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css", integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS", crossorigin="anonymous")
-    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.css")
-    link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.6.3/css/all.css", integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/", crossorigin="anonymous")
-    script(src="https://code.jquery.com/jquery-3.3.1.min.js", integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=", crossorigin="anonymous")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/7.33.1/sweetalert2.min.js")
-    
-  body#land-page-body
-
-    .card.mx-auto#splash-card
-    
-      h1.text-light.text-center#enter-text grade 5.13
-    
-      hr.border.border-light
-
-      #buttons-block
-          form.my-3.splash-button(action='/login', method='get')
-              button.btn.btn-info.btn-block(type='submit') 
-                h3 MANAGE GYM
-
-          form.my-3.splash-button(action='/users', method='get')
-              button.btn.btn-info.btn-block(type='submit') 
-                h3 RATE A ROUTE
+        form.my-3.splash-button(action='/users', method='get')
+            button.btn.btn-info.btn-block(type='submit') 
+              h3 RATE A ROUTE
 
 
-    a#photo-credit(href="https://unsplash.com/photos/gTQbZXL417Q?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText") Photo Credit
-    
+  a#photo-credit(href="https://unsplash.com/photos/gTQbZXL417Q?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText") Photo Credit
+  
 
   script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js", integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut", crossorigin="anonymous")
   script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js", integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k", crossorigin="anonymous")
-  
+
