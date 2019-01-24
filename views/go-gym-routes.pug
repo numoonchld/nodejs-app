@@ -3,54 +3,52 @@ extends layout
 //- this is the admin login page:
 
 block content
+
   .card.p-5.container.bg-light
 
-    h3.text-center.text-uppercase #{gym_name} - Admin Access
-    hr
-    h5.text-center.mt-5.mb-3 Active Climbing Routes in #{gym_name}
+    h3.text-center.text-uppercase #{gym_name} <br> Route Details
 
-    table.table.table-hover.table-sm.table-striped.text-center
-        thead
-            tr
-                th(scope="col") Name 
-                th(scope="col") Setter Grade
-                th(scope="col") Current Average
-                th(scope="col") Rating
-                th(scope="col") Edit Setter Grade
-                th(scope="col") Delete Route
-        tbody
-            each route in gym
+    .my-5.border.border-info.bg-white.rounded#go-gym-table
+
+        table.table.mx-auto.table-hover.table-sm.table-striped.text-center
+            thead
                 tr
-                    th(scope="row")= route.route_name
+                    th(scope="col") Name 
+                    th(scope="col") Setter Grade
+                    th(scope="col") Current Average
+                    th(scope="col") Rating
+                    th(scope="col") Edit Setter Grade
+                    th(scope="col") Delete Route
+            tbody
+                each route in gym
+                    tr
+                        th(scope="row")= route.route_name
 
-                    td= route.setter_grade 
+                        td= route.setter_grade 
 
-                    if route.non_discrete_avg 
-                        td between #{route.current_grade_avg[0]} and #{route.current_grade_avg[1]}
-                    else
-                        td= route.current_grade_avg
-                        
-                    td= route.current_star_rating + "/4"
-
-                    td
-                        form.edit-route-form
-                            input(type="hidden" name="model_name" value= model_name)
-                            input(type="hidden" name="route_name" value= route.route_name)
-                            input(type="hidden" name="current_setter_grade" value= route.setter_grade)
-                            input(type="hidden" name="current_grade_average" value= route.current_grade_avg)
-                            button.btn.btn-warning(type='submit') 
-                                i.fas.fa-edit
-                    
-                    td
-                        form.delete-route-form
-                            input(type="hidden" name="model_name" value= model_name)
-                            input(type="hidden" name="route_name" value= route.route_name)
-                            button.btn.btn-danger(type='submit') 
-                                i.fas.fa-trash
-                        
+                        if route.non_discrete_avg 
+                            td between #{route.current_grade_avg[0]} and #{route.current_grade_avg[1]}
+                        else
+                            td= route.current_grade_avg
                             
+                        td= route.current_star_rating + "/4"
 
-    hr 
+                        td
+                            form.edit-route-form
+                                input(type="hidden" name="model_name" value= model_name)
+                                input(type="hidden" name="route_name" value= route.route_name)
+                                input(type="hidden" name="current_setter_grade" value= route.setter_grade)
+                                input(type="hidden" name="current_grade_average" value= route.current_grade_avg)
+                                button.btn.btn-warning(type='submit') 
+                                    i.fas.fa-edit
+                        
+                        td
+                            form.delete-route-form
+                                input(type="hidden" name="model_name" value= model_name)
+                                input(type="hidden" name="route_name" value= route.route_name)
+                                button.btn.btn-danger(type='submit') 
+                                    i.fas.fa-trash
+                            
 
     //- form#new-route-form.my-3(action="/admin-create/gym-route", method="post")
     form#new-route-form.my-3

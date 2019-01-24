@@ -28,6 +28,12 @@
     background: rgba(0,0,0,0.50);
 }
 
+#buttons-block {
+    width: 33vw;
+
+    margin: 0 auto;
+}
+
 #photo-credit {
     position: absolute;
     bottom: 3vh;
@@ -42,7 +48,6 @@
 and (max-width: 500px) {
     
     #land-page-body {
-
         background-size: auto;
         background-image: 
           linear-gradient(white, 50%, transparent, 87%, black),

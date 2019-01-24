@@ -1,20 +1,22 @@
-extends layout
+extends layout_climber
 
 block content
-    .card.p-5.container.bg-light
 
-        h3.text-center.text-uppercase #{gym_name} - #{route_name}
+    .card.p-3.container.bg-info.text-white
 
-        hr
-        
-        #grade-ui.my-3.py-5
+        h3.text-center.text-uppercase #{gym_name} <br> #{route_name}
 
-            .card.p-5.w-75.mx-auto.bg-warning
-                h4.text-center.text-uppercase Route Setter's Grade 
+        hr.border.border-light
+
+        #grade-rate-flex-box.text-dark
+
+            .card.p-3.mx-auto.bg-white.container
+
+                h4.text-center.text-uppercase Setter's Grade 
                 
                 hr
                 
-                h1.text-center.my-5 #{setter_grade}
+                h1.text-center.my-3 #{setter_grade}
 
                 hr
 
@@ -49,20 +51,13 @@ block content
                             p.text-center.text-lowercase
                                 <em> (Current Climber Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
 
+            .card.p-3.mx-auto.bg-white.container
 
-
-
-        hr
-        
-        #rate-ui.my-3.py-5
-
-            .card.p-5.w-75.mx-auto.bg-warning
                 h4.text-center.text-uppercase Climber Rating
-                p.text-center.text-lowercase <em> (current average of #{num_of_climber_ratings} rating(s)) </em>
 
                 hr
 
-                h1.text-center.my-5 #{rating}
+                h1.text-center.my-3 #{rating}
 
                 hr
 
@@ -74,12 +69,13 @@ block content
                 br
                 
                 p.text-center.text-lowercase <nobr> ( 0 < 4 ) </nobr>
-                    
 
-        hr
+                p.text-center.text-lowercase <em> (current average of <strong> #{num_of_climber_ratings} </strong> rating(s)) </em>
+                        
+        //- hr.border.border-light
 
-        form.my-3(action='/users/'+gym_name, method='get')
-            button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back
+        //- form.my-3(action='/users/'+gym_name, method='get')
+        //-     button.btn.btn-primary.btn-block.text-uppercase.(type='submit') Back
 
     script 
         include ../public/javascripts/climber-route-grade-update-jQuery.js
