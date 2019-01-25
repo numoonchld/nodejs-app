@@ -70,8 +70,13 @@ and (max-width: 500px) {
         margin: 0 auto;
     }
     
-    #enter-text {
+    #landing-page-text {
         font-size: 10vh;
+    }
+
+    #go-gym-table {
+        display: block;
+        overflow-x: scroll;
     }
 
 }

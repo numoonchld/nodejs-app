@@ -4,52 +4,51 @@ extends layout-splash
 
 block content
 
-  .card.mx-auto#splash-card
+    .card.mx-auto#splash-card
 
-    h3.text-light.text-center.text-uppercase #{gym_name} <br> Route Details
+        h3.text-light.text-center.text-uppercase #{gym_name} <br> Route Details
 
-    .my-5.border.border-info.bg-white.rounded#go-gym-table
+        .my-5.border.border-info.bg-white.rounded#go-gym-table
 
-        table.table.mx-auto.table-hover.table-sm.table-striped.text-center
-            thead
-                tr
-                    th(scope="col") Name 
-                    th(scope="col") Setter Grade
-                    th(scope="col") Current Average
-                    th(scope="col") Rating
-                    th(scope="col") Edit Setter Grade
-                    th(scope="col") Delete Route
-            tbody
-                each route in gym
+            table.table.mx-auto.table-hover.table-sm.table-striped.text-center
+                thead
                     tr
-                        th(scope="row")= route.route_name
+                        th(scope="col") Name 
+                        th(scope="col") Setter Grade
+                        th(scope="col") Current Average
+                        th(scope="col") Rating
+                        th(scope="col") Edit Setter Grade
+                        th(scope="col") Delete Route
+                tbody
+                    each route in gym
+                        tr
+                            th(scope="row")= route.route_name
 
-                        td= route.setter_grade 
+                            td= route.setter_grade 
 
-                        if route.non_discrete_avg 
-                            td between #{route.current_grade_avg[0]} and #{route.current_grade_avg[1]}
-                        else
-                            td= route.current_grade_avg
+                            if route.non_discrete_avg 
+                                td between #{route.current_grade_avg[0]} and #{route.current_grade_avg[1]}
+                            else
+                                td= route.current_grade_avg
+                                
+                            td= route.current_star_rating + "/4"
+
+                            td
+                                form.edit-route-form
+                                    input(type="hidden" name="model_name" value= model_name)
+                                    input(type="hidden" name="route_name" value= route.route_name)
+                                    input(type="hidden" name="current_setter_grade" value= route.setter_grade)
+                                    input(type="hidden" name="current_grade_average" value= route.current_grade_avg)
+                                    button.btn.btn-warning(type='submit') 
+                                        i.fas.fa-edit
                             
-                        td= route.current_star_rating + "/4"
-
-                        td
-                            form.edit-route-form
-                                input(type="hidden" name="model_name" value= model_name)
-                                input(type="hidden" name="route_name" value= route.route_name)
-                                input(type="hidden" name="current_setter_grade" value= route.setter_grade)
-                                input(type="hidden" name="current_grade_average" value= route.current_grade_avg)
-                                button.btn.btn-warning(type='submit') 
-                                    i.fas.fa-edit
-                        
-                        td
-                            form.delete-route-form
-                                input(type="hidden" name="model_name" value= model_name)
-                                input(type="hidden" name="route_name" value= route.route_name)
-                                button.btn.btn-danger(type='submit') 
-                                    i.fas.fa-trash
-                            
-
+                            td
+                                form.delete-route-form
+                                    input(type="hidden" name="model_name" value= model_name)
+                                    input(type="hidden" name="route_name" value= route.route_name)
+                                    button.btn.btn-danger(type='submit') 
+                                        i.fas.fa-trash
+                                
     //- form#new-route-form.my-3(action="/admin-create/gym-route", method="post")
     form#new-route-form.my-3
         input(type="hidden" name="model_name" value= model_name)
@@ -64,7 +63,7 @@ block content
         form.my-3(action="/logout", method="get")
             button.btn.btn-primary.btn-block.text-uppercase(type='submit') Logout
 
-  script
-        include ../public/javascripts/new-route-jQuery.js
-        include ../public/javascripts/route-edit-jQuery.js
-        include ../public/javascripts/route-delete-jQuery.js
+    script
+            include ../public/javascripts/new-route-jQuery.js
+            include ../public/javascripts/route-edit-jQuery.js
+            include ../public/javascripts/route-delete-jQuery.js
