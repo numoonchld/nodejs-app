@@ -2,17 +2,21 @@ extends layout-climber
 
 block content
 
-    .card.mx-auto#splash-card
+    #scroll-sub-body
 
-        h3.text-light.text-center.text-uppercase #{gym_name} <br> Select Route
+        .card.mx-auto#splash-card
 
-        hr.border.border-light
+            span
 
-        each route in routes
-            form.my-3(action='/users/' + gym_name + '/' + route.route_name method='get')
-                button.btn.btn-info.btn-block.text-uppercase(type='submit')= route.route_name
+                h3.text-light.text-center.text-uppercase #{gym_name} <br> Select Route
 
-        hr.border.border-light
+                hr.border.border-light
 
-        form.my-3(action='/users', method='get')
-            button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back
+                each route in routes
+                    form.my-3(action='/users/' + gym_name + '/' + route.route_name method='get')
+                        button.btn.btn-info.btn-block.text-uppercase(type='submit')= route.route_name
+
+                hr.border.border-light
+
+                form.my-3(action='/users', method='get')
+                    button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back

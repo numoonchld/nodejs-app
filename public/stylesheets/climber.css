@@ -32,18 +32,22 @@ html {
   height: 100vh;
   min-width: 90vw;
 
-  display: block;
 
-  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
 }
 
 #splash-card {
   min-width: 50vw;
-  max-height: 90vh;
-  max-width: 75vw;
+  /* max-height: 90vh; */
+  max-width: 80vw;
 
   display: block;
-  margin: 5vh auto;
+  margin: auto auto;
+
   padding: 5%;
   background: rgba(0,0,0,0.50);
   
@@ -52,7 +56,7 @@ html {
 #grade-rate-flex-box {
   display: flex;
   flex-direction: row;
-  align-content: space-around;
+  align-items: space-around;
   justify-content: center;
   flex-wrap: nowrap;
 
@@ -69,6 +73,7 @@ html {
 #grade-rate-flex-box .card {
   height: 50vh;
   max-width: 33vw;
+  min-width: 30vw;
 
   margin: auto 1vw;
 
@@ -102,7 +107,10 @@ and (max-width: 500px) {
     height: 100vh;
     width: 100vw;
 
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
 
     margin: 2vh 0vw;
     overflow-y: scroll;
@@ -113,13 +121,12 @@ and (max-width: 500px) {
 
   #splash-card {
     min-width: 75vw;
-    max-height: 300vw;
     max-width: 95vw;
   
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    justify-content: center;
+    justify-content: flex-start;
 
     /* margin: 5vh auto; */
     padding: 5%;
@@ -134,15 +141,19 @@ and (max-width: 500px) {
     flex-direction: column;
     align-content: space-between;
     justify-content: center;
-    flex-wrap: nowrap;
+    flex-wrap: inherit;
     
-    margin: 2vh auto;
+    position: relative;
+
+    margin: 20vh auto;
   }
 
   #grade-rate-flex-box .card {
     max-height: 80vh;
     min-width: 80vw;
 
+    display: block;
+    position: relative;
     margin: 1vh auto;
   }
 

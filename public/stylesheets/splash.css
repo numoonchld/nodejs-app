@@ -29,7 +29,7 @@
 #splash-card {
     min-width: 75vw;
     padding: 5%;
-    background: radial-gradient(circle at top,rgba(21,21,21,0.50), 95%, black) ;
+    background: rgba(0,0,0,0.50);
 }
 
 #buttons-block {
@@ -44,7 +44,7 @@
     right: 5vw;
 }
 
-#enter-text {
+#landing-page-text {
     font-size: 20vh;
 }
 
@@ -67,7 +67,7 @@ and (max-width: 500px) {
 
     #splash-card {
         padding: 5%;
-        background: rgba(0,0,0,0.45);
+        background: rgba(0,0,0,0.50);
     }
 
     #buttons-block {
