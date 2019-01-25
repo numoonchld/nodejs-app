@@ -24,7 +24,7 @@
 #splash-card {
     min-width: 75vw;
     padding: 5%;
-    background-color: rgba(0,0,0,0.50);
+    background: radial-gradient(circle at top,rgba(21,21,21,0.50), 95%, black) ;
 }
 
 #buttons-block {
