@@ -1,87 +1,89 @@
-extends layout-climber
+extends layout-climber-route-dash
 
 block content
 
-    #scroll-sub-body
+    #scroll-sub-body.container
 
         .card#splash-card
+            
+            span
+                h3.text-light.text-center.text-uppercase #{gym_name} <br> #{route_name}
 
-            h3.text-light.text-center.text-uppercase #{gym_name} <br> #{route_name}
+                hr.border.border-light
 
-            hr.border.border-light
+                #grade-rate-flex-box.text-dark
 
-            #grade-rate-flex-box.text-dark
+                    .card.py-3.container.d-block
 
-                .card.py-3.container.d-block
-
-                    h4.text-center.text-uppercase Setter's Grade 
-                    
-                    hr
-                    
-                    .num-disp
-                        h1.text-center.my-3 #{setter_grade}
-
-                    hr
-
-                    p.text-center.text-uppercase Agree? 
-
-                    .d-flex.flex-row.flex-nowrap.justify-content-center.align-items-center
-
-                        form.my-2#agree.mx-auto.w-25
-                            input(type="hidden" name="gym" value= gym_name )
-                            input(type="hidden" name="route" value= route_name )
-                            input(type="hidden" name="grade" value= setter_grade )
-                            button.btn.btn-success.btn-block.text-uppercase(type='submit') Yes
-
-                        form.my-2#disagree.mx-auto.w-25
-                            input(type="hidden" name="gym" value= gym_name )
-                            input(type="hidden" name="route" value= route_name )
-                            input(type="hidden" name="grade" value= setter_grade )
-                            button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
-                    
-
-                    span.my-3
+                        h4.text-center.text-uppercase Setter's Grade 
                         
-                        if num_of_climber_grades > 1
-                            if average_grade_int 
-                                p.text-center.text-lowercase <em> (#{num_of_climber_grades} Climbers' Average Grade: <strong>#{climber_average_grade}</strong>) </em>
-                            else 
-                                p.text-center.text-lowercase
-                                    <em> (#{num_of_climber_grades} climbers' Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong>) </em>
-                    
-                        else if num_of_climber_grades === 1
-                            if average_grade_int 
-                                p.text-center.text-lowercase <em> (Current Average is <strong>#{climber_average_grade}</strong>) </em>
-                            else 
-                                p.text-center.text-lowercase
-                                    <em> (Current Average is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
+                        hr
+                        
+                        .num-disp
+                            h1.text-center.my-3 #{setter_grade}
 
-                .card.py-3.container.d-block
+                        hr
 
-                    h4.text-center.text-uppercase Climber Rating
+                        p.text-center.text-uppercase Agree? 
 
-                    hr
+                        .d-flex.flex-row.flex-nowrap.justify-content-center.align-items-center
 
-                    .num-disp
-                        h1.text-center.my-3 #{rating}
+                            form.my-2#agree.mx-auto.w-25
+                                input(type="hidden" name="gym" value= gym_name )
+                                input(type="hidden" name="route" value= route_name )
+                                input(type="hidden" name="grade" value= setter_grade )
+                                button.btn.btn-success.btn-block.text-uppercase(type='submit') Yes
 
-                    hr
+                            form.my-2#disagree.mx-auto.w-25
+                                input(type="hidden" name="gym" value= gym_name )
+                                input(type="hidden" name="route" value= route_name )
+                                input(type="hidden" name="grade" value= setter_grade )
+                                button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
+                        
 
-                    form.my-2#rate.w-50.mx-auto
-                        input(type="hidden" name="gym" value= gym_name )
-                        input(type="hidden" name="route" value= route_name )
-                        button.btn.btn-success.btn-block.text-uppercase(type='submit') Rate 
+                        span.my-3
+                            
+                            if num_of_climber_grades > 1
+                                if average_grade_int 
+                                    p.text-center.text-lowercase <em> (#{num_of_climber_grades} Climbers' Average Grade: <strong>#{climber_average_grade}</strong>) </em>
+                                else 
+                                    p.text-center.text-lowercase
+                                        <em> (#{num_of_climber_grades} climbers' Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong>) </em>
+                        
+                            else if num_of_climber_grades === 1
+                                if average_grade_int 
+                                    p.text-center.text-lowercase <em> (Current Average is <strong>#{climber_average_grade}</strong>) </em>
+                                else 
+                                    p.text-center.text-lowercase
+                                        <em> (Current Average is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
 
-                    br
-                    
-                    p.text-center.text-lowercase <nobr> ( 0 < 4 ) </nobr>
+                    .card.py-3.container.d-block
 
-                    p.text-center.text-lowercase <em> (current average of <strong> #{num_of_climber_ratings} </strong> rating(s)) </em>
+                        h4.text-center.text-uppercase Climber Rating
+
+                        hr
+
+                        .num-disp
+                            h1.text-center.my-3 #{rating}
+
+                        hr
+
+                        form.my-2#rate.w-50.mx-auto
+                            input(type="hidden" name="gym" value= gym_name )
+                            input(type="hidden" name="route" value= route_name )
+                            button.btn.btn-success.btn-block.text-uppercase(type='submit') Rate 
+
+                        br
+                        
+                        p.text-center.text-lowercase <nobr> ( 0 < 4 ) </nobr>
+
+                        p.text-center.text-lowercase <em> (current average of <strong> #{num_of_climber_ratings} </strong> rating(s)) </em>
+                
+                hr.border.border-light
             
-            hr.border.border-light
             
-            form.back-button.my-3(action='/users/'+gym_name, method='get')
-                button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back
+                form.back-button.my-3(action='/users/'+gym_name, method='get')
+                    button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back
 
     script 
         include ../public/javascripts/climber-route-grade-update-jQuery.js
