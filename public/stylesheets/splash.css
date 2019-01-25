@@ -1,3 +1,8 @@
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: #F2E7C7;
+  }
+  
+
 #land-page-html {
     height: 100vh;
     width: 100vw;

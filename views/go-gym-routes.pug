@@ -15,23 +15,18 @@ block content
                     tr
                         th(scope="col") Name 
                         th(scope="col") Setter Grade
-                        th(scope="col") Current Average
+                        th(scope="col") Edit
+                        th(scope="col") Average Grade
                         th(scope="col") Rating
-                        th(scope="col") Edit Setter Grade
+                        
                         th(scope="col") Delete Route
                 tbody
                     each route in gym
                         tr
-                            th(scope="row")= route.route_name
+                            th(scope="row") 
+                                <nobr> #{route.route_name} </nobr>
 
-                            td= route.setter_grade 
-
-                            if route.non_discrete_avg 
-                                td between #{route.current_grade_avg[0]} and #{route.current_grade_avg[1]}
-                            else
-                                td= route.current_grade_avg
-                                
-                            td= route.current_star_rating + "/4"
+                            td= route.setter_grade
 
                             td
                                 form.edit-route-form
@@ -41,6 +36,13 @@ block content
                                     input(type="hidden" name="current_grade_average" value= route.current_grade_avg)
                                     button.btn.btn-warning(type='submit') 
                                         i.fas.fa-edit
+
+                            if route.non_discrete_avg 
+                                td between #{route.current_grade_avg[0]} and #{route.current_grade_avg[1]}
+                            else
+                                td= route.current_grade_avg
+                                
+                            td= route.current_star_rating + "/4"
                             
                             td
                                 form.delete-route-form
@@ -49,19 +51,19 @@ block content
                                     button.btn.btn-danger(type='submit') 
                                         i.fas.fa-trash
                                 
-    //- form#new-route-form.my-3(action="/admin-create/gym-route", method="post")
-    form#new-route-form.my-3
-        input(type="hidden" name="model_name" value= model_name)
-        input(type="hidden" name="gym_name" value= gym_name)
-        button.btn.btn-success.btn-block.text-uppercase(type='submit') Add Routes
+        //- form#new-route-form.my-3(action="/admin-create/gym-route", method="post")
+        form#new-route-form.my-3
+            input(type="hidden" name="model_name" value= model_name)
+            input(type="hidden" name="gym_name" value= gym_name)
+            button.btn.btn-success.btn-block.text-uppercase(type='submit') Add Routes
 
-    if admin_view
-        form.my-3(action="/admin", method="get")
-            button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back
-    
-    else 
-        form.my-3(action="/logout", method="get")
-            button.btn.btn-primary.btn-block.text-uppercase(type='submit') Logout
+        if admin_view
+            form.my-3(action="/admin", method="get")
+                button.btn.btn-primary.btn-block.text-uppercase(type='submit') Back
+        
+        else 
+            form.my-3(action="/logout", method="get")
+                button.btn.btn-primary.btn-block.text-uppercase(type='submit') Logout
 
     script
             include ../public/javascripts/new-route-jQuery.js
