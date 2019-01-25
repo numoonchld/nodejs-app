@@ -86,7 +86,7 @@ router.get('/:gym', function(req, res) {
 
     } else {
 
-      // console.log('found gym collection: ', foundGymArr);
+      console.log('found gym collection: ', foundGymArr);
 
       let thisGym = GymRoutes(foundGymArr[0].model_name)
 
