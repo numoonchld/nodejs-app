@@ -37,7 +37,7 @@ html {
   padding: 0;
 }
 
-/* #splash-card {
+#splash-card {
   min-width: 50vw;
   max-height: 90vh;
   max-width: 75vw;
@@ -47,7 +47,7 @@ html {
   padding: 5%;
   background: rgba(0,0,0,0.50);
   
-} */
+}
 
 #grade-rate-flex-box {
   display: flex;
@@ -67,10 +67,18 @@ html {
 }
 
 #grade-rate-flex-box .card {
-  height: 55vh;
+  height: 50vh;
   max-width: 33vw;
 
   margin: auto 1vw;
+
+  background: rgba(255,255,255,0.80);
+}
+
+.num-disp {
+  /* border: hotpink 3px solid; */
+  margin: 0 auto;
+  background: radial-gradient(circle, white,transparent)
 }
 
 .back-button {
@@ -104,7 +112,7 @@ and (max-width: 500px) {
   }
 
   #splash-card {
-    min-width: 50vw;
+    min-width: 75vw;
     max-height: 300vw;
     max-width: 95vw;
   
@@ -127,13 +135,15 @@ and (max-width: 500px) {
     align-content: space-between;
     justify-content: center;
     flex-wrap: nowrap;
-
+    
+    margin: 2vh auto;
   }
 
   #grade-rate-flex-box .card {
     max-height: 80vh;
     min-width: 80vw;
 
+    margin: 1vh auto;
   }
 
 }

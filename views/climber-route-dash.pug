@@ -10,31 +10,34 @@ block content
 
             hr.border.border-light
 
-            span#grade-rate-flex-box.text-dark.container
+            span#grade-rate-flex-box.text-dark
 
-                span.card.py-3.bg-white.container
+                span.card.py-3.container.d-block
 
                     h4.text-center.text-uppercase Setter's Grade 
                     
                     hr
                     
-                    h1.text-center.my-3 #{setter_grade}
+                    .num-disp
+                        h1.text-center.my-3 #{setter_grade}
 
                     hr
 
                     p.text-center.text-uppercase Agree? 
 
-                    form.my-2#agree.w-50.mx-auto
-                        input(type="hidden" name="gym" value= gym_name )
-                        input(type="hidden" name="route" value= route_name )
-                        input(type="hidden" name="grade" value= setter_grade )
-                        button.btn.btn-success.btn-block.text-uppercase(type='submit') Yes
+                    .d-flex.flex-row.flex-nowrap.justify-content-center.align-items-center
 
-                    form.my-2#disagree.w-50.mx-auto
-                        input(type="hidden" name="gym" value= gym_name )
-                        input(type="hidden" name="route" value= route_name )
-                        input(type="hidden" name="grade" value= setter_grade )
-                        button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
+                        form.my-2#agree.mx-auto.w-25
+                            input(type="hidden" name="gym" value= gym_name )
+                            input(type="hidden" name="route" value= route_name )
+                            input(type="hidden" name="grade" value= setter_grade )
+                            button.btn.btn-success.btn-block.text-uppercase(type='submit') Yes
+
+                        form.my-2#disagree.mx-auto.w-25
+                            input(type="hidden" name="gym" value= gym_name )
+                            input(type="hidden" name="route" value= route_name )
+                            input(type="hidden" name="grade" value= setter_grade )
+                            button.btn.btn-secondary.btn-block.text-uppercase(type='submit') No
                     
 
                     span.my-3
@@ -53,13 +56,14 @@ block content
                                 p.text-center.text-lowercase
                                     <em> (Current Average is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
 
-                span.card.py-3.bg-white.container
+                span.card.py-3.container.d-block
 
                     h4.text-center.text-uppercase Climber Rating
 
                     hr
 
-                    h1.text-center.my-3 #{rating}
+                    .num-disp
+                        h1.text-center.my-3 #{rating}
 
                     hr
 

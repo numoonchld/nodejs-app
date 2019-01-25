@@ -4,6 +4,7 @@
 }
   
 #land-page-body {
+
     height: 100vh;
 
     display: flex;
@@ -23,11 +24,12 @@
 #splash-card {
     min-width: 75vw;
     padding: 5%;
-    background: rgba(0,0,0,0.50);
+    background-color: rgba(0,0,0,0.50);
 }
 
 #buttons-block {
     width: 33vw;
+
     margin: 0 auto;
 }
 
@@ -52,6 +54,10 @@ and (max-width: 500px) {
         background-position: center;
         font-family: 'Kanit', sans-serif;
 
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
     }
 
     #splash-card {
