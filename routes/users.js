@@ -86,7 +86,7 @@ router.get('/:gym', function(req, res) {
 
     } else {
 
-      console.log('found gym collection: ', foundGymArr);
+      // console.log('found gym collection: ', foundGymArr);
 
       let thisGym = GymRoutes(foundGymArr[0].model_name)
 
@@ -101,16 +101,18 @@ router.get('/:gym', function(req, res) {
           // console.log('routes in ' + req.params.gym + ':', routesArr)
 
           let routes_info = routesArr.map((route) => ({
-            route_name: route.route_name
-          }))
+            route_name: route.route_name,
+            route_number: route.route_number
+          })).sort((a, b) => (
+            a.route_number > b.route_number
+          ))
+
+          // console.log(routes_info);
 
           res.render('climber-routes-ui', { gym_name: req.params.gym, routes: routes_info })
-
-
+          
         }
         
-        
-
       })
 
     }    
