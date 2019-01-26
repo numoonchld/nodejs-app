@@ -11,6 +11,7 @@
   
 #land-page-body {
     height: 100vh;
+    max-height: 100vh;
 
     display: flex;
     flex-direction: row;
@@ -28,11 +29,13 @@
 }
 
 #splash-card {
+    max-height: 85vh;
     min-width: 75vw;
     padding: 5%;
     
     background: rgba(0,0,0,0.50);
     
+    overflow-y: auto;
 }
 
 #buttons-block {
@@ -73,6 +76,7 @@ and (max-width: 500px) {
         padding: 5%;
         background: rgba(0,0,0,0.50);
         
+        min-width: 350px;
         max-height: 80vh;
         overflow-y: scroll;
 

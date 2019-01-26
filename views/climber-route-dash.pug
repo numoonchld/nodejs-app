@@ -7,7 +7,7 @@ block content
         .card#splash-card.container
                 
             span
-                h3.text-light.text-center.text-uppercase #{gym_name} <br> #{route_name}
+                h3.text-light.text-center.text-uppercase #{gym_name}<br>#{route_name}
 
                 hr.border.border-light
 
@@ -45,17 +45,17 @@ block content
                             
                             if num_of_climber_grades > 1
                                 if average_grade_int 
-                                    p.text-center.text-lowercase <em> (#{num_of_climber_grades} Climbers' Average Grade: <strong>#{climber_average_grade}</strong>) </em>
+                                    p.text-center.text-lowercase <em> (#{num_of_climber_grades} climbers' average grade: <strong>#{climber_average_grade}</strong>) </em>
                                 else 
                                     p.text-center.text-lowercase
-                                        <em> (#{num_of_climber_grades} climbers' Average Grade is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong>) </em>
+                                        <em> (#{num_of_climber_grades} climbers' average grade: <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]} </strong>) </em>
                         
                             else if num_of_climber_grades === 1
                                 if average_grade_int 
-                                    p.text-center.text-lowercase <em> (Current Average is <strong>#{climber_average_grade}</strong>) </em>
+                                    p.text-center.text-lowercase <em> (current average is <strong>#{climber_average_grade}</strong>) </em>
                                 else 
                                     p.text-center.text-lowercase
-                                        <em> (Current Average is between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
+                                        <em> (average between <strong> #{climber_average_grade[0]} </strong> and <strong>#{climber_average_grade[1]}</strong></emphasis>) </em>
 
                     .card.py-3.container.d-block
 
@@ -64,7 +64,7 @@ block content
                         hr
 
                         .num-disp
-                            h1.text-center.my-3 #{rating}
+                            h1.text-center.my-3 #{rating}/4
 
                         hr
 
@@ -75,9 +75,10 @@ block content
 
                         br
                         
-                        p.text-center.text-lowercase <nobr> ( 0 < 4 ) </nobr>
-
+                        //- p.text-center.text-lowercase <nobr> ( 0 < 4 ) </nobr>
                         p.text-center.text-lowercase <em> (current average of <strong> #{num_of_climber_ratings} </strong> rating(s)) </em>
+
+                        br
                 
                 hr.border.border-light
                     

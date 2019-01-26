@@ -22,6 +22,8 @@ html {
   background-position: center;
   background-repeat: no-repeat;
 
+  min-width: 100vw;
+
 }
 
 #scroll-sub-body {
@@ -37,7 +39,8 @@ html {
 }
 
 #splash-card {
-  min-width: 50vw;
+  width: 80vw;
+  min-width: 666px;
   max-width: 750px;
 
   display: flex;
@@ -69,6 +72,9 @@ html {
   height: 300px;
   width: 300px;
 
+  min-width: 300px;
+  min-height: 300px;
+
   display: flex;
   flex-direction: column;
   
@@ -95,6 +101,48 @@ html {
 
 }
 
+@media only screen 
+and (min-width: 500px) and (max-width: 800) {
+
+  #climber-page-body {
+    height: 100vh;
+    width: 800px;
+    min-width: 800px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+  
+    background-size: contain;
+    background-image: 
+      linear-gradient(white, 50%, transparent, 66%, #330033),
+      url('../images/g5p13_splash.jpg'); 
+    font-family: 'Kanit', sans-serif;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+  }
+
+  #splash-card {
+    width: 666vw;
+    min-width: 666px;
+    max-width: 750px;
+  
+    display: flex;
+    flex-direction: column;
+    margin: auto auto;
+  
+    padding: 5%;
+    background: rgba(0,0,0,0.50);
+  
+    border: 1px solid #330033;
+  } 
+
+}
+
+
 @media only screen
 and (max-width: 500px) {
     
@@ -110,7 +158,9 @@ and (max-width: 500px) {
     flex-wrap: nowrap;
 
     /* padding: 2vh auto; */
-   
+    
+    min-width: 100vw;
+
   }
 
   #scroll-sub-body {
@@ -129,7 +179,7 @@ and (max-width: 500px) {
   }
 
   #splash-card {
-    /* min-width: 75vw; */
+    min-width: 85vw;
     max-width: 350px;
     /* height: initial; */
 

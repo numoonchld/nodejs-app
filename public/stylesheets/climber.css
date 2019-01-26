@@ -25,6 +25,7 @@ html {
   background-repeat: no-repeat;
 
 
+
 }
 
 #scroll-sub-body {
@@ -38,11 +39,14 @@ html {
   justify-content: center;
   align-items: center;
   
+
+  
 }
 
 #splash-card {
   min-width: 50vw;
   /* max-height: 90vh; */
+
   max-width: 80vw;
 
   display: block;
@@ -128,7 +132,7 @@ and (max-width: 500px) {
   }
 
   #splash-card {
-    min-width: 75vw;
+    min-width: 85vw;
     max-width: 95vw;
   
     display: flex;
@@ -167,6 +171,7 @@ and (max-width: 500px) {
     position: absolute;
     bottom: 1vh;
     right: 3vw;
+
   }
 
 }
