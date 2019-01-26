@@ -88,6 +88,12 @@ html {
   background: radial-gradient(circle, white,transparent)
 }
 
+#photo-credit {
+  position: absolute;
+  bottom: 1vh;
+  right: 3vw;
+}
+
 .back-button {
   width: 75%;
   margin: 0vh auto;
@@ -155,6 +161,12 @@ and (max-width: 500px) {
     display: block;
 
     margin: 1vh auto;
+  }
+
+  #photo-credit {
+    position: absolute;
+    bottom: 1vh;
+    right: 3vw;
   }
 
 }

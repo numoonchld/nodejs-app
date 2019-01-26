@@ -6,7 +6,6 @@ html {
 }
 
 #climber-page-body {
-
   height: 100vh;
 
   display: flex;
@@ -22,8 +21,6 @@ html {
   font-family: 'Kanit', sans-serif;
   background-position: center;
   background-repeat: no-repeat;
-
-  
 
 }
 
@@ -84,6 +81,12 @@ html {
   /* border: hotpink 3px solid; */
   margin: 0 auto;
   background: radial-gradient(circle, white,transparent)
+}
+
+#photo-credit {
+  position: absolute;
+  bottom: 1vh;
+  right: 3vw;
 }
 
 .back-button {
@@ -168,5 +171,11 @@ and (max-width: 500px) {
     margin: 30px auto;
     
   }
-
+  
+  #photo-credit {
+    position: absolute;
+    bottom: 1vh;
+    right: 3vw;
+  }
+  
 }
