@@ -168,6 +168,7 @@ and (max-width: 500px) {
   }
 
   #photo-credit {
+    visibility: hidden;
     position: absolute;
     bottom: 1vh;
     right: 3vw;
