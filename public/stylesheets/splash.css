@@ -1,6 +1,6 @@
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     background-color: #F2E7C7;
-  }
+}
   
 
 #land-page-html {
@@ -9,7 +9,6 @@
 }
   
 #land-page-body {
-
     height: 100vh;
 
     display: flex;
@@ -24,12 +23,19 @@
     font-family: 'Kanit', sans-serif;
     background-position: center;
     background-repeat: no-repeat;
+
 }
 
 #splash-card {
     min-width: 75vw;
+    max-height: 80vh;
     padding: 5%;
+    
     background: rgba(0,0,0,0.50);
+    
+    overflow-y: scroll;
+
+
 }
 
 #buttons-block {
