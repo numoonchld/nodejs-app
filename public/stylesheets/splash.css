@@ -19,7 +19,7 @@
 
     background-size: cover;
     background-image: 
-      linear-gradient(white, 50%, transparent, 87%, black),
+      linear-gradient(white, 50%, transparent, 66%, #330033),
       url('../images/g5p13_splash.jpg'); 
     font-family: 'Kanit', sans-serif;
     background-position: center;

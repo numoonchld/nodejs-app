@@ -16,7 +16,7 @@ html {
 
   background-size: cover;
   background-image: 
-    linear-gradient(white, 50%, transparent, 87%, black),
+    linear-gradient(white, 50%, transparent, 66%, #330033),
     url('../images/g5p13_splash.jpg'); 
   font-family: 'Kanit', sans-serif;
   background-position: center;
@@ -173,6 +173,7 @@ and (max-width: 500px) {
   }
   
   #photo-credit {
+    visibility: hidden;
     position: absolute;
     bottom: 1vh;
     right: 3vw;
