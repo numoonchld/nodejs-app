@@ -54,7 +54,7 @@ and (max-width: 500px) {
     #land-page-body {
         background-size: auto;
         background-image: 
-          linear-gradient(white, 50%, transparent, 87%, black),
+          linear-gradient(white, 45%, transparent, 80%, #330033),
           url('../images/g5p13_splash.jpg'); 
         background-position: center;
         font-family: 'Kanit', sans-serif;
@@ -68,6 +68,8 @@ and (max-width: 500px) {
     #splash-card {
         padding: 5%;
         background: rgba(0,0,0,0.50);
+
+        border: 1px solid #330033;
     }
 
     #buttons-block {

@@ -1,6 +1,8 @@
 html {
   height: 100vh;
   width: 100vw;
+
+  
 }
 
 #climber-page-body {
@@ -21,6 +23,7 @@ html {
   background-position: center;
   background-repeat: no-repeat;
 
+  
 
 }
 
@@ -38,7 +41,7 @@ html {
 
 #splash-card {
   min-width: 50vw;
-  max-width: 80vw;
+  max-width: 750px;
 
   display: flex;
   flex-direction: column;
@@ -46,11 +49,11 @@ html {
 
   padding: 5%;
   background: rgba(0,0,0,0.50);
-  
+
+  border: 1px solid #330033;
 }
 
 #grade-rate-flex-box {
-
   display: flex;
   flex-direction: row;
   align-items: space-between;
@@ -86,6 +89,7 @@ html {
 .back-button {
   width: 75%;
   margin: 0vh auto;
+
 }
 
 @media only screen
@@ -123,13 +127,17 @@ and (max-width: 500px) {
 
   #splash-card {
     /* min-width: 75vw; */
-    max-width: 99vw;
-    height: initial;
+    max-width: 350px;
+    /* height: initial; */
 
     /* margin: 5vh auto; */
     padding: 2% 2%;
     background: rgba(0,0,0,0.50);
     
+
+    border: 1px solid #330033;
+
+    overflow-y: scroll;
   }
   
   #grade-rate-flex-box {
@@ -144,6 +152,7 @@ and (max-width: 500px) {
     position: relative;
 
     margin: 2vh auto;
+
   }
 
   #grade-rate-flex-box .card {
@@ -154,6 +163,7 @@ and (max-width: 500px) {
     flex-direction: column;
 
     margin: 1vh auto;
+    
   }
 
 }

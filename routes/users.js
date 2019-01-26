@@ -140,7 +140,7 @@ router.get('/:gym/:route', function (req, res) {
 
         } else {
 
-          // console.log('climber selected route info: ', routesArr)
+          console.log('climber selected route info: ', routesArr)
 
           // let climber_avg = routesArr[0].current_grade_average
 
