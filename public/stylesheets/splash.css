@@ -98,7 +98,7 @@ and (max-width: 500px) {
     #photo-credit {
         position: absolute;
         bottom: 1vh;
-        right: 1vw;
+        right: 3vw;
     }
 
 }
