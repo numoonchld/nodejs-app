@@ -28,12 +28,11 @@
 
 #splash-card {
     min-width: 75vw;
-    max-height: 80vh;
+    
     padding: 5%;
     
     background: rgba(0,0,0,0.50);
     
-    overflow-y: scroll;
 
 
 }
@@ -74,6 +73,9 @@ and (max-width: 500px) {
     #splash-card {
         padding: 5%;
         background: rgba(0,0,0,0.50);
+        
+        max-height: 80vh;
+        overflow-y: scroll;
 
         border: 1px solid #330033;
     }
@@ -89,7 +91,10 @@ and (max-width: 500px) {
 
     #go-gym-table {
         display: block;
+        min-height: 50vh;
         overflow-x: scroll;
+
+
     }
 
 }
