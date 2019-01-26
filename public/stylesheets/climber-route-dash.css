@@ -142,6 +142,7 @@ and (max-width: 500px) {
   
   #grade-rate-flex-box {
     max-width: 100vw;
+    min-height: 720px;
 
     display: flex;
     flex-direction: column;
@@ -153,6 +154,8 @@ and (max-width: 500px) {
 
     margin: 2vh auto;
 
+    border: 3px solid yellow;
+
   }
 
   #grade-rate-flex-box .card {
@@ -162,7 +165,7 @@ and (max-width: 500px) {
     display: flex;
     flex-direction: column;
 
-    margin: 1vh auto;
+    margin: 30px auto;
     
   }
 
