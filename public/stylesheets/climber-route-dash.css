@@ -1,155 +1,118 @@
-html {
-  height: 100vh;
-  width: 100vw;
-
-  
-}
-
-#climber-page-body {
-  height: 100vh;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-
-  background-size: cover;
-  background-image: 
-    linear-gradient(white, 50%, transparent, 66%, #330033),
-    url('../images/g5p13_splash.jpg'); 
-  font-family: 'Kanit', sans-serif;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  min-width: 100vw;
-
-}
-
-#scroll-sub-body {
-  max-width: 100vw;
-  height: 100vh;
-  min-width: 90vw;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  
-}
-
-#splash-card {
-  width: 80vw;
-  min-width: 666px;
-  max-width: 750px;
-
-  display: flex;
-  flex-direction: column;
-  margin: auto auto;
-
-  padding: 5%;
-  background: rgba(0,0,0,0.50);
-
-  border: 1px solid #330033;
-}
-
-#grade-rate-flex-box {
-  display: flex;
-  flex-direction: row;
-  align-items: space-between;
-  justify-content: center;
-  flex-wrap: nowrap;
-
-  max-height: 90vh;
-
-  margin: 0vh auto;
-
-  /* border: 3px solid yellow; */
-
-}
-
-#grade-rate-flex-box .card {
-  height: 300px;
-  width: 300px;
-
-  min-width: 300px;
-  min-height: 300px;
-
-  display: flex;
-  flex-direction: column;
-  
-  margin: auto 1vw;
-
-  background: rgba(255,255,255,0.80);
-}
-
-.num-disp {
-  /* border: hotpink 3px solid; */
-  margin: 0 auto;
-  background: radial-gradient(circle, white,transparent)
-}
-
-#photo-credit {
-  position: absolute;
-  bottom: 1vh;
-  right: 3vw;
-}
-
-.back-button {
-  width: 75%;
-  margin: 0vh auto;
-
-}
-
 @media only screen 
-and (min-width: 500px) and (max-width: 800) {
+and (min-width: 801px) {
+
+  html {
+    height: 100vh;
+    width: 100vw;
+
+  }
 
   #climber-page-body {
     height: 100vh;
-    width: 800px;
-    min-width: 800px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     flex-wrap: nowrap;
-  
-    background-size: contain;
+
+    background-size: cover;
     background-image: 
       linear-gradient(white, 50%, transparent, 66%, #330033),
       url('../images/g5p13_splash.jpg'); 
     font-family: 'Kanit', sans-serif;
     background-position: center;
     background-repeat: no-repeat;
-  
+
+    min-width: 100vw;
+
+  }
+
+  #scroll-sub-body {
+    max-width: 100vw;
+    height: 100vh;
+    min-width: 90vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
   }
 
   #splash-card {
-    width: 666vw;
+    width: 80vw;
     min-width: 666px;
     max-width: 750px;
-  
+
     display: flex;
     flex-direction: column;
     margin: auto auto;
-  
+
     padding: 5%;
     background: rgba(0,0,0,0.50);
-  
-    border: 1px solid #330033;
-  } 
 
+    border: 1px solid #330033;
+  }
+
+  #grade-rate-flex-box {
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    justify-content: center;
+    flex-wrap: nowrap;
+
+    max-height: 90vh;
+
+    margin: 0vh auto;
+
+    /* border: 3px solid yellow; */
+
+  }
+
+  #grade-rate-flex-box .card {
+    height: 300px;
+    width: 300px;
+
+    min-width: 300px;
+    min-height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    
+    margin: auto 1vw;
+
+    background: rgba(255,255,255,0.80);
+  }
+
+  .num-disp {
+    /* border: hotpink 3px solid; */
+    margin: 0 auto;
+    background: radial-gradient(circle, white,transparent)
+  }
+
+  #photo-credit {
+    position: absolute;
+    bottom: 1vh;
+    right: 3vw;
+  }
+
+  .back-button {
+    width: 75%;
+    margin: 0vh auto;
+
+  }
 }
 
-
 @media only screen
-and (max-width: 500px) {
+and (max-width: 800px) {
     
   #climber-page-body {
     height: 100vh;
     font-family: 'Kanit', sans-serif;
+    
     width: 100vw;
+    min-width: 380px;
 
     display: flex;
     flex-direction: column;
@@ -157,15 +120,23 @@ and (max-width: 500px) {
     justify-content: center;
     flex-wrap: nowrap;
 
+    background-size: cover;
+    background-image: 
+      linear-gradient(white, 50%, transparent, 66%, #330033),
+      url('../images/g5p13_splash.jpg'); 
+    font-family: 'Kanit', sans-serif;
+    background-position: center;
+    background-repeat: no-repeat;
+
     /* padding: 2vh auto; */
     
-    min-width: 100vw;
-
   }
 
   #scroll-sub-body {
     height: 100vh;
     width: 100vw;
+
+    min-width: 380px;
 
     display: flex;
     flex-direction: column;
@@ -173,13 +144,13 @@ and (max-width: 500px) {
     align-items: stretch;
 
     margin: 2vh 0vw;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 
     /* border: 10px solid hotpink; */
   }
 
   #splash-card {
-    min-width: 85vw;
+    min-width: 316px;
     max-width: 350px;
     /* height: initial; */
 
@@ -187,7 +158,6 @@ and (max-width: 500px) {
     padding: 2% 2%;
     background: rgba(0,0,0,0.50);
     
-
     border: 1px solid #330033;
 
     overflow-y: scroll;
